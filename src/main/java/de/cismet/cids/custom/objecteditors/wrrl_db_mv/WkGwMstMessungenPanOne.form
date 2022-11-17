@@ -220,13 +220,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblGk2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 35]"/>
+                  <Dimension value="[200, 35]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 35]"/>
+                  <Dimension value="[200, 35]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 35]"/>
+                  <Dimension value="[200, 35]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -260,13 +260,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblNo3.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -281,13 +281,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNo3Mst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -302,13 +302,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNo3Mst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -323,13 +323,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNo3sw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -344,13 +344,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNo3Gk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -365,13 +365,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNo3Ei.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -386,13 +386,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNo3Hi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -429,13 +429,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblAs5.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -450,13 +450,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtAs5Mst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -471,13 +471,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtAs5Mst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -492,13 +492,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtAs5sw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -513,13 +513,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtAs5Gk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -534,13 +534,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtAs5Ei.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -555,13 +555,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtAs5Hi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -595,13 +595,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblCd5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -616,13 +616,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtCd5Mst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -637,13 +637,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtCd5Mst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -658,13 +658,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtCd5sw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -679,13 +679,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtCd5Gk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -700,13 +700,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtCd5Ei.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -721,13 +721,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtCd5Hi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -761,13 +761,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblPb5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -782,13 +782,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPb5Mst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -803,13 +803,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPb5Mst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -824,13 +824,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPb5sw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -845,13 +845,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPb5Gk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -866,13 +866,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPb5Ei.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -887,13 +887,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPb5Hi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -927,13 +927,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblHg5.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -948,13 +948,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtHg5Mst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -969,13 +969,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtHg5Mst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -990,13 +990,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtHg5sw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1011,13 +1011,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtHg5Gk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1032,13 +1032,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtHg5Ei.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1053,13 +1053,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtHg5Hi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1093,13 +1093,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblNh4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1114,13 +1114,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNh4Mst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1135,13 +1135,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNh4Mst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1156,13 +1156,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNh4sw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1177,13 +1177,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNh4Gk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1198,13 +1198,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNh4Ei.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1219,13 +1219,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNh4Hi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1259,13 +1259,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblCl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1280,13 +1280,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtClMst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1301,13 +1301,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtClMst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1322,13 +1322,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtClsw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1343,13 +1343,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtClGk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1364,13 +1364,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtClEi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1385,13 +1385,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtClHi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1425,13 +1425,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblNitrit.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1446,13 +1446,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNitritMst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1467,13 +1467,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNitritMst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1488,13 +1488,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNitritsw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1509,13 +1509,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNitritGk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1530,13 +1530,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNitritEi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1551,13 +1551,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtNitritHi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1591,13 +1591,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblPo4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1612,13 +1612,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPo4Mst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1633,13 +1633,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPo4Mst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1654,13 +1654,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPo4sw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1675,13 +1675,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPo4Gk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1696,13 +1696,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPo4Ei.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1717,13 +1717,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtPo4Hi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1757,13 +1757,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.lblSo42.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[167, 20]"/>
+                  <Dimension value="[167, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1778,13 +1778,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSo42Mst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1799,13 +1799,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSo42Mst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1820,13 +1820,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSo42sw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1841,13 +1841,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSo42Gk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1862,13 +1862,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSo42Ei.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1883,13 +1883,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSo42Hi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1944,13 +1944,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSumTriTeMst1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1965,13 +1965,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSumTriTeMst2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[220, 20]"/>
+                  <Dimension value="[220, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1986,13 +1986,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSumTriTesw.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[120, 20]"/>
+                  <Dimension value="[120, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -2007,13 +2007,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSumTriTeGk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[110, 20]"/>
+                  <Dimension value="[110, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -2028,13 +2028,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSumTriTeEi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[60, 20]"/>
+                  <Dimension value="[60, 25]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -2049,13 +2049,13 @@
                   <ResourceString bundle="de/cismet/cids/custom/objecteditors/wrrl_db_mv/Bundle.properties" key="WkGwMstMessungenPanOne.txtSumTriTeHi.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;, {arguments})"/>
                 </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 20]"/>
+                  <Dimension value="[200, 25]"/>
                 </Property>
               </Properties>
               <Constraints>

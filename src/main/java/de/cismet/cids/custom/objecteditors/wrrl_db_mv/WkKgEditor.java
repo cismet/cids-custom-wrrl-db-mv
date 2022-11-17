@@ -31,24 +31,9 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.lang.reflect.Field;
-
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLStreamHandler;
-
-import java.util.Hashtable;
-
 import javax.swing.JComponent;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
-import de.cismet.cids.custom.wrrl_db_mv.util.HTMLTools;
-import de.cismet.cids.custom.wrrl_db_mv.util.HttpStartupHook;
 import de.cismet.cids.custom.wrrl_db_mv.util.TabbedPaneUITransparent;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 
@@ -59,9 +44,6 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
-import de.cismet.security.WebAccessManager;
-
-import de.cismet.tools.gui.FXWebViewPanel;
 import de.cismet.tools.gui.FooterComponentProvider;
 
 /**
@@ -82,7 +64,6 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
 
     private CidsBean cidsBean;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    private final FXWebViewPanel browserPanel = new FXWebViewPanel();
     private final PropertyChangeListener propertyChange = new PropertyChangeListener() {
 
             @Override
@@ -177,22 +158,15 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblSpacingBottom;
     private javax.swing.JLabel lblSpacingBottom1;
     private javax.swing.JLabel lblSpacingBottom2;
     private javax.swing.JLabel lblSpacingBottom3;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panFooter;
-    private de.cismet.tools.gui.SemiRoundedPanel panHeadQuality1;
     private javax.swing.JPanel panQualitaetsinformationen;
-    private de.cismet.tools.gui.RoundedPanel panQuality1;
-    private javax.swing.JPanel panQualityContent1;
     private javax.swing.JPanel panRisikoabschätzung;
-    private javax.swing.JLabel panSpace2;
-    private javax.swing.JPanel panStckBr;
     private javax.swing.JPanel panWeitereInformationen;
     private javax.swing.JTabbedPane tpMain;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanEight wkKgPanEight1;
@@ -221,7 +195,6 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         tpMain.remove(panRisikoabschätzung);
         tpMain.remove(panWeitereInformationen);
         tpMain.remove(panQualitaetsinformationen);
-        jPanel5.add(browserPanel, java.awt.BorderLayout.CENTER);
 
         tpMain.setUI(new TabbedPaneUITransparent());
     }
@@ -257,13 +230,6 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         panWeitereInformationen = new javax.swing.JPanel();
         wkKgPanNine1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanNine();
         lblSpacingBottom3 = new javax.swing.JLabel();
-        panStckBr = new javax.swing.JPanel();
-        panQuality1 = new de.cismet.tools.gui.RoundedPanel();
-        panHeadQuality1 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading1 = new javax.swing.JLabel();
-        panQualityContent1 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        panSpace2 = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -420,48 +386,6 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
                 "WkKgEditor.panWeitereInformationen.TabConstraints.tabTitle"),
             panWeitereInformationen); // NOI18N
 
-        panStckBr.setOpaque(false);
-        panStckBr.setLayout(new java.awt.GridBagLayout());
-
-        panHeadQuality1.setBackground(new java.awt.Color(51, 51, 51));
-        panHeadQuality1.setMinimumSize(new java.awt.Dimension(109, 24));
-        panHeadQuality1.setPreferredSize(new java.awt.Dimension(109, 24));
-        panHeadQuality1.setLayout(new java.awt.FlowLayout());
-
-        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
-                WkKgEditor.class,
-                "WkKgEditor.lblHeading1.text",
-                new Object[] {})); // NOI18N
-        panHeadQuality1.add(lblHeading1);
-
-        panQuality1.add(panHeadQuality1, java.awt.BorderLayout.NORTH);
-
-        panQualityContent1.setMinimumSize(new java.awt.Dimension(1100, 700));
-        panQualityContent1.setOpaque(false);
-        panQualityContent1.setPreferredSize(new java.awt.Dimension(1100, 700));
-        panQualityContent1.setLayout(new java.awt.BorderLayout());
-
-        jPanel5.setLayout(new java.awt.BorderLayout());
-        panQualityContent1.add(jPanel5, java.awt.BorderLayout.CENTER);
-
-        panQuality1.add(panQualityContent1, java.awt.BorderLayout.CENTER);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
-        panStckBr.add(panQuality1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.weighty = 1.0;
-        panStckBr.add(panSpace2, gridBagConstraints);
-
-        tpMain.addTab("Steckbrief", panStckBr);
-
         add(tpMain, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
 
@@ -489,10 +413,6 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
             bindingGroup.bind();
 
             cidsBean.addPropertyChangeListener(propertyChange);
-
-            HttpStartupHook.init();
-            browserPanel.loadUrl("https://fis-wasser-mv.de/charts/steckbriefe/cw/cw_wk.php?kg="
-                        + String.valueOf(cidsBean.getProperty("wk_k")));
 
 //            cidsBean.addPropertyChangeListener(new PropertyChangeListener() {
 //
