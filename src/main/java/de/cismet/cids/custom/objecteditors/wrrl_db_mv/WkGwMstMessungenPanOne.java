@@ -408,17 +408,20 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
             switch (type) {
                 case GK: {
                     propName = PROP_GK + name;
-                    prop = cidsBeans[0].getProperty(propName);
+                    int num = cidsBeans.length - 1;
+                    prop = cidsBeans[num].getProperty(propName);
 
-                    if (prop instanceof Number) {
-                        if (((Number)prop).intValue() == 2) {
-                            return "ja";
-                        } else if ((((Number)prop).intValue() == 3)) {
-                            return "nein";
-                        }
+                    while ((prop == null) && (num > 0)) {
+                        --num;
+                        prop = cidsBeans[num].getProperty(propName);
+                    }
+
+                    if (prop != null) {
+                        return String.valueOf(prop);
+                    } else {
+                        return "";
                     }
                 }
-                break;
                 case MST: {
                     if (number == 2) {
                         return "";
@@ -499,17 +502,18 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
 
             switch (type) {
                 case GK: {
-                    propName = PROP_GK;
-                    final Object prop = cidsBeans[number - 1].getProperty(propName);
+                    propName = PROP_GK + name;
+                    Object prop = cidsBeans[cidsBeans.length - 1].getProperty(propName);
 
-                    if (prop instanceof Number) {
-                        if (((Number)prop).intValue() == 2) {
-                            return "ja";
-                        } else if ((((Number)prop).intValue() == 3)) {
-                            return "nein";
-                        }
+                    if (prop == null) {
+                        prop = cidsBeans[0].getProperty(propName);
                     }
-                    break;
+
+                    if (prop != null) {
+                        return String.valueOf(prop);
+                    } else {
+                        return "";
+                    }
                 }
                 case MST: {
                     propName = PROP_WERT;
@@ -2102,88 +2106,28 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
 
     /**
      * DOCUMENT ME!
+     *
+     * @param   text  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Color getColor(final String text) {
+        if (text.equalsIgnoreCase("ja")) {
+            return Color.GREEN;
+        } else if (text.equalsIgnoreCase("nein")) {
+            return Color.RED;
+        } else {
+            return new Color(245, 246, 247);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
      */
     private void setColors() {
         for (final JTextField tfield : textFields) {
             tfield.setDisabledTextColor(new Color(0, 0, 0));
+            tfield.setBackground(getColor(tfield.getText()));
         }
-
-////        ChemieMstMessungenEditor.setColorOfField(
-//            txtSauerstoffMin,
-//            (Number)cidsBean.getProperty("o2_owert_rakon"),
-//            true,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtBSB5,
-//            (Number)cidsBean.getProperty("bsb5_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtChlorid,
-//            (Number)cidsBean.getProperty("cl_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtSulfat,
-//            (Number)cidsBean.getProperty("so4_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtGesN,
-//            (Number)cidsBean.getProperty("ges_n_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtAmmonium,
-//            (Number)cidsBean.getProperty("nh4_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtAmmoniak,
-//            (Number)cidsBean.getProperty("nh3_n_owert"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtNitratN,
-//            (Number)cidsBean.getProperty("no3_n_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtNitritN,
-//            (Number)cidsBean.getProperty("no2_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtGesP,
-//            (Number)cidsBean.getProperty("ges_p_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtOpo4,
-//            (Number)cidsBean.getProperty("opo4_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtPHMin,
-//            (Number)cidsBean.getProperty("ow_ph_min"),
-//            true,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtPHMax,
-//            (Number)cidsBean.getProperty("ow_ph_max"),
-//            false,
-//            txtTempMax.getForeground());
     }
 }
