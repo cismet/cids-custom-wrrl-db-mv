@@ -20,8 +20,11 @@ import javafx.embed.swing.SwingFXUtils;
 
 import javafx.scene.image.WritableImage;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import java.io.BufferedReader;
@@ -56,6 +59,8 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.security.WebAccessManager;
 
+import de.cismet.tools.BrowserLauncher;
+
 import de.cismet.tools.gui.FXWebViewPanel;
 import de.cismet.tools.gui.FooterComponentProvider;
 
@@ -76,6 +81,10 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             "wk_gw_mst_chemie_messungen");
+    private static final String OLD_SIZE =
+        "{\"viewer\":{\"width\":1400,\"height\":800,\"padding\":10,\"fill\":false},\"browser\":{\"width\":1400,\"height\":800,\"padding\":40,\"fill\":false}}";
+    private static final String NEW_SIZE =
+        "{\"viewer\":{\"width\":1000,\"height\":571,\"padding\":10,\"fill\":false},\"browser\":{\"width\":1000,\"height\":571,\"padding\":40,\"fill\":false}}";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -166,10 +175,8 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
             try {
                 jPanel1.removeAll();
                 jPanel1.add(browserPanel, java.awt.BorderLayout.CENTER);
-                final InputStream is = WebAccessManager.getInstance()
-                            .doRequest(new URL("https://fis-wasser-mv.de/charts/ganglinien/Steinwalde.html"));
-//                final WebDavClient client = new WebDavClient(ProxyHandler.getInstance().getProxy(), "", "");
-//                final InputStream is = client.getInputStream("");
+                final String url = "https://fis-wasser-mv.de/charts/ganglinien/Steinwalde.html";
+                final InputStream is = WebAccessManager.getInstance().doRequest(new URL(url));
                 final Charset cs = Charset.forName("UTF-8");
                 BufferedReader br;
 
@@ -186,13 +193,13 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                     content.append(tmp).append("\n");
                 }
 
-                jPanel1.setSize(1400, 800);
-                jPanel1.setMinimumSize(new Dimension(1400, 800));
-                jPanel1.setMaximumSize(new Dimension(1400, 800));
+                jPanel1.setSize(1100, 600);
+                jPanel1.setMinimumSize(new Dimension(1100, 600));
+                jPanel1.setMaximumSize(new Dimension(1100, 600));
                 browserPanel.setSize(1400, 800);
                 browserPanel.setMinimumSize(new Dimension(1400, 800));
                 browserPanel.setMaximumSize(new Dimension(1400, 800));
-                browserPanel.loadContent(content.toString());
+                browserPanel.loadContent(content.toString().replace(OLD_SIZE, NEW_SIZE));
                 loadingComplete = false;
 
                 final Thread t = new Thread() {
@@ -242,6 +249,21 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                                                         jPanel1.removeAll();
                                                         jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
                                                         jLabel1.setIcon(new ImageIcon(i));
+                                                        jLabel1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                                                        jPanel1.setSize(1100, 600);
+                                                        jPanel1.setMinimumSize(new Dimension(1100, 600));
+                                                        jPanel1.setMaximumSize(new Dimension(1100, 600));
+                                                        jLabel1.addMouseListener(new MouseAdapter() {
+
+                                                                @Override
+                                                                public void mouseClicked(final MouseEvent e) {
+                                                                    try {
+                                                                        BrowserLauncher.openURL(url);
+                                                                    } catch (Exception ex) {
+                                                                        LOG.warn(ex, ex);
+                                                                    }
+                                                                }
+                                                            });
                                                     }
                                                 }
                                             });
