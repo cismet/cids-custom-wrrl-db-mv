@@ -405,7 +405,7 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw_secci} m"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw_secci}"),
                 txtSichtTiefeWert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -519,7 +519,7 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.minimum_o2} mg/l"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.minimum_o2}"),
                 txtO2Wert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -632,7 +632,7 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw_tn} µmol/l"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw_tn}"),
                 txtJmwTnWert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -742,7 +742,7 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw} µmol/l"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw}"),
                 txtJmwWert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -849,83 +849,27 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
      * DOCUMENT ME!
      */
     private void setColors() {
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtSauerstoffMin,
-//            (Number)cidsBean.getProperty("o2_owert_rakon"),
-//            true,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtBSB5,
-//            (Number)cidsBean.getProperty("bsb5_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtChlorid,
-//            (Number)cidsBean.getProperty("cl_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtSulfat,
-//            (Number)cidsBean.getProperty("so4_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtGesN,
-//            (Number)cidsBean.getProperty("ges_n_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtAmmonium,
-//            (Number)cidsBean.getProperty("nh4_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtAmmoniak,
-//            (Number)cidsBean.getProperty("nh3_n_owert"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtNitratN,
-//            (Number)cidsBean.getProperty("no3_n_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtNitritN,
-//            (Number)cidsBean.getProperty("no2_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtGesP,
-//            (Number)cidsBean.getProperty("ges_p_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtOpo4,
-//            (Number)cidsBean.getProperty("opo4_owert_rakon"),
-//            false,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtPHMin,
-//            (Number)cidsBean.getProperty("ow_ph_min"),
-//            true,
-//            txtTempMax.getForeground());
-//
-//        ChemieMstMessungenEditor.setColorOfField(
-//            txtPHMax,
-//            (Number)cidsBean.getProperty("ow_ph_max"),
-//            false,
-//            txtTempMax.getForeground());
+        txtSichtTiefeGk.setBackground(getColor(txtSichtTiefeGk.getText()));
+        txtJmwGk.setBackground(getColor(txtJmwGk.getText()));
+        txtO2Gk.setBackground(getColor(txtO2Gk.getText()));
+        txtJmwTnGk.setBackground(getColor(txtJmwTnGk.getText()));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   text  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Color getColor(final String text) {
+        if (text.equalsIgnoreCase("ja")) {
+            return Color.GREEN;
+        } else if (text.equalsIgnoreCase("nein")) {
+            return Color.RED;
+        } else {
+            return new Color(245, 246, 247);
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------
