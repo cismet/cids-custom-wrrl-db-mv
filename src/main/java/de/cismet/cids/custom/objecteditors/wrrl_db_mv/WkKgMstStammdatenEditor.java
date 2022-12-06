@@ -18,6 +18,8 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.EventQueue;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -114,8 +116,23 @@ public class WkKgMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
      * @param  readOnly  DOCUMENT ME!
      */
     public WkKgMstStammdatenEditor(final boolean readOnly) {
+        this(readOnly, false);
+    }
+
+    /**
+     * Creates a new LawaEditor object.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     * @param  embedded  DOCUMENT ME!
+     */
+    public WkKgMstStammdatenEditor(final boolean readOnly, final boolean embedded) {
         this.readOnly = readOnly;
         initComponents();
+
+        if (embedded) {
+            panStamm.setVisible(false);
+        }
+
         txtJahr.getDocument().addDocumentListener(this);
     }
 
@@ -491,14 +508,15 @@ public class WkKgMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         panInfoContent.add(panScr, gridBagConstraints);
 
-        wkKgJahresGkEditor1.setMinimumSize(new java.awt.Dimension(1000, 900));
-        wkKgJahresGkEditor1.setPreferredSize(new java.awt.Dimension(1000, 900));
+        wkKgJahresGkEditor1.setMinimumSize(new java.awt.Dimension(1000, 300));
+        wkKgJahresGkEditor1.setPreferredSize(new java.awt.Dimension(1000, 300));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         panInfoContent.add(wkKgJahresGkEditor1, gridBagConstraints);
 
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
@@ -707,7 +725,13 @@ public class WkKgMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
         measureNumber = 0;
 
         final CidsBean measure = getDataForYear(year, measureNumber);
-        showNewMeasure(measure);
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    showNewMeasure(measure);
+                }
+            });
     }
 
     /**

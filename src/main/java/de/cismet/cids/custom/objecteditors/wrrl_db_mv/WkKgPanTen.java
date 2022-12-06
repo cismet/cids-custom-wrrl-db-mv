@@ -48,11 +48,11 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   stefan
  * @version  $Revision$, $Date$
  */
-public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBeanStore, ListSelectionListener {
+public class WkKgPanTen extends javax.swing.JPanel implements DisposableCidsBeanStore, ListSelectionListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkGwPanSeven.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkKgPanTen.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -65,12 +65,11 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jtMstTab1;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblReg;
     private javax.swing.JLabel lblSpace;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwMstGueteStammdatenEditor wkGwMstStammdatenEditor1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgMstStammdatenEditor wkKgMstStammdatenEditor1;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -78,7 +77,7 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
     /**
      * Creates new form WkFgPanOne.
      */
-    public WkGwPanSeven() {
+    public WkKgPanTen() {
         this(false);
     }
 
@@ -87,7 +86,7 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    WkGwPanSeven(final boolean readOnly) {
+    WkKgPanTen(final boolean readOnly) {
         initComponents();
         jtMstTab1.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
 
@@ -130,7 +129,7 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
                 }
             });
 
-        wkGwMstStammdatenEditor1.setCidsBean(getMst(null));
+        wkKgMstStammdatenEditor1.setCidsBean(getMst(null));
         jScrollPane1.getViewport().setOpaque(false);
         jtMstTab1.getSelectionModel().addListSelectionListener(this);
     }
@@ -155,10 +154,9 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         jScrollPane3 = new javax.swing.JScrollPane();
         jtMstTab1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        wkGwMstStammdatenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwMstGueteStammdatenEditor(
+        wkKgMstStammdatenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgMstStammdatenEditor(
                 true,
                 true);
-        lblReg = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(910, 580));
         setOpaque(false);
@@ -212,16 +210,16 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        wkGwMstStammdatenEditor1.setMinimumSize(new java.awt.Dimension(1400, 670));
-        wkGwMstStammdatenEditor1.setOpaque(false);
-        wkGwMstStammdatenEditor1.setPreferredSize(new java.awt.Dimension(1400, 670));
+        wkKgMstStammdatenEditor1.setMinimumSize(new java.awt.Dimension(1400, 400));
+        wkKgMstStammdatenEditor1.setOpaque(false);
+        wkKgMstStammdatenEditor1.setPreferredSize(new java.awt.Dimension(1400, 400));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel1.add(wkGwMstStammdatenEditor1, gridBagConstraints);
+        jPanel1.add(wkKgMstStammdatenEditor1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -231,11 +229,6 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(25, 10, 5, 10);
-        panInfoContent.add(lblReg, gridBagConstraints);
 
         jScrollPane1.setViewportView(panInfoContent);
 
@@ -265,13 +258,13 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
                         if ((beans != null) && (beans.size() > 0)) {
                             final String reg = (String)beans.get(0).getProperty("register_2");
 
-                            EventQueue.invokeLater(new Thread("setLabel") {
-
-                                    @Override
-                                    public void run() {
-                                        lblReg.setText(reg);
-                                    }
-                                });
+//                            EventQueue.invokeLater(new Thread("setLabel") {
+//
+//                                    @Override
+//                                    public void run() {
+//                                        lblReg.setText(reg);
+//                                    }
+//                                });
                         }
                     }
                 }).start();
@@ -287,7 +280,7 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         if (!e.getValueIsAdjusting()) {
             if (jtMstTab1.getSelectedRow() > -1) {
                 final CidsBean sbean = model.getData().get(jtMstTab1.getSelectedRow());
-                wkGwMstStammdatenEditor1.setCidsBean(getMst(sbean));
+                wkKgMstStammdatenEditor1.setCidsBean(getMst(sbean));
             }
         }
     }
@@ -305,10 +298,10 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         try {
             final MetaClass MC = ClassCacheMultiple.getMetaClass(
                     WRRLUtil.DOMAIN_NAME,
-                    "wk_gw_mst_chemie_gk_zeitraum");
+                    "wk_kg_gk_zeitraum");
             String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
             query += " m";                                                                                      // NOI18N
-            query += " WHERE m.wk_k = '" + cidsBean.getProperty("name") + "'";                                  // NOI18N
+            query += " WHERE m.wk_k = '" + cidsBean.getProperty("wk_k") + "'";                                  // NOI18N
             query += " order by messstelle";                                                                    // NOI18N
 
             final MetaObject[] metaObjects = MetaObjectCache.getInstance()
@@ -338,7 +331,7 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         try {
             final MetaClass MC = ClassCacheMultiple.getMetaClass(
                     WRRLUtil.DOMAIN_NAME,
-                    "wk_gw_mst_guete_stammdaten");
+                    "wk_kg_mst_stammdaten");
             String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
             query += " m WHERE m.messstelle = '" + cidsBean.getProperty("messstelle") + "'";                    // NOI18N
 
@@ -367,20 +360,12 @@ public class WkGwPanSeven extends javax.swing.JPanel implements DisposableCidsBe
         //~ Instance fields ----------------------------------------------------
 
         private final String[][] HEADER = {
-                { "WK", "wk_k" },                                          // NOI18N
-                { "MST", "messstelle" },                                   // NOI18N
-                { "Status", "status" },                                    // NOI18N
-                { "GK Nitrat", "gk_nitrat" },                              // NOI18N
-                { "GK Arsen", "gk_arsen" },                                // NOI18N
-                { "GK Cadmium", "gk_cadmium" },                            // NOI18N
-                { "GK Blei", "gk_blei" },                                  // NOI18N
-                { "GK Quecksilber", "gk_quecksilber" },                    // NOI18N
-                { "GK Ammonium", "gk_ammonium" },                          // NOI18N
-                { "GK Chlorid", "gk_chlorid" },                            // NOI18N
-                { "GK Nitrit", "gk_nitrit" },                              // NOI18N
-                { "GK OPO4-P", "gk_orthophosphat_p" },                     // NOI18N
-                { "GK Sulfat", "gk_sulfat" },                              // NOI18N
-                { "GK Tri-Tetrachlorethen", "gk_sum_tri_tetrachlorethen" } // NOI18N
+                { "WK", "wk_k" },                     // NOI18N
+                { "MST", "messstelle" },              // NOI18N
+                { "GK Sichttiefe", "wrrl_gk_secci" }, // NOI18N
+                { "GK O2", "wrrl_gk_o2" },            // NOI18N
+                { "GK TN", "wrrl_gk_tn" },            // NOI18N
+                { "GK TP", "wrrl_gk_tp" },            // NOI18N
             };
         private List<CidsBean> data = new Vector<CidsBean>();
         private boolean isInitialised = false;

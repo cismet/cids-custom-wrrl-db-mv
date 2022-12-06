@@ -7,41 +7,18 @@
 ****************************************************/
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
-import Sirius.navigator.tools.CacheException;
-import Sirius.navigator.tools.MetaObjectCache;
-
-import Sirius.server.middleware.types.MetaClass;
-import Sirius.server.middleware.types.MetaObject;
-
-import org.jdesktop.swingx.JXTable;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
-
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -63,14 +40,6 @@ public class WkGwMstChemieMessungenEditor extends JPanel implements CidsBeanRend
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             WkGwMstChemieMessungenEditor.class);
-    private static final String[][] STOFF_HEADER = {
-            { "Stoffname", "substance_code.name_de" }, // NOI18N
-            { "Messwert", "messwert" },                // NOI18N
-            { "Einheit", "einheit" },                  // NOI18N
-            { "Grenzwert", "grenzwert" },              // NOI18N
-            { "UQN-Art", "uqn_type.value" },           // NOI18N
-            { "Jahr", "jahr_messung" }                 // NOI18N
-        };
 
     //~ Instance fields --------------------------------------------------------
 
@@ -149,7 +118,6 @@ public class WkGwMstChemieMessungenEditor extends JPanel implements CidsBeanRend
 
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
-//        setCidsBean(cidsBean, null);
     }
 
     /**
@@ -159,22 +127,12 @@ public class WkGwMstChemieMessungenEditor extends JPanel implements CidsBeanRend
      * @param  parent     DOCUMENT ME!
      */
     public void setCidsBeans(final CidsBean[] cidsBeans, final CidsBean parent) {
-//        this.cidsBean = cidsBean;
-
-        if (cidsBeans != null) {
-            if (!readOnly) {
-                setEnable(true);
-            }
-        } else {
-            if (!readOnly) {
-                setEnable(false);
-            }
-            clearForm();
+        if (!EventQueue.isDispatchThread()) {
+            LOG.error("setCidsBeans() invocation not in edt", new Exception());
         }
+        clearForm();
 
-        if (readOnly) {
-            setEnable(false);
-        }
+        setEnable(!readOnly);
         lblFoot.setText("");
 
         wkGwMstMessungenPanOne1.setCidsBeans(cidsBeans);
@@ -198,13 +156,17 @@ public class WkGwMstChemieMessungenEditor extends JPanel implements CidsBeanRend
      * @param  enable  DOCUMENT ME!
      */
     private void setEnable(final boolean enable) {
-        EventQueue.invokeLater(new Thread("Enable editor") {
+        if (!EventQueue.isDispatchThread()) {
+            EventQueue.invokeLater(new Thread("Enable editor") {
 
-                @Override
-                public void run() {
-                    wkGwMstMessungenPanOne1.setEnable(enable);
-                }
-            });
+                    @Override
+                    public void run() {
+                        wkGwMstMessungenPanOne1.setEnable(enable);
+                    }
+                });
+        } else {
+            wkGwMstMessungenPanOne1.setEnable(enable);
+        }
     }
 
     /**
@@ -272,87 +234,9 @@ public class WkGwMstChemieMessungenEditor extends JPanel implements CidsBeanRend
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  mit              DOCUMENT ME!
-     * @param  oD               DOCUMENT ME!
-     * @param  reverseColors    DOCUMENT ME!
-     * @param  foregroundColor  DOCUMENT ME!
-     */
-    public static void setColorOfField(final JTextField mit,
-            final Number oD,
-            final boolean reverseColors,
-            final Color foregroundColor) {
-        mit.setDisabledTextColor(new Color(139, 142, 143));
-        mit.setBackground(new Color(245, 246, 247));
-
-        if ((mit.getText() == null) || mit.getText().equals("") || mit.getText().equals("<nicht gesetzt>")) {
-            mit.setBackground(new Color(245, 246, 247));
-            return;
-        }
-
-        if (oD == null) {
-            mit.setBackground(new Color(245, 246, 247));
-            return;
-        }
-
-        try {
-            final double mitD = Double.parseDouble(mit.getText().replace(",", "."));
-
-            if (reverseColors) {
-                mit.setBackground(calcColorReverse(mitD, oD.doubleValue()));
-            } else {
-                mit.setBackground(calcColor(mitD, oD.doubleValue()));
-            }
-
-            if (mit.getBackground().equals(Color.RED)) {
-                mit.setDisabledTextColor(new Color(255, 255, 255));
-//                mit.setForeground(new Color(0, 0, 255));
-            }
-//            mit.setOpaque(true);
-//            mit.repaint();
-        } catch (NumberFormatException e) {
-            mit.setOpaque(false);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   mittel  DOCUMENT ME!
-     * @param   o       DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static Color calcColor(final double mittel, final double o) {
-        if (mittel <= o) {
-            return Color.GREEN;
-        } else {
-            return Color.RED;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   mittel  DOCUMENT ME!
-     * @param   o       DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static Color calcColorReverse(final double mittel, final double o) {
-        if (mittel >= o) {
-            return Color.GREEN;
-        } else {
-            return Color.RED;
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
      */
     @Override
     public void dispose() {
-//        bindingGroup.unbind();
     }
 
     @Override
@@ -378,69 +262,5 @@ public class WkGwMstChemieMessungenEditor extends JPanel implements CidsBeanRend
     @Override
     public JComponent getFooterComponent() {
         return panFooter;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   messstelle  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private List<CidsBean> getChemMst(final CidsBean messstelle) {
-        final List<CidsBean> data = new ArrayList<CidsBean>();
-
-        try {
-            final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                    WRRLUtil.DOMAIN_NAME,
-                    "chemie_mst_stoff");
-            String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
-            query += " m";                                                                                      // NOI18N
-            query += " WHERE mst = " + messstelle.getProperty("id");
-            final MetaObject[] metaObjects = MetaObjectCache.getInstance()
-                        .getMetaObjectsByQuery(query, MC, false, WkFgEditor.CONNECTION_CONTEXT);
-
-            for (final MetaObject mo : metaObjects) {
-                data.add(mo.getBean());
-            }
-        } catch (final CacheException e) {
-            LOG.error("Error while trying to receive measurements.", e); // NOI18N
-        }
-
-        return data;
-    }
-
-    //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    public class SubObjectPropertyChangedListener implements PropertyChangeListener {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private final CidsBean parent;
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new SubObjectPropertyChangedListener object.
-         *
-         * @param  parent  DOCUMENT ME!
-         */
-        public SubObjectPropertyChangedListener(final CidsBean parent) {
-            this.parent = parent;
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public void propertyChange(final PropertyChangeEvent evt) {
-            if (parent != null) {
-                parent.setArtificialChangeFlag(true);
-            }
-        }
     }
 }
