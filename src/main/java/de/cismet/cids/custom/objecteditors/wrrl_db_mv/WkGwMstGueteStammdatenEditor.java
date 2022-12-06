@@ -18,6 +18,14 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -40,6 +48,13 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
+import de.cismet.security.WebAccessManager;
+
+import de.cismet.tools.BrowserLauncher;
+
 import de.cismet.tools.gui.FooterComponentProvider;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.WaitingDialogThread;
@@ -57,11 +72,15 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final ConnectionContext CC = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "WkGwMstGueteStammdatenEditor");
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             WkGwMstGueteStammdatenEditor.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
-            "wk_gw_mst_chemie_messungen");
+            "wk_gw_mst_chemie_messungen",
+            CC);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -69,7 +88,7 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
 
     private CidsBean cidsBean;
     private boolean noDocumentUpdate = false;
-    private final List<CidsBean> beansToSave = new ArrayList<CidsBean>();
+    private volatile boolean urlExists = true;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack1;
@@ -95,6 +114,8 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
     private javax.swing.JLabel lblReHo;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblStatusVal;
+    private javax.swing.JLabel lblSteckbrief;
+    private javax.swing.JLabel lblSteckbriefVal;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
@@ -150,17 +171,75 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
+            urlExists = true;
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 cidsBean);
-            txtJahr.setText(String.valueOf(new GregorianCalendar().get(GregorianCalendar.YEAR)));
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        txtJahr.setText(String.valueOf(new GregorianCalendar().get(GregorianCalendar.YEAR)));
+                    }
+                });
             refreshMeasures();
             bindingGroup.bind();
+            final String url = "https://www.fis-wasser-mv.de/doku/gwk_steckbr/" + cidsBean.getProperty("messstelle")
+                        + ".pdf";
+
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        lblSteckbriefVal.setText(
+                            "<html><a href=\""
+                                    + url
+                                    + "\">"
+                                    + cidsBean.getProperty("messstelle")
+                                    + "</a></html>");
+                    }
+                });
+            lblSteckbriefVal.addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(final MouseEvent e) {
+                        try {
+                            if (urlExists) {
+                                BrowserLauncher.openURL(url);
+                            }
+                        } catch (Exception ex) {
+                            LOG.warn(ex, ex);
+                        }
+                    }
+                });
+
+            final Thread checkUrl = new Thread() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            final boolean check = WebAccessManager.getInstance().checkIfURLaccessible(new URL(url));
+
+                            if (!check) {
+                                EventQueue.invokeLater(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            lblSteckbriefVal.setText("kein Steckbrief vorhanden");
+                                            urlExists = false;
+                                        }
+                                    });
+                            }
+                        } catch (MalformedURLException e) {
+                            LOG.error("URL invalid: " + url, e);
+                        }
+                    }
+                };
+
+            checkUrl.start();
         } else {
             wkGwMstChemieMessungenEditor1.setCidsBeans(null, null);
         }
-
-        lblFoot.setText("");
     }
 
     @Override
@@ -203,6 +282,8 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         lblGelHoeheVal = new javax.swing.JLabel();
         lblHoeheMVal = new javax.swing.JLabel();
         lblHoeheM = new javax.swing.JLabel();
+        lblSteckbrief = new javax.swing.JLabel();
+        lblSteckbriefVal = new javax.swing.JLabel();
         panScr = new javax.swing.JPanel();
         txtJahr = new javax.swing.JTextField();
         btnBack1 = new javax.swing.JButton();
@@ -547,6 +628,28 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panStamm.add(lblHoeheM, gridBagConstraints);
 
+        lblSteckbrief.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstGueteStammdatenEditor.class,
+                "WkGwMstStammdatenEditor.lbSteckbrief.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panStamm.add(lblSteckbrief, gridBagConstraints);
+
+        lblSteckbriefVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblSteckbriefVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panStamm.add(lblSteckbriefVal, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -630,8 +733,8 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         panInfoContent.add(panScr, gridBagConstraints);
 
-        wkGwMstChemieMessungenEditor1.setMinimumSize(new java.awt.Dimension(1000, 550));
-        wkGwMstChemieMessungenEditor1.setPreferredSize(new java.awt.Dimension(1000, 550));
+        wkGwMstChemieMessungenEditor1.setMinimumSize(new java.awt.Dimension(1000, 600));
+        wkGwMstChemieMessungenEditor1.setPreferredSize(new java.awt.Dimension(1000, 600));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -758,52 +861,7 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
             };
 
         wdt.start();
-
-//        final CidsBean measure = getDataForYear(year, measureNumber);
-//
-//        if (measure == null) {
-//            measureNumber = 0;
-//            ++year;
-//            txtJahr.setText(String.valueOf(year));
-//
-//            final int newYear = year;
-//            new Thread(new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        synchronized (ChemieMstStammdatenEditor.this) {
-//                            CidsBean measure = null;
-//                            int measureYear = newYear;
-//                            final int currentYear = (new GregorianCalendar()).get(GregorianCalendar.YEAR);
-//
-//                            do {
-//                                txtJahr.setText(String.valueOf(measureYear));
-//                                measure = getDataForYear(measureYear, measureNumber);
-//                                showNewMeasure(measure);
-//                                ++measureYear;
-//                            } while ((measure == null) && (measureYear <= currentYear));
-//                        }
-//                    }
-//                }).start();
-//        } else {
-//            showNewMeasure(measure);
-//        }
-
-//        noDocumentUpdate = false;
     } //GEN-LAST:event_btnForwardActionPerformed
-
-    /**
-     * adds the last processed bean to the beansToSave list, if it is not in, yet.
-     */
-    private void saveLastMeasure() {
-        if (!readOnly) {
-            final CidsBean lastMeasure = wkGwMstChemieMessungenEditor1.getCidsBean();
-
-            if ((lastMeasure != null) && !beansToSave.contains(lastMeasure)) {
-                beansToSave.add(lastMeasure);
-            }
-        }
-    }
 
     /**
      * DOCUMENT ME!
@@ -815,7 +873,14 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         final int year = getCurrentlyEnteredYear();
 
         final CidsBean[] measure = getDataForYear(year);
-        showNewMeasure(measure);
+
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    showNewMeasure(measure);
+                }
+            });
     }
 
     /**
@@ -824,7 +889,6 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
      * @param  measure  DOCUMENT ME!
      */
     private void showNewMeasure(final CidsBean[] measure) {
-        saveLastMeasure();
         wkGwMstChemieMessungenEditor1.setCidsBeans(measure, cidsBean);
     }
 
@@ -847,7 +911,6 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
     @Override
     public void dispose() {
         bindingGroup.unbind();
-        beansToSave.clear();
     }
 
     @Override
@@ -867,16 +930,6 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
 
     @Override
     public boolean prepareForSave() {
-        saveLastMeasure();
-        for (final CidsBean tmp : beansToSave) {
-            try {
-                tmp.persist();
-            } catch (final Exception e) {
-                LOG.error("Exception ehile saving the last measure.", e);
-            }
-        }
-
-        beansToSave.clear();
         return true;
     }
 
@@ -902,22 +955,16 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
                         + "or wert_chlorid is not null or wert_nitrit is not null or wert_orthophosphat_p is not null or "
                         + "wert_sulfat is not null or wert_sum_tri_tetrachlorethen is not null) order by datum asc"; // NOI18N
 
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
 
             if ((metaObjects != null) && (metaObjects.length >= 0)) {
                 final List<CidsBean> beans = new ArrayList<>();
 
                 for (final MetaObject mo : metaObjects) {
                     final CidsBean retVal = mo.getBean();
-                    int index = -1;
 
                     // if the bean is already in the beansToSave list, the bean from the list should be used
-                    if ((index = beansToSave.indexOf(retVal)) != -1) {
-                        beans.add(beansToSave.get(index));
-                    } else {
-                        beansToSave.add(retVal);
-                        beans.add(retVal);
-                    }
+                    beans.add(retVal);
                 }
 
                 return (beans.isEmpty() ? null : beans.toArray(new CidsBean[beans.size()]));

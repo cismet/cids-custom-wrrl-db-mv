@@ -123,14 +123,14 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JLabel labWebside;
+    private javax.swing.JLabel labWebsite;
     private javax.swing.JLabel lblGbPredecKey;
     private javax.swing.JLabel lblGeom;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblImpactSrcCataloge;
     private javax.swing.JLabel lblImpactSrcCataloge1;
     private javax.swing.JLabel lblNameKey;
-    private javax.swing.JLabel lblWebside;
+    private javax.swing.JLabel lblWebsite;
     private javax.swing.JPanel panContrImpactSrc1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
@@ -208,8 +208,8 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         lblGeom = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        labWebside = new javax.swing.JLabel();
-        lblWebside = new javax.swing.JLabel();
+        labWebsite = new javax.swing.JLabel();
+        lblWebsite = new javax.swing.JLabel();
         panSpacingBottom1 = new javax.swing.JPanel();
         panPressure = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -466,12 +466,12 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
-        labWebside.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        labWebside.addMouseListener(new java.awt.event.MouseAdapter() {
+        labWebsite.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labWebsite.addMouseListener(new java.awt.event.MouseAdapter() {
 
                 @Override
                 public void mouseClicked(final java.awt.event.MouseEvent evt) {
-                    labWebsideMouseClicked(evt);
+                    labWebsiteMouseClicked(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -479,18 +479,18 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
-        jPanel1.add(labWebside, gridBagConstraints);
+        jPanel1.add(labWebsite, gridBagConstraints);
 
-        lblWebside.setText(org.openide.util.NbBundle.getMessage(
+        lblWebsite.setText(org.openide.util.NbBundle.getMessage(
                 WkGwPanOne.class,
-                "WkGwPanOne.lblWebside.text",
+                "WkGwPanOne.lblWebsite.text",
                 new Object[] {})); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        jPanel1.add(lblWebside, gridBagConstraints);
+        jPanel1.add(lblWebsite, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -586,7 +586,7 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void labWebsideMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labWebsideMouseClicked
+    private void labWebsiteMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labWebsiteMouseClicked
         try {
             BrowserLauncher.openURL(
                 "https://fis-wasser-mv.de/charts/steckbriefe/gw/gw_wk.php?gw="
@@ -594,7 +594,7 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         } catch (Exception ex) {
             LOG.warn(ex, ex);
         }
-    }                                                                          //GEN-LAST:event_labWebsideMouseClicked
+    }                                                                          //GEN-LAST:event_labWebsiteMouseClicked
 
     /**
      * DOCUMENT ME!
@@ -716,10 +716,11 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
-            labWebside.setText("<html><a href=\"https://fis-wasser-mv.de/charts/steckbriefe/gw/gw_wk.php?gw="
-                        + String.valueOf(cidsBean.getProperty("name")) + "\">Webseite</a></html>");
+            labWebsite.setText("<html><a href=\"https://fis-wasser-mv.de/charts/steckbriefe/gw/gw_wk.php?gw="
+                        + String.valueOf(cidsBean.getProperty("name")) + "\">"
+                        + String.valueOf(cidsBean.getProperty("name")) + "</a></html>");
         } else {
-            labWebside.setText("");
+            labWebsite.setText("");
         }
 
         setModel();

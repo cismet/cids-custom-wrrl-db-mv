@@ -20,6 +20,7 @@ import javafx.embed.swing.SwingFXUtils;
 
 import javafx.scene.image.WritableImage;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -43,9 +44,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CoordinateConverter;
+import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -82,9 +85,10 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
             WRRLUtil.DOMAIN_NAME,
             "wk_gw_mst_chemie_messungen");
     private static final String OLD_SIZE =
-        "{\"viewer\":{\"width\":1400,\"height\":800,\"padding\":10,\"fill\":false},\"browser\":{\"width\":1400,\"height\":800,\"padding\":40,\"fill\":false}}";
+        "{\"viewer\":{\"width\":1100,\"height\":700,\"padding\":10,\"fill\":false},\"browser\":{\"width\":1100,\"height\":700,\"padding\":40,\"fill\":false}}";
     private static final String NEW_SIZE =
-        "{\"viewer\":{\"width\":1000,\"height\":571,\"padding\":10,\"fill\":false},\"browser\":{\"width\":1000,\"height\":571,\"padding\":40,\"fill\":false}}";
+        "{\"viewer\":{\"width\":1000,\"height\":636,\"padding\":10,\"fill\":false},\"browser\":{\"width\":1000,\"height\":636,\"padding\":40,\"fill\":false}}";
+    private static final String URL_TEMPLATE = "https://fis-wasser-mv.de/charts/ganglinien/mkz/%1s.html";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -175,7 +179,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
             try {
                 jPanel1.removeAll();
                 jPanel1.add(browserPanel, java.awt.BorderLayout.CENTER);
-                final String url = "https://fis-wasser-mv.de/charts/ganglinien/Steinwalde.html";
+                final String url = String.format(
+                        URL_TEMPLATE,
+                        WebDavHelper.encodeURL(String.valueOf(cidsBean.getProperty("messstelle"))));
                 final InputStream is = WebAccessManager.getInstance().doRequest(new URL(url));
                 final Charset cs = Charset.forName("UTF-8");
                 BufferedReader br;
@@ -193,13 +199,16 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                     content.append(tmp).append("\n");
                 }
 
-                jPanel1.setSize(1100, 600);
-                jPanel1.setMinimumSize(new Dimension(1100, 600));
-                jPanel1.setMaximumSize(new Dimension(1100, 600));
+                jPanel1.setSize(1500, 900);
+                jPanel1.setMinimumSize(new Dimension(1500, 900));
+                jPanel1.setMaximumSize(new Dimension(1500, 900));
+                jPanel1.setPreferredSize(new Dimension(1500, 900));
                 browserPanel.setSize(1400, 800);
-                browserPanel.setMinimumSize(new Dimension(1400, 800));
-                browserPanel.setMaximumSize(new Dimension(1400, 800));
-                browserPanel.loadContent(content.toString().replace(OLD_SIZE, NEW_SIZE));
+                browserPanel.setMinimumSize(new Dimension(1500, 900));
+                browserPanel.setMaximumSize(new Dimension(1500, 900));
+                browserPanel.setPreferredSize(new Dimension(1500, 900));
+                browserPanel.loadContent(content.toString());
+//                browserPanel.loadContent(content.toString().replace(OLD_SIZE, NEW_SIZE));
                 loadingComplete = false;
 
                 final Thread t = new Thread() {
@@ -250,9 +259,10 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                                                         jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
                                                         jLabel1.setIcon(new ImageIcon(i));
                                                         jLabel1.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                                                        jPanel1.setSize(1100, 600);
-                                                        jPanel1.setMinimumSize(new Dimension(1100, 600));
-                                                        jPanel1.setMaximumSize(new Dimension(1100, 600));
+                                                        jPanel1.setSize(1400, 750);
+                                                        jPanel1.setMinimumSize(new Dimension(1400, 900));
+                                                        jPanel1.setMaximumSize(new Dimension(1400, 900));
+                                                        jPanel1.setPreferredSize(new Dimension(1400, 900));
                                                         jLabel1.addMouseListener(new MouseAdapter() {
 
                                                                 @Override
@@ -275,6 +285,20 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                 t.start();
             } catch (Exception e) {
                 LOG.error("error", e);
+                EventQueue.invokeLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            final JLabel lab = new JLabel("Fehlendes Diagramm");
+                            lab.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                            jPanel1.removeAll();
+                            jPanel1.add(lab, java.awt.BorderLayout.CENTER);
+                            jPanel1.setSize(500, 300);
+                            jPanel1.setMinimumSize(new Dimension(500, 300));
+                            jPanel1.setMaximumSize(new Dimension(500, 300));
+                            jPanel1.setPreferredSize(new Dimension(500, 300));
+                        }
+                    });
             }
         }
 

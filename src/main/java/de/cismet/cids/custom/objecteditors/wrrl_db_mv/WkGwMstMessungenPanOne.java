@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import org.apache.log4j.Logger;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -37,6 +39,7 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final Logger LOG = Logger.getLogger(WkGwMstMessungenPanOne.class);
     private static final String PROP_WERT = "wert_";
     private static final String PROP_EINHEIT = "einh_";
     private static final String PROP_UNTERB = "unterbg_";
@@ -277,18 +280,12 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
      * @param  cidsBeans  DOCUMENT ME!
      */
     public void setCidsBeans(final CidsBean[] cidsBeans) {
+        if (!EventQueue.isDispatchThread()) {
+            LOG.error("setCidsBeans() invocation not in edt", new Exception());
+        }
         this.cidsBeans = cidsBeans;
 
         if (cidsBeans != null) {
-            EventQueue.invokeLater(new Thread("setColors") {
-
-                    @Override
-                    public void run() {
-                        setColors();
-                    }
-                });
-
-//            if ((cidsBeans.length == 1) || (cidsBeans.length == 2)) {
             if (cidsBeans.length > 0) {
                 txtAs5Gk.setText(getBeanProperty(PROP_ARSEN, PropertyType.GK, 1));
                 txtAs5Mst1.setText(getBeanProperty(PROP_ARSEN, PropertyType.MST, 1));
@@ -377,17 +374,32 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
                 txtSo42Mst2.setText(getBeanProperty(PROP_SULFAT, PropertyType.MST, 2));
                 txtSumTriTeMst2.setText(getBeanProperty(PROP_SUM_TRI_TE, PropertyType.MST, 2));
             }
+            setColors();
         } else {
-            EventQueue.invokeLater(new Thread("clear colors") {
+            clearForm();
+            for (final JTextField tfield : textFields) {
+                tfield.setBackground(new Color(245, 246, 247));
+            }
+        }
+    }
 
-                    @Override
-                    public void run() {
-                        clearForm();
-                        for (final JTextField tfield : textFields) {
-                            tfield.setBackground(new Color(245, 246, 247));
-                        }
-                    }
-                });
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   substance  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private int roundDecimal(final String substance) {
+        if (substance.equals(PROP_ARSEN) || substance.equals(PROP_CADMIUM) || substance.equals(PROP_BLEI)
+                    || substance.equals(PROP_QUECKSILBER)) {
+            return 3;
+        } else if (substance.equals(PROP_NITRAT) || substance.equals(PROP_AMMONIUM) || substance.equals(PROP_NITRIT)
+                    || substance.equals(PROP_ORTHO) || substance.equals(PROP_SUM_TRI_TE)) {
+            return 2;
+        } else {
+            // PROP_CHLORID, PROP_SULFAT
+            return 1;
         }
     }
 
@@ -440,13 +452,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
                         }
                     }
 
-//                    if (number > 1) {
-//                        return "Es existieren " + (cidsBeans.length - nullValues)
-//                                    + " Messungen.";
-//                    }
-
                     if (nullValues != cidsBeans.length) {
                         value /= (cidsBeans.length - nullValues);
+                        value = Math.round(value * Math.pow(10, roundDecimal(name))) / Math.pow(10, roundDecimal(name));
                     } else {
                         return "";
                     }

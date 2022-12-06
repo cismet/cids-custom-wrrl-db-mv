@@ -1573,7 +1573,13 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
         measureNumber = 0;
 
         final CidsBean measure = getDataForYear(year, measureNumber);
-        showNewMeasure(measure);
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    showNewMeasure(measure);
+                }
+            });
     }
 
     /**

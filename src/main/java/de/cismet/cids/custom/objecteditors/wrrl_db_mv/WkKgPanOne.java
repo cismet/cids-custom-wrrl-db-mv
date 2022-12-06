@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -43,6 +44,7 @@ import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.PressureImpactsProposals;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.DefaultBindableScrollableComboboxCellEditor;
+import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
 import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 import de.cismet.cids.custom.wrrl_db_mv.util.UIUtil;
 
@@ -88,11 +90,11 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
             "Wk_KG");
 
     static {
-        IMPACT_SRC_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.pressure_type_code_neu");
-        WHY_HMWB_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.de_effection_on_code");
-        IMPACT_CODE_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.impact_code");
-        DRIVER_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.driver_code");
-        SUBSTANCE_CODE_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.codelist_substance_code");
+        IMPACT_SRC_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.pressure_type_code_neu", CC);
+        WHY_HMWB_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.de_effection_on_code", CC);
+        IMPACT_CODE_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.impact_code", CC);
+        DRIVER_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.driver_code", CC);
+        SUBSTANCE_CODE_MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wfd.codelist_substance_code", CC);
 
         new Thread("Init proposals") {
 
@@ -105,7 +107,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
     //~ Instance fields --------------------------------------------------------
 
-    private final boolean readOnly = false;
+    private boolean readOnly = false;
 
     private CidsBean cidsBean;
 
@@ -170,7 +172,28 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * Creates new form WkFgPanOne.
      */
     public WkKgPanOne() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkFgPanOne.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WkKgPanOne(final boolean readOnly) {
+        this.readOnly = readOnly;
         initComponents();
+
+        if (readOnly) {
+            RendererTools.makeReadOnly(txtName);
+            RendererTools.makeReadOnly(txtTyMv);
+            RendererTools.makeReadOnly(defaultBindableReferenceCombo1);
+            RendererTools.makeReadOnly(defaultBindableReferenceCombo2);
+            panContrImpactSrc.setVisible(false);
+            panContrWhyHmwb.setVisible(false);
+            lblTheGeomKey.setVisible(false);
+            jComboBox1.setVisible(false);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -226,7 +249,7 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         jPanel1 = new javax.swing.JPanel();
         lblArtificialKey = new javax.swing.JLabel();
         lblPredecKey = new javax.swing.JLabel();
-        jComboBox1 = new DefaultCismapGeometryComboBoxEditor();
+        jComboBox1 = readOnly ? new JComboBox() : new DefaultCismapGeometryComboBoxEditor();
         jPanel5 = new javax.swing.JPanel();
         lblTheGeomKey = new javax.swing.JLabel();
         lblArtificialValue = new javax.swing.JLabel();
@@ -651,18 +674,19 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblPredecKey, gridBagConstraints);
 
-        jComboBox1.setMinimumSize(new java.awt.Dimension(300, 20));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(300, 20));
+        if (!readOnly) {
+            jComboBox1.setMinimumSize(new java.awt.Dimension(300, 20));
+            jComboBox1.setPreferredSize(new java.awt.Dimension(300, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.the_geom}"),
-                jComboBox1,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setConverter(((DefaultCismapGeometryComboBoxEditor)jComboBox1).getConverter());
-        bindingGroup.addBinding(binding);
-
+            binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                    org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                    this,
+                    org.jdesktop.beansbinding.ELProperty.create("${cidsBean.the_geom}"),
+                    jComboBox1,
+                    org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+            binding.setConverter(((DefaultCismapGeometryComboBoxEditor)jComboBox1).getConverter());
+            bindingGroup.addBinding(binding);
+        }
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -1182,7 +1206,8 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 this.cidsBean);
             bindingGroup.bind();
             labWebsite.setText("<html><a href=\"https://fis-wasser-mv.de/charts/steckbriefe/cw/cw_wk.php?kg"
-                        + String.valueOf(cidsBean.getProperty("wk_k")) + "\">Webseite</a></html>");
+                        + String.valueOf(cidsBean.getProperty("wk_k")) + "\">"
+                        + String.valueOf(cidsBean.getProperty("wk_k")) + "</a></html>");
         } else {
             labWebsite.setText("");
         }
@@ -1192,7 +1217,9 @@ public class WkKgPanOne extends javax.swing.JPanel implements DisposableCidsBean
 
     @Override
     public void dispose() {
-        ((DefaultCismapGeometryComboBoxEditor)jComboBox1).dispose();
+        if (jComboBox1 instanceof DefaultCismapGeometryComboBoxEditor) {
+            ((DefaultCismapGeometryComboBoxEditor)jComboBox1).dispose();
+        }
         bindingGroup.unbind();
     }
 

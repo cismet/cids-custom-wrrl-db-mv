@@ -64,6 +64,7 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
 
     private CidsBean cidsBean;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private boolean readOnly = false;
     private final PropertyChangeListener propertyChange = new PropertyChangeListener() {
 
             @Override
@@ -158,26 +159,15 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblSpacingBottom;
     private javax.swing.JLabel lblSpacingBottom1;
-    private javax.swing.JLabel lblSpacingBottom2;
-    private javax.swing.JLabel lblSpacingBottom3;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panFooter;
-    private javax.swing.JPanel panQualitaetsinformationen;
-    private javax.swing.JPanel panRisikoabschätzung;
-    private javax.swing.JPanel panWeitereInformationen;
     private javax.swing.JTabbedPane tpMain;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanEight wkKgPanEight1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanFive wkKgPanFive1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanFour wkKgPanFour1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanNine wkKgPanNine1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanOne wkKgPanOne1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSeven wkKgPanSeven1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSix wkKgPanSix1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanThree wkKgPanThree1;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTwo wkKgPanTwo1;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTen wkKgPanTen1;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -186,15 +176,19 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
      * Creates new form WkKgEditor.
      */
     public WkKgEditor() {
+        this(false);
+    }
+
+    /**
+     * Creates new form WkKgEditor.
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public WkKgEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         initComponents();
-        panRisikoabschätzung.setVisible(false);
-        panWeitereInformationen.setVisible(false);
-        panQualitaetsinformationen.setVisible(false);
-        tpMain.remove(panRisikoabschätzung);
-        tpMain.remove(panWeitereInformationen);
-        tpMain.remove(panQualitaetsinformationen);
 
         tpMain.setUI(new TabbedPaneUITransparent());
     }
@@ -214,22 +208,11 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         lblFoot = new javax.swing.JLabel();
         tpMain = new javax.swing.JTabbedPane();
         panAllgemeines = new javax.swing.JPanel();
-        wkKgPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanOne();
+        wkKgPanOne1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanOne(readOnly);
         lblSpacingBottom = new javax.swing.JLabel();
-        panRisikoabschätzung = new javax.swing.JPanel();
-        wkKgPanEight1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanEight();
-        lblSpacingBottom2 = new javax.swing.JLabel();
-        wkKgPanTwo1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTwo();
-        panQualitaetsinformationen = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        wkKgPanTen1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTen(readOnly);
         lblSpacingBottom1 = new javax.swing.JLabel();
-        wkKgPanFive1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanFive();
-        wkKgPanThree1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanThree();
-        wkKgPanFour1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanFour();
-        wkKgPanSix1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSix();
-        wkKgPanSeven1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanSeven();
-        panWeitereInformationen = new javax.swing.JPanel();
-        wkKgPanNine1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanNine();
-        lblSpacingBottom3 = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -270,121 +253,31 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
                 "WkKgEditor.panAllgemeines.TabConstraints.tabTitle"),
             panAllgemeines); // NOI18N
 
-        panRisikoabschätzung.setOpaque(false);
-        panRisikoabschätzung.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        panRisikoabschätzung.add(wkKgPanEight1, gridBagConstraints);
-
-        lblSpacingBottom2.setText(org.openide.util.NbBundle.getMessage(
-                WkKgEditor.class,
-                "WkKgEditor.lblSpacingBottom2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        panRisikoabschätzung.add(lblSpacingBottom2, gridBagConstraints);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        panRisikoabschätzung.add(wkKgPanTwo1, gridBagConstraints);
-
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(
-                WkKgEditor.class,
-                "WkKgEditor.panRisikoabschätzung.TabConstraints.tabTitle"),
-            panRisikoabschätzung); // NOI18N
-
-        panQualitaetsinformationen.setOpaque(false);
-        panQualitaetsinformationen.setLayout(new java.awt.GridBagLayout());
+        jPanel1.add(wkKgPanTen1, gridBagConstraints);
 
         lblSpacingBottom1.setText(org.openide.util.NbBundle.getMessage(
                 WkKgEditor.class,
                 "WkKgEditor.lblSpacingBottom1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        panQualitaetsinformationen.add(lblSpacingBottom1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
-        panQualitaetsinformationen.add(wkKgPanFive1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        panQualitaetsinformationen.add(wkKgPanThree1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 10);
-        panQualitaetsinformationen.add(wkKgPanFour1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
-        panQualitaetsinformationen.add(wkKgPanSix1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
-        panQualitaetsinformationen.add(wkKgPanSeven1, gridBagConstraints);
-
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(
-                WkKgEditor.class,
-                "WkKgEditor.panQualitaetsinformationen.TabConstraints.tabTitle"),
-            panQualitaetsinformationen); // NOI18N
-
-        panWeitereInformationen.setOpaque(false);
-        panWeitereInformationen.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        panWeitereInformationen.add(wkKgPanNine1, gridBagConstraints);
-
-        lblSpacingBottom3.setText(org.openide.util.NbBundle.getMessage(
-                WkKgEditor.class,
-                "WkKgEditor.lblSpacingBottom3.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        panWeitereInformationen.add(lblSpacingBottom3, gridBagConstraints);
+        jPanel1.add(lblSpacingBottom1, gridBagConstraints);
 
         tpMain.addTab(org.openide.util.NbBundle.getMessage(
                 WkKgEditor.class,
-                "WkKgEditor.panWeitereInformationen.TabConstraints.tabTitle"),
-            panWeitereInformationen); // NOI18N
+                "WkKgEditor.jPanel1.TabConstraints.tabTitle",
+                new Object[] {}),
+            jPanel1); // NOI18N
 
         add(tpMain, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
@@ -400,14 +293,7 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         this.cidsBean = cidsBean;
         if (cidsBean != null) {
             wkKgPanOne1.setCidsBean(cidsBean);
-            wkKgPanTwo1.setCidsBean(cidsBean);
-            wkKgPanThree1.setCidsBean(cidsBean);
-            wkKgPanFour1.setCidsBean(cidsBean);
-            wkKgPanFive1.setCidsBean(cidsBean);
-            wkKgPanSix1.setCidsBean(cidsBean);
-            wkKgPanSeven1.setCidsBean(cidsBean);
-            wkKgPanEight1.setCidsBean(cidsBean);
-            wkKgPanNine1.setCidsBean(cidsBean);
+            wkKgPanTen1.setCidsBean(cidsBean);
 
             // *.setCidsBean(cidsBean);
             bindingGroup.bind();
@@ -470,14 +356,7 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
             cidsBean.removePropertyChangeListener(propertyChange);
         }
         wkKgPanOne1.dispose();
-        wkKgPanTwo1.dispose();
-        wkKgPanThree1.dispose();
-        wkKgPanFour1.dispose();
-        wkKgPanFive1.dispose();
-        wkKgPanSix1.dispose();
-        wkKgPanSeven1.dispose();
-        wkKgPanEight1.dispose();
-        wkKgPanNine1.dispose();
+        wkKgPanTen1.dispose();
         bindingGroup.unbind();
     }
 
