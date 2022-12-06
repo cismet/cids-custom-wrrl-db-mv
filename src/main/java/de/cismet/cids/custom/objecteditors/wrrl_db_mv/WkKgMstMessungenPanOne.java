@@ -405,7 +405,7 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw_secci}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmwsecci}"),
                 txtSichtTiefeWert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -632,7 +632,7 @@ public class WkKgMstMessungenPanOne extends javax.swing.JPanel implements CidsBe
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmw_tn}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.jmwtn}"),
                 txtJmwTnWert,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");

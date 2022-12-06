@@ -246,7 +246,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.jmw_secci}" target="txtSichtTiefeWert" targetPath="text" updateStrategy="0" immediately="false">
+                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.jmwsecci}" target="txtSichtTiefeWert" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                   <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;error&gt;"/>
@@ -529,7 +529,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.jmw_tn}" target="txtJmwTnWert" targetPath="text" updateStrategy="0" immediately="false">
+                <BindingProperty name="text" source="Form" sourcePath="${cidsBean.jmwtn}" target="txtJmwTnWert" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                   <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                   <Property name="incompletePathValue" type="java.lang.String" value="&lt;error&gt;"/>

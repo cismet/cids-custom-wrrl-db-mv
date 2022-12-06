@@ -224,8 +224,8 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         gridBagConstraints.weighty = 1.0;
         panInfo.add(glassPanel2, gridBagConstraints);
 
-        kartierabschnittStammEditor1.setMinimumSize(new java.awt.Dimension(1100, 250));
-        kartierabschnittStammEditor1.setPreferredSize(new java.awt.Dimension(1100, 250));
+        kartierabschnittStammEditor1.setMinimumSize(new java.awt.Dimension(1100, 290));
+        kartierabschnittStammEditor1.setPreferredSize(new java.awt.Dimension(1100, 290));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;

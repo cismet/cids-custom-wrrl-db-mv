@@ -1190,7 +1190,8 @@ public class WkFgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 this.cidsBean);
             bindingGroup.bind();
             labSteckbriefVal.setText("<html><a href=\"https://fis-wasser-mv.de/charts/steckbriefe/rw/rw_wk.php?fg="
-                        + String.valueOf(cidsBean.getProperty("wk_k")) + "\">Webseite</a></html>");
+                        + String.valueOf(cidsBean.getProperty("wk_k")) + "\">"
+                        + String.valueOf(cidsBean.getProperty("wk_k")) + "</a></html>");
         } else {
             labSteckbriefVal.setText("");
         }

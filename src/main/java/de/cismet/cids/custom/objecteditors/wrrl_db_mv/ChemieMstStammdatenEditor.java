@@ -18,6 +18,8 @@ import Sirius.navigator.exception.ConnectionException;
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
+import java.awt.EventQueue;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -721,7 +723,13 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         measureNumber = 0;
 
         final CidsBean measure = getDataForYear(year, measureNumber);
-        showNewMeasure(measure);
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    showNewMeasure(measure);
+                }
+            });
     }
 
     /**
