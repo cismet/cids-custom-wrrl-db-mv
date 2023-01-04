@@ -65,6 +65,7 @@ public class WkKgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jtMstTab1;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblReg;
     private javax.swing.JLabel lblSpace;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
@@ -157,6 +158,7 @@ public class WkKgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         wkKgMstStammdatenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgMstStammdatenEditor(
                 true,
                 true);
+        lblReg = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(910, 580));
         setOpaque(false);
@@ -229,6 +231,11 @@ public class WkKgPanTen extends javax.swing.JPanel implements DisposableCidsBean
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(25, 10, 5, 10);
+        panInfoContent.add(lblReg, gridBagConstraints);
 
         jScrollPane1.setViewportView(panInfoContent);
 
@@ -256,15 +263,15 @@ public class WkKgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                         final List<CidsBean> beans = model.getData();
 
                         if ((beans != null) && (beans.size() > 0)) {
-                            final String reg = (String)beans.get(0).getProperty("register_2");
+                            final String reg = (String)beans.get(0).getProperty("register_0");
 
-//                            EventQueue.invokeLater(new Thread("setLabel") {
-//
-//                                    @Override
-//                                    public void run() {
-//                                        lblReg.setText(reg);
-//                                    }
-//                                });
+                            EventQueue.invokeLater(new Thread("setLabel") {
+
+                                    @Override
+                                    public void run() {
+                                        lblReg.setText(reg);
+                                    }
+                                });
                         }
                     }
                 }).start();

@@ -53,6 +53,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
+import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.FgskSimulationHelper;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.MaxWBNumberSearch;
 import de.cismet.cids.custom.wrrl_db_mv.server.search.StaluSearch;
@@ -78,6 +79,8 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
 import de.cismet.cismap.cids.geometryeditor.DefaultCismapGeometryComboBoxEditor;
 
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedLineFeature;
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointFeature;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.connectioncontext.AbstractConnectionContext;
@@ -169,6 +172,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
 
         t.start();
     }
+
+    private static List<LinearReferencedLineFeature> createdFeatures = new ArrayList<LinearReferencedLineFeature>();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -480,6 +485,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             RendererTools.makeReadOnly(cbRejected);
             lblGeom.setVisible(false);
             cbGeom.setVisible(false);
+        } else {
+            ((DefaultCismapGeometryComboBoxEditor)cbGeom).setLocalRenderFeatureString("additional_geom");
         }
 
         RendererTools.makeReadOnly(cbFin);
@@ -600,6 +607,38 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             } else {
                 tabPressure.setModel(new WkFgPanSeven.CustomTableModel(new ArrayList<ArrayList>()));
             }
+
+//            if (readOnly) {
+//                final CidsBean lineBean = (CidsBean)cidsBean.getProperty("linie");
+//                CidsBean vonBean = null;
+//                CidsBean bisBean = null;
+//
+//                if (lineBean != null) {
+//                    vonBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM);
+//                    bisBean = (CidsBean)lineBean.getProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO);
+//                }
+//
+//                if ((vonBean != null) && (bisBean != null)) {
+//                    final CidsBean route = (CidsBean)vonBean.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
+//                    final Geometry routeGeometry = (Geometry)
+//                        ((CidsBean)route.getProperty(LinearReferencingConstants.PROP_ROUTE_GEOM)).getProperty(
+//                            LinearReferencingConstants.PROP_GEOM_GEOFIELD);
+//
+//                    final LinearReferencedPointFeature vonFeature = new LinearReferencedPointFeature((Double)
+//                            vonBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE),
+//                            routeGeometry);
+//                    final LinearReferencedPointFeature bisFeature = new LinearReferencedPointFeature((Double)
+//                            bisBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE),
+//                            routeGeometry);
+//                    final LinearReferencedLineFeature f = new LinearReferencedLineFeature(vonFeature, bisFeature);
+//                    if (
+//                        !CismapBroker.getInstance().getMappingComponent().getFeatureCollection().getAllFeatures()
+//                                .contains(f)) {
+//                        CismapBroker.getInstance().getMappingComponent().getFeatureCollection().addFeature(f);
+//                        createdFeatures.add(f);
+//                    }
+//                }
+//            }
         } else {
             deActivateGUI(false);
             dropBehaviorListener.setWkFg(null);
@@ -3278,6 +3317,11 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         if (this.cidsBean != null) {
             this.cidsBean.removePropertyChangeListener(this);
         }
+//        if ((createdFeatures != null) && !createdFeatures.isEmpty()) {
+//            for (final LinearReferencedLineFeature f : createdFeatures) {
+//                CismapBroker.getInstance().getMappingComponent().getFeatureCollection().removeFeature(f);
+//            }
+//        }
         linearReferencedLineEditor.dispose();
         bindingGroup.unbind();
     }
