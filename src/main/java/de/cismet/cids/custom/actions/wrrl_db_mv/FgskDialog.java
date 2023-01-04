@@ -468,7 +468,7 @@ public class FgskDialog extends javax.swing.JDialog {
             if (histFgskAbschn.size() > 0) {
                 final int returnOption = JOptionPane.showOptionDialog(
                         StaticSwingTools.getParentFrame(this),
-                        "<html>An der angegebenen Stelle existieren bereits Kartierabschnitt. Wenn Sie fortfahren, dann werden diese als historisch markiert.",
+                        "<html>An der angegebenen Stelle existieren bereits Kartierabschnitt.",
                         "Vorsicht",
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.WARNING_MESSAGE,
@@ -493,88 +493,89 @@ public class FgskDialog extends javax.swing.JDialog {
                 protected Collection<Node> doInBackground() throws Exception {
                     final Collection<Node> r = new ArrayList<Node>();
 
-                    jProgressBar1.setMaximum((positions.length * 2) - 1 + histFgskAbschn.size());
+                    jProgressBar1.setMaximum((positions.length * 2) - 1);
+//                    jProgressBar1.setMaximum((positions.length * 2) - 1 + histFgskAbschn.size());
                     int numOfPersisted = 0;
                     final Geometry routeGeom = (Geometry)
                         ((CidsBean)routeBean.getProperty(LinearReferencingConstants.PROP_ROUTE_GEOM)).getProperty(
                             LinearReferencingConstants.PROP_GEOM_GEOFIELD);
 
                     // Abschnitte als historisch markieren
-                    final User u = SessionManager.getSession().getUser();
-                    final Double minPosition = min(positions);
-                    final Double maxPosition = max(positions);
-                    for (final Integer id : histFgskAbschn) {
-                        try {
-                            final MetaObject mo = SessionManager.getProxy()
-                                        .getMetaObject(u, id, MC_FGSK.getId(), MC_FGSK.getDomain());
-                            final CidsBean histBean = mo.getBean();
-                            Double from = (Double)histBean.getProperty("linie.von.wert");
-                            Double till = (Double)histBean.getProperty("linie.bis.wert");
-
-                            if ((from != null) && (till != null)) {
-                                if (from > till) {
-                                    final Double tmp = from;
-                                    from = till;
-                                    till = tmp;
-                                }
-                                if ((from < minPosition) && (till > maxPosition)) {
-                                    // new fgsk object are contained in this old fgsk object
-                                    // divide station line
-                                    CidsBean newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
-                                    newPart.setProperty(
-                                        "linie",
-                                        CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
-                                    changeStationLine((CidsBean)newPart.getProperty("linie"), from, minPosition);
-                                    newPart.persist();
-
-                                    // divide station line
-                                    newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
-                                    newPart.setProperty(
-                                        "linie",
-                                        CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
-                                    changeStationLine((CidsBean)newPart.getProperty("linie"), maxPosition, till);
-                                    newPart.persist();
-
-                                    final CidsBean statLine = (CidsBean)histBean.getProperty("linie");
-                                    changeStationLine((CidsBean)histBean.getProperty("linie"),
-                                        minPosition,
-                                        maxPosition);
-                                    statLine.persist();
-                                } else if (from < minPosition) {
-                                    // divide station line
-                                    final CidsBean newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
-                                    newPart.setProperty(
-                                        "linie",
-                                        CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
-                                    changeStationLine((CidsBean)newPart.getProperty("linie"), from, minPosition);
-                                    newPart.persist();
-
-                                    // historic part
-                                    final CidsBean statLine = (CidsBean)histBean.getProperty("linie");
-                                    changeStationLine((CidsBean)histBean.getProperty("linie"), minPosition, till);
-                                    statLine.persist();
-                                } else if (till > maxPosition) {
-                                    // divide station line
-                                    final CidsBean newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
-                                    newPart.setProperty(
-                                        "linie",
-                                        CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
-                                    changeStationLine((CidsBean)newPart.getProperty("linie"), maxPosition, till);
-                                    newPart.persist();
-
-                                    // historic part
-                                    final CidsBean statLine = (CidsBean)histBean.getProperty("linie");
-                                    changeStationLine(statLine, from, maxPosition);
-                                    statLine.persist();
-                                }
-                            }
-                            histBean.setProperty("historisch", Boolean.TRUE);
-                            histBean.persist();
-                            jProgressBar1.setValue(numOfPersisted++);
-                        } catch (Exception e) {
-                            LOG.error("Cannot adjust old object", e);
-                        }
-                    }
+// final User u = SessionManager.getSession().getUser();
+// final Double minPosition = min(positions);
+// final Double maxPosition = max(positions);
+// for (final Integer id : histFgskAbschn) {
+// try {
+// final MetaObject mo = SessionManager.getProxy()
+// .getMetaObject(u, id, MC_FGSK.getId(), MC_FGSK.getDomain());
+// final CidsBean histBean = mo.getBean();
+// Double from = (Double)histBean.getProperty("linie.von.wert");
+// Double till = (Double)histBean.getProperty("linie.bis.wert");
+//
+// if ((from != null) && (till != null)) {
+// if (from > till) {
+// final Double tmp = from;
+// from = till;
+// till = tmp;
+// }
+// if ((from < minPosition) && (till > maxPosition)) {
+// // new fgsk object are contained in this old fgsk object
+// // divide station line
+// CidsBean newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
+// newPart.setProperty(
+// "linie",
+// CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
+// changeStationLine((CidsBean)newPart.getProperty("linie"), from, minPosition);
+// newPart.persist();
+//
+// // divide station line
+// newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
+// newPart.setProperty(
+// "linie",
+// CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
+// changeStationLine((CidsBean)newPart.getProperty("linie"), maxPosition, till);
+// newPart.persist();
+//
+// final CidsBean statLine = (CidsBean)histBean.getProperty("linie");
+// changeStationLine((CidsBean)histBean.getProperty("linie"),
+// minPosition,
+// maxPosition);
+// statLine.persist();
+// } else if (from < minPosition) {
+// // divide station line
+// final CidsBean newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
+// newPart.setProperty(
+// "linie",
+// CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
+// changeStationLine((CidsBean)newPart.getProperty("linie"), from, minPosition);
+// newPart.persist();
+//
+// // historic part
+// final CidsBean statLine = (CidsBean)histBean.getProperty("linie");
+// changeStationLine((CidsBean)histBean.getProperty("linie"), minPosition, till);
+// statLine.persist();
+// } else if (till > maxPosition) {
+// // divide station line
+// final CidsBean newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
+// newPart.setProperty(
+// "linie",
+// CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
+// changeStationLine((CidsBean)newPart.getProperty("linie"), maxPosition, till);
+// newPart.persist();
+//
+// // historic part
+// final CidsBean statLine = (CidsBean)histBean.getProperty("linie");
+// changeStationLine(statLine, from, maxPosition);
+// statLine.persist();
+// }
+// }
+// histBean.setProperty("historisch", Boolean.TRUE);
+// histBean.persist();
+// jProgressBar1.setValue(numOfPersisted++);
+// } catch (Exception e) {
+// LOG.error("Cannot adjust old object", e);
+// }
+// }
 
                     // stationen erzeugen
                     final Collection<CidsBean> stationenBeans = new ArrayList<CidsBean>();
