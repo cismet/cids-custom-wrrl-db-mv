@@ -253,6 +253,7 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
                 "WkKgEditor.panAllgemeines.TabConstraints.tabTitle"),
             panAllgemeines); // NOI18N
 
+        jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

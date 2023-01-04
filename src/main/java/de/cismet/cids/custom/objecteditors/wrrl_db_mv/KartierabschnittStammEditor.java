@@ -16,6 +16,9 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -54,8 +57,38 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
     //~ Instance fields --------------------------------------------------------
 
+    PropertyChangeListener plistener = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(final PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equalsIgnoreCase("ohne_route")) {
+                    if ((evt.getNewValue() instanceof Boolean) && (Boolean)evt.getNewValue()
+                                && !txtWkNameFreitext.isEnabled()) {
+                        lblWkNameFreitext.setEnabled(true);
+                        lblWkName.setVisible(true);
+                        txtWkNameFreitext.setEnabled(true);
+
+                        txtWkName.setVisible(false);
+                        txtWkType.setVisible(false);
+                        lblWkName.setVisible(false);
+                        lblWkType.setVisible(false);
+                    } else if (txtWkNameFreitext.isEnabled()) {
+                        lblWkNameFreitext.setEnabled(false);
+                        txtWkNameFreitext.setEnabled(false);
+
+                        txtWkName.setVisible(true);
+                        txtWkType.setVisible(true);
+                        lblWkName.setVisible(true);
+                        lblWkType.setVisible(true);
+                    }
+                }
+            }
+        };
+
     private SqlTimestampToUtilDateConverter dateConverter = new SqlTimestampToUtilDateConverter();
     private CidsBean cidsBean;
+    private CidsBean lastStation = null;
+    private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFliessgewaesser;
@@ -113,6 +146,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
      * @param  readOnly  DOCUMENT ME!
      */
     public KartierabschnittStammEditor(final boolean readOnly) {
+        this.readOnly = readOnly;
         linearReferencedLineEditor = (readOnly) ? new LinearReferencedLineRenderer() : new LinearReferencedLineEditor();
         linearReferencedLineEditor.setOtherLinesEnabled(false);
 //        linearReferencedLineEditor.setOtherLinesQueryAddition(
@@ -330,7 +364,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.gridheight = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 25);
         panInfoContent.add(sepMiddle, gridBagConstraints);
@@ -484,7 +518,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblWkType.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblWkType, gridBagConstraints);
@@ -494,7 +528,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtWkType.setPreferredSize(new java.awt.Dimension(170, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -540,7 +574,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblVorkatierung.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblVorkatierung, gridBagConstraints);
@@ -610,7 +644,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
@@ -679,6 +713,9 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     public void setCidsBean(final CidsBean cidsBean) {
         bindingGroup.unbind();
         if (cidsBean != null) {
+            if (this.lastStation != null) {
+                this.lastStation.removePropertyChangeListener(plistener);
+            }
             this.cidsBean = cidsBean;
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
@@ -688,6 +725,11 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
             txtWk.setText("");
             txtWkName.setText("");
             txtWkType.setText("");
+            lastStation = (CidsBean)cidsBean.getProperty("linie.von");
+
+            if ((lastStation != null) && !readOnly) {
+                lastStation.addPropertyChangeListener(plistener);
+            }
         } else {
             txtGewaessername.setText("");
             txtGewaesserkennzahl.setText("");
@@ -790,6 +832,9 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     @Override
     public void dispose() {
         linearReferencedLineEditor.dispose();
+        if (lastStation != null) {
+            lastStation.removePropertyChangeListener(plistener);
+        }
         bindingGroup.unbind();
     }
 
