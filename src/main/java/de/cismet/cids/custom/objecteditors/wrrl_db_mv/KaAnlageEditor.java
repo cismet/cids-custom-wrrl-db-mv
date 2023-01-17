@@ -405,7 +405,17 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
 
             tWk.start();
         } else {
-            kaSuevoEditor1.setCidsBean(null);
+            if (EventQueue.isDispatchThread()) {
+                kaSuevoEditor1.setCidsBean(null);
+            } else {
+                EventQueue.invokeLater(new Thread("KaAnlageEditor.setCidsBean()") {
+
+                        @Override
+                        public void run() {
+                            kaSuevoEditor1.setCidsBean(null);
+                        }
+                    });
+            }
         }
 
         lblFoot.setText("");
@@ -1590,9 +1600,30 @@ public class KaAnlageEditor extends JPanel implements CidsBeanRenderer,
     private void showNewMeasure(final CidsBean measure) {
         if (!readOnly) {
             saveLastMeasure();
-            kaSuevoEditor1.setCidsBean(measure, cidsBean);
+
+            if (EventQueue.isDispatchThread()) {
+                kaSuevoEditor1.setCidsBean(measure, cidsBean);
+            } else {
+                EventQueue.invokeLater(new Thread("KaAnlagenEditor.showNewMeasure") {
+
+                        @Override
+                        public void run() {
+                            kaSuevoEditor1.setCidsBean(measure, cidsBean);
+                        }
+                    });
+            }
         } else {
-            kaSuevoEditor1.setCidsBean(measure);
+            if (EventQueue.isDispatchThread()) {
+                kaSuevoEditor1.setCidsBean(measure);
+            } else {
+                EventQueue.invokeLater(new Thread("KaAnlagenEditor.showNewMeasure") {
+
+                        @Override
+                        public void run() {
+                            kaSuevoEditor1.setCidsBean(measure);
+                        }
+                    });
+            }
         }
     }
 
