@@ -537,7 +537,7 @@ public class QuerbauwerkePanSeven extends javax.swing.JPanel implements Disposab
         txtAnzahlUnterhalb.setPreferredSize(new java.awt.Dimension(250, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.qbw_anz3a}"),
                 txtAnzahlUnterhalb,

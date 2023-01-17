@@ -664,7 +664,7 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
      */
     private boolean isPressureContained(final CidsBean pressure) {
         if (pressures != null) {
-            for (final CidsBean mBean : pressures) {
+            for (final CidsBean mBean : new ArrayList<CidsBean>(pressures)) {
                 if ((mBean != null) && (mBean.getMetaObject().getId() == pressure.getMetaObject().getId())) {
                     return true;
                 }
