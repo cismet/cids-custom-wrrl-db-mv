@@ -1355,13 +1355,17 @@ public class GupGupEditor extends javax.swing.JPanel implements CidsBeanRenderer
     @Override
     public void setCidsBean(final CidsBean cidsBean) {
         try {
-            EventQueue.invokeAndWait(new Runnable() {
+            if (EventQueue.isDispatchThread()) {
+                initializedLock.writeLock().lock();
+            } else {
+                EventQueue.invokeAndWait(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        initializedLock.writeLock().lock();
-                    }
-                });
+                        @Override
+                        public void run() {
+                            initializedLock.writeLock().lock();
+                        }
+                    });
+            }
         } catch (Exception ex) {
             LOG.error("Cannot set lock", ex);
         }

@@ -15,12 +15,9 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import org.jdesktop.beansbinding.Converter;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import java.math.BigDecimal;
 
 import java.text.DecimalFormat;
 
@@ -28,9 +25,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
 import de.cismet.cids.custom.wrrl_db_mv.util.RendererTools;
-import de.cismet.cids.custom.wrrl_db_mv.util.ScrollableComboBox;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -155,8 +150,13 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
      * @param  parent    DOCUMENT ME!
      */
     public void setCidsBean(final CidsBean cidsBean, final CidsBean parent) {
-        bindingGroup.unbind();
-
+        if (this.cidsBean != null) {
+            try {
+                bindingGroup.unbind();
+            } catch (IllegalStateException e) {
+                // nothing to do
+            }
+        }
         this.cidsBean = cidsBean;
 
         if (cidsBean != null) {
@@ -168,15 +168,15 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
             }
             bindingGroup.bind();
 
-            if (parent != null) {
-                EventQueue.invokeLater(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            cidsBean.addPropertyChangeListener(new SubObjectPropertyChangedListener(parent));
-                        }
-                    });
-            }
+//            if (parent != null) {
+//                EventQueue.invokeLater(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            cidsBean.addPropertyChangeListener(new SubObjectPropertyChangedListener(parent));
+//                        }
+//                    });
+//            }
         } else {
             if (!readOnly) {
                 setEnable(false);
@@ -1727,50 +1727,13 @@ public class KaSuevoEditor extends JPanel implements CidsBeanRenderer, EditorSav
      *
      * @version  $Revision$, $Date$
      */
-    public class SubObjectPropertyChangedListener implements PropertyChangeListener {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private final CidsBean parent;
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new SubObjectPropertyChangedListener object.
-         *
-         * @param  parent  DOCUMENT ME!
-         */
-        public SubObjectPropertyChangedListener(final CidsBean parent) {
-            this.parent = parent;
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public void propertyChange(final PropertyChangeEvent evt) {
-            if (parent != null) {
-                parent.setArtificialChangeFlag(true);
-            }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
     private static class DoubleConverter extends Converter<Double, String> {
 
-        //~ Instance fields ----------------------------------------------------
+        //~ Static fields/initializers -----------------------------------------
 
-        private DecimalFormat formatter;
+        private static DecimalFormat formatter;
 
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new DoubleConverter object.
-         */
-        public DoubleConverter() {
+        static {
             formatter = new DecimalFormat("0.########");
             formatter.setGroupingUsed(true);
             formatter.setGroupingSize(3);
