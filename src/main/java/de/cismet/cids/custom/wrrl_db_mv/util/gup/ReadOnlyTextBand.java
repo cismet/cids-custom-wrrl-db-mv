@@ -17,15 +17,13 @@ import java.util.Collection;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanCollectionStore;
 
-import de.cismet.tools.gui.jbands.MinimumHeightBand;
-
 /**
  * DOCUMENT ME!
  *
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class ReadOnlyTextBand extends MinimumHeightBand implements CidsBeanCollectionStore {
+public class ReadOnlyTextBand extends CopyableBand implements CidsBeanCollectionStore {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -35,7 +33,7 @@ public class ReadOnlyTextBand extends MinimumHeightBand implements CidsBeanColle
      * @version  $Revision$, $Date$
      */
 
-    Collection<CidsBean> beans = new ArrayList<CidsBean>();
+    Collection<CidsBean> beans = new ArrayList<>();
 
     private String textProperty;
     private String tooltipProperty;
@@ -53,6 +51,7 @@ public class ReadOnlyTextBand extends MinimumHeightBand implements CidsBeanColle
         super(name);
         this.textProperty = textProperty;
         this.tooltipProperty = tooltipProperty;
+        readOnly = true;
     }
 
     //~ Methods ----------------------------------------------------------------

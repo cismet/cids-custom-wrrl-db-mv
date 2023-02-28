@@ -89,7 +89,9 @@ public class VermeidungsgruppeReadOnlyBandMember extends ColoredReadOnlyBandMemb
         super.setCidsBean(art);
         this.cidsBean = art;
         this.setVermeidungsgruppe(vermeidungsgruppe);
-        setToolTipText(vermeidungsgruppe.getProperty("name") + "");
+        setToolTipText(vermeidungsgruppe.getProperty("name") + " | "
+                    + (((art != null) && (art.getProperty("art.name") != null))
+                        ? String.valueOf(art.getProperty("art.name")) : ""));
         determineBackgroundColour();
         setBackgroundPainter(unselectedBackgroundPainter);
     }

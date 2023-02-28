@@ -1277,9 +1277,14 @@ public class WkFgPanSix extends javax.swing.JPanel implements DisposableCidsBean
     @Override
     public void valueChanged(final ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            if (jtMstTab1.getSelectedRow() > -1) {
-                final CidsBean sbean = model.getData().get(jtMstTab1.getSelectedRow());
-                chemieMstMessungenPanOne1.setCidsBean(sbean);
+            final int selectedIndex = jtMstTab1.getSelectedRow();
+
+            if (selectedIndex > -1) {
+                final List<CidsBean> dataList = model.getData();
+                if (selectedIndex < dataList.size()) {
+                    final CidsBean sbean = dataList.get(selectedIndex);
+                    chemieMstMessungenPanOne1.setCidsBean(sbean);
+                }
             }
         }
     }

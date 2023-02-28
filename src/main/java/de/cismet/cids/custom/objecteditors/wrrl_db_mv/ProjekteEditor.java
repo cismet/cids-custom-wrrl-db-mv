@@ -2283,7 +2283,11 @@ public class ProjekteEditor extends JPanel implements CidsBeanRenderer, EditorSa
             if (cidsBean != null) {
                 for (final CidsBean bean : beans) {
                     if (bean.getClass().getName().equals("de.cismet.cids.dynamics.Massnahmen")) { // NOI18N
-                        addImplementationFromAction(bean);
+                        final Boolean verw = (Boolean)bean.getProperty("massn_verw");
+
+                        if ((verw == null) || !verw.booleanValue()) {
+                            addImplementationFromAction(bean);
+                        }
                     }
                 }
             }

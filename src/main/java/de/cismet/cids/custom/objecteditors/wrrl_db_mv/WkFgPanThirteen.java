@@ -22,9 +22,12 @@ import org.jdesktop.swingx.JXTable;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import java.text.DecimalFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,9 +35,11 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
@@ -804,6 +809,7 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
          */
         public UQNTable(final List<CidsBean> beans) {
             setModel(new CustomStoffTableModel(beans));
+            initRenderer();
         }
 
         /**
@@ -814,6 +820,43 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
          */
         public UQNTable(final List<CidsBean> beans, final String[][] header) {
             setModel(new CustomStoffTableModel(beans, header));
+            initRenderer();
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         */
+        private void initRenderer() {
+            final DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+
+                    @Override
+                    public Component getTableCellRendererComponent(final JTable table,
+                            final Object value,
+                            final boolean isSelected,
+                            final boolean hasFocus,
+                            final int row,
+                            final int column) {
+                        final Component com = super.getTableCellRendererComponent(
+                                table,
+                                value,
+                                isSelected,
+                                hasFocus,
+                                row,
+                                column);
+                        if ((value instanceof Number) && (com instanceof JLabel)) {
+                            final DecimalFormat formatter = new DecimalFormat("0.########");
+
+                            ((JLabel)com).setText(formatter.format(value));
+                        }
+
+                        return com;
+                    }
+                };
+
+            getColumn(1).setCellRenderer(renderer);
+            getColumn(3).setCellRenderer(renderer);
         }
 
         //~ Inner Classes ------------------------------------------------------
@@ -888,6 +931,12 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
             @Override
             public Object getValueAt(final int rowIndex, final int columnIndex) {
                 final Object value = data.get(rowIndex).getProperty(header[columnIndex][1]);
+
+                if (value instanceof Number) {
+                    final DecimalFormat formatter = new DecimalFormat("0.########");
+
+                    return formatter.format(value);
+                }
 
                 return (value == null) ? null : String.valueOf(value);
             }

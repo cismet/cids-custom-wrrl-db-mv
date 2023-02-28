@@ -15,15 +15,13 @@ import java.util.Collection;
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanCollectionStore;
 
-import de.cismet.tools.gui.jbands.MinimumHeightBand;
-
 /**
  * DOCUMENT ME!
  *
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class UnterhaltungserfordernisBand extends MinimumHeightBand implements CidsBeanCollectionStore {
+public class UnterhaltungserfordernisBand extends CopyableBand implements CidsBeanCollectionStore {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -42,6 +40,7 @@ public class UnterhaltungserfordernisBand extends MinimumHeightBand implements C
      */
     public UnterhaltungserfordernisBand() {
         super(NbBundle.getMessage(UnterhaltungserfordernisBand.class, "UnterhaltungserfordernisBand.title"));
+        readOnly = true;
     }
 
     //~ Methods ----------------------------------------------------------------

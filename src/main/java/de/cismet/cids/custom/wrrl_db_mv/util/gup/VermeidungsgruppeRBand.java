@@ -12,9 +12,6 @@ import java.util.Collection;
 import java.util.List;
 
 import de.cismet.cids.dynamics.CidsBean;
-import de.cismet.cids.dynamics.CidsBeanCollectionStore;
-
-import de.cismet.tools.gui.jbands.MinimumHeightBand;
 
 /**
  * DOCUMENT ME!
@@ -22,7 +19,7 @@ import de.cismet.tools.gui.jbands.MinimumHeightBand;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class VermeidungsgruppeRBand extends MinimumHeightBand {
+public class VermeidungsgruppeRBand extends CopyableBand {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -43,6 +40,7 @@ public class VermeidungsgruppeRBand extends MinimumHeightBand {
      */
     public VermeidungsgruppeRBand(final String name) {
         super(name);
+        readOnly = true;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -57,25 +55,4 @@ public class VermeidungsgruppeRBand extends MinimumHeightBand {
             addMember(tmp);
         }
     }
-
-//    @Override
-//    public Collection<CidsBean> getCidsBeans() {
-//        return beans;
-//    }
-
-//    @Override
-//    public void setCidsBeans(final Collection<CidsBean> beans) {
-//        this.beans = beans;
-//        if (beans != null) {
-//            for (final CidsBean b : beans) {
-//                final Verme unrm = new ColoredReadOnlyBandMember();
-//                try {
-//                    unrm.setCidsBean(b, getTooltipProperty(), getColorProperty());
-//                    addMember(unrm);
-//                } catch (Exception e) {
-//                    // dann halt nicht
-//                }
-//            }
-//        }
-//    }
 }

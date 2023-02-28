@@ -106,22 +106,24 @@ public class WKBand extends MinimumHeightBand implements BandSnappingPointProvid
     public void setWK(final ArrayList<ArrayList> inputResulSet) {
         removeAllMember();
         this.inputResulSet = inputResulSet;
-        for (final ArrayList zeile : inputResulSet) {
-            final String wk_k = String.valueOf(zeile.get(0));
-            double von = (Double)zeile.get(1);
-            double bis = (Double)zeile.get(2);
-            boolean openLeft = false;
-            boolean openRight = false;
-            if (von < min) {
-                von = min;
-                openLeft = true;
-            }
+        if (inputResulSet != null) {
+            for (final ArrayList zeile : inputResulSet) {
+                final String wk_k = String.valueOf(zeile.get(0));
+                double von = (Double)zeile.get(1);
+                double bis = (Double)zeile.get(2);
+                boolean openLeft = false;
+                boolean openRight = false;
+                if (von < min) {
+                    von = min;
+                    openLeft = true;
+                }
 
-            if (bis > max) {
-                bis = max;
-                openRight = true;
+                if (bis > max) {
+                    bis = max;
+                    openRight = true;
+                }
+                addMember(new SimpleTextSection(wk_k, von, bis, openLeft, openRight));
             }
-            addMember(new SimpleTextSection(wk_k, von, bis, openLeft, openRight));
         }
     }
 
