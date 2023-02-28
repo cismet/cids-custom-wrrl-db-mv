@@ -1906,7 +1906,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
                 final long gwk = (Long)currentLine.getProperty("von.route.gwk");
                 final double from = (Double)currentLine.getProperty("von.wert");
                 final double to = (Double)currentLine.getProperty("bis.wert");
-                boolean onWkFg = false;
+                double lengthOnWK = 0.0;
 
                 for (final CidsBean teil : CidsBeanSupport.getBeanCollectionFromProperty(wk, "teile")) {
                     final CidsBean line = (CidsBean)(teil.getProperty("linie"));
@@ -1917,12 +1917,12 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
                         if (((Long)line.getProperty("von.route.gwk") == gwk) && ((int)wkFrom <= ((int)from))
                                     && ((int)wkTo >= (int)to)) {
-                            onWkFg = true;
+                            lengthOnWK += Math.max((int)wkFrom, ((int)from)) - Math.min((int)wkTo, (int)to);
                         }
                     }
                 }
 
-                if (!onWkFg) {
+                if (lengthOnWK >= 1.0) {
                     JOptionPane.showMessageDialog(
                         DghEditor.this,
                         NbBundle.getMessage(

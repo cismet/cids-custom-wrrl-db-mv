@@ -15,6 +15,7 @@ import Sirius.server.middleware.types.MetaObject;
 
 import java.lang.reflect.InvocationTargetException;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -91,7 +92,7 @@ public class MassnahmenUmsetzungCache extends Hashtable<String, CidsBean> implem
         if (bean != null) {
             final List<CidsBean> impls = bean.getBeanCollectionProperty("umsetzung");
 
-            for (final CidsBean impl : impls) {
+            for (final CidsBean impl : new ArrayList<CidsBean>(impls)) {
                 String key = ACTION_PREFIX + impl.getProperty("massnahme");
 
                 if (Thread.interrupted()) {
