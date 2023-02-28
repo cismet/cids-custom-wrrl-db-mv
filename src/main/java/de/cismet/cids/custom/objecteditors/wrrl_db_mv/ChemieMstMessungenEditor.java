@@ -88,6 +88,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbDiffStInklUbiqSchUN;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFlussspez;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.ChemieMstMessungenPanOne chemieMstMessungenPanOne1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblChemZustGes;
     private javax.swing.JLabel lblDiffStInklUbiqSchUN;
@@ -411,6 +412,7 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         txtFlussspez = new javax.swing.JTextField();
         panAnl8 = new javax.swing.JPanel();
         panAnl6 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -423,9 +425,9 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(910, 1250));
+        setMinimumSize(new java.awt.Dimension(910, 1400));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(910, 1250));
+        setPreferredSize(new java.awt.Dimension(910, 1400));
         setLayout(new java.awt.GridBagLayout());
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -714,10 +716,17 @@ public class ChemieMstMessungenEditor extends JPanel implements CidsBeanRenderer
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(panAnl6, gridBagConstraints);
 
+        jPanel1.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.weighty = 1.0;
+        jPanel4.add(jPanel1, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;

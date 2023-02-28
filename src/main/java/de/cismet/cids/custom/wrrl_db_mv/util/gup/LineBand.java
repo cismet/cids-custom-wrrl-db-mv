@@ -9,22 +9,12 @@ package de.cismet.cids.custom.wrrl_db_mv.util.gup;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import org.apache.http.impl.conn.tsccm.WaitingThread;
 import org.apache.log4j.Logger;
-
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
@@ -48,7 +38,6 @@ import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.WaitingDialogThread;
 import de.cismet.tools.gui.jbands.BandEvent;
 import de.cismet.tools.gui.jbands.BandMemberEvent;
-import de.cismet.tools.gui.jbands.DefaultBand;
 import de.cismet.tools.gui.jbands.interfaces.BandListener;
 import de.cismet.tools.gui.jbands.interfaces.BandMember;
 import de.cismet.tools.gui.jbands.interfaces.BandMemberListener;
@@ -61,7 +50,7 @@ import de.cismet.tools.gui.jbands.interfaces.DisposableBand;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public abstract class LineBand extends DefaultBand implements CidsBeanCollectionStore,
+public abstract class LineBand extends CopyableBand implements CidsBeanCollectionStore,
     BandModificationProvider,
     BandMemberListener,
     EditorSaveListener,
@@ -70,24 +59,21 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOG = Logger.getLogger(LineBand.class);
-    protected static ArrayList<BandMember> membersToCopy = null;
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Collection<CidsBean> objectBeans = new ArrayList<CidsBean>();
+    protected Collection<CidsBean> objectBeans = new ArrayList<>();
     protected String objectTableName = null;
     protected String lineFieldName = "linie";
-    protected boolean readOnly = false;
     protected Double fixMin = null;
     protected Double fixMax = null;
-    protected javax.swing.JPopupMenu jPopupMenu1;
-    private List<BandListener> listenerList = new ArrayList<BandListener>();
+    private final List<BandListener> listenerList = new ArrayList<>();
     private boolean onlyAcceptNewBeanWithValue = true;
 
-    private HashMap<String, CidsBean> beanMap = new HashMap<String, CidsBean>();
+    private final HashMap<String, CidsBean> beanMap = new HashMap<>();
     private boolean normalise = false;
     private CidsBean route;
-    private List<CidsBean> beansToDelete = new ArrayList<CidsBean>();
+    private final List<CidsBean> beansToDelete = new ArrayList<>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -110,7 +96,6 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
     public LineBand(final float heightWeight, final String objectTableName) {
         super(heightWeight);
         this.objectTableName = objectTableName;
-        initPopupMenu();
     }
 
     /**
@@ -123,82 +108,9 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
     public LineBand(final float heightWeight, final String title, final String objectTableName) {
         super(heightWeight, title);
         this.objectTableName = objectTableName;
-        initPopupMenu();
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void initPopupMenu() {
-        prefix.addMouseListener(new MouseAdapter() {
-
-                @Override
-                public void mousePressed(final MouseEvent e) {
-                    if (e.isPopupTrigger()) {
-                        final JMenuItem miCopy = new JMenuItem("Abschnitte kopieren");
-                        final JMenuItem miPaste = new JMenuItem("Abschnitte einfügen");
-                        miCopy.setEnabled((members != null) && !members.isEmpty());
-                        miPaste.setEnabled(
-                            !readOnly
-                                    && (membersToCopy != null)
-                                    && !membersToCopy.isEmpty()
-                                    && members.isEmpty()
-                                    && (getMin(membersToCopy) >= LineBand.this.getMin())
-                                    && (getMax(membersToCopy) <= LineBand.this.getMax()));
-
-                        miCopy.addActionListener(new ActionListener() {
-
-                                @Override
-                                public void actionPerformed(final ActionEvent e) {
-                                    membersToCopy = members;
-                                }
-                            });
-
-                        miPaste.addActionListener(new ActionListener() {
-
-                                @Override
-                                public void actionPerformed(final ActionEvent e) {
-                                    for (final BandMember member : membersToCopy) {
-                                        addSpecifiedMember(member.getMin(), member.getMax());
-                                    }
-                                }
-                            });
-
-                        jPopupMenu1 = new JPopupMenu();
-                        jPopupMenu1.add(miCopy);
-                        jPopupMenu1.add(miPaste);
-
-                        jPopupMenu1.show((Component)e.getSource(), e.getX(), e.getY());
-                    }
-                }
-
-                private double getMin(final ArrayList<BandMember> parts) {
-                    double min = Double.MAX_VALUE;
-
-                    for (final BandMember part : parts) {
-                        if (part.getMin() < min) {
-                            min = part.getMin();
-                        }
-                    }
-
-                    return min;
-                }
-
-                private double getMax(final ArrayList<BandMember> parts) {
-                    double max = Double.MIN_VALUE;
-
-                    for (final BandMember part : parts) {
-                        if (part.getMax() > max) {
-                            max = part.getMax();
-                        }
-                    }
-
-                    return max;
-                }
-            });
-    }
 
     /**
      * DOCUMENT ME!
@@ -573,7 +485,8 @@ public abstract class LineBand extends DefaultBand implements CidsBeanCollection
      * @param  startStation  DOCUMENT ME!
      * @param  endStation    minStart DOCUMENT ME!
      */
-    private void addSpecifiedMember(final Double startStation,
+    @Override
+    protected void addSpecifiedMember(final Double startStation,
             final Double endStation) {
         CidsBean beanBefore = null;
         CidsBean beanBehind = null;

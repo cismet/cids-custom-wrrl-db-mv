@@ -63,6 +63,7 @@ public class MassnahmenDetail extends javax.swing.JPanel implements DisposableCi
     private CidsBean cidsBean;
     private List<CidsBean> impacts;
     private MassnahmenEditor parent;
+    private boolean readOnly;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbMassn_schl1;
@@ -95,13 +96,7 @@ public class MassnahmenDetail extends javax.swing.JPanel implements DisposableCi
     public MassnahmenDetail(final boolean readOnly) {
         initComponents();
 
-        if (readOnly) {
-            RendererTools.makeReadOnly(cbMassn_schl1);
-            RendererTools.makeReadOnly(cbMassn_schl2);
-            RendererTools.makeReadOnly(cbMassn_schl3);
-            RendererTools.makeReadOnly(cbMassn_schl4);
-            RendererTools.makeReadOnly(cbMassn_schl5);
-        }
+        setReadOnly(readOnly);
 
         final boolean isAdmin = true; // SessionManager.getSession().getUser().getName().equalsIgnoreCase("admin");
 
@@ -170,6 +165,30 @@ public class MassnahmenDetail extends javax.swing.JPanel implements DisposableCi
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readOnly  DOCUMENT ME!
+     */
+    public final void setReadOnly(final boolean readOnly) {
+        if (readOnly != this.readOnly) {
+            if (readOnly) {
+                RendererTools.makeReadOnly(cbMassn_schl1);
+                RendererTools.makeReadOnly(cbMassn_schl2);
+                RendererTools.makeReadOnly(cbMassn_schl3);
+                RendererTools.makeReadOnly(cbMassn_schl4);
+                RendererTools.makeReadOnly(cbMassn_schl5);
+            } else {
+                RendererTools.makeWritable(cbMassn_schl1);
+                RendererTools.makeWritable(cbMassn_schl2);
+                RendererTools.makeWritable(cbMassn_schl3);
+                RendererTools.makeWritable(cbMassn_schl4);
+                RendererTools.makeWritable(cbMassn_schl5);
+            }
+            this.readOnly = readOnly;
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
