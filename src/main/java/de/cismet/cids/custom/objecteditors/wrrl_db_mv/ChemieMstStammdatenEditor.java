@@ -507,8 +507,8 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         panInfoContent.add(panScr, gridBagConstraints);
 
-        chemieMstMessungenEditor1.setMinimumSize(new java.awt.Dimension(1000, 900));
-        chemieMstMessungenEditor1.setPreferredSize(new java.awt.Dimension(1000, 900));
+        chemieMstMessungenEditor1.setMinimumSize(new java.awt.Dimension(1000, 950));
+        chemieMstMessungenEditor1.setPreferredSize(new java.awt.Dimension(1000, 950));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
