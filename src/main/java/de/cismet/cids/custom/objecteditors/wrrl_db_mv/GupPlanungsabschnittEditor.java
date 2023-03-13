@@ -974,8 +974,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
 
-                        for (final MetaObject mo : metaObjects) {
-                            beanList.add(mo.getBean());
+                        if (metaObjects != null) {
+                            for (final MetaObject mo : metaObjects) {
+                                beanList.add(mo.getBean());
+                            }
                         }
 
                         return beanList;
@@ -1052,40 +1054,42 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
                         final MetaObject[] metaObjects = GupHelper.verbreitungsraumCache.calcValue(in);
 
-                        for (final MetaObject tmp : metaObjects) {
-                            final CidsBean abschnitt = tmp.getBean();
+                        if (metaObjects != null) {
+                            for (final MetaObject tmp : metaObjects) {
+                                final CidsBean abschnitt = tmp.getBean();
 
-                            final Integer woId = (Integer)abschnitt.getProperty("wo.id");
-                            final boolean sohle = woId == GUP_SOHLE;
-                            final boolean ufer = (woId == GUP_UFER_LINKS) || (woId == GUP_UFER_RECHTS);
-                            final boolean umfeld = (woId == GUP_UMFELD_LINKS) || (woId == GUP_UMFELD_RECHTS);
+                                final Integer woId = (Integer)abschnitt.getProperty("wo.id");
+                                final boolean sohle = woId == GUP_SOHLE;
+                                final boolean ufer = (woId == GUP_UFER_LINKS) || (woId == GUP_UFER_RECHTS);
+                                final boolean umfeld = (woId == GUP_UMFELD_LINKS) || (woId == GUP_UMFELD_RECHTS);
 
-                            final String woQuery;
-                            if (sohle) {
-                                woQuery = " AND v.sohle IS TRUE ";
-                            } else if (ufer) {
-                                woQuery = " AND v.ufer IS TRUE ";
-                            } else if (umfeld) {
-                                woQuery = " AND v.umfeld IS TRUE ";
-                            } else {
-                                woQuery = "";
-                            }
+                                final String woQuery;
+                                if (sohle) {
+                                    woQuery = " AND v.sohle IS TRUE ";
+                                } else if (ufer) {
+                                    woQuery = " AND v.ufer IS TRUE ";
+                                } else if (umfeld) {
+                                    woQuery = " AND v.umfeld IS TRUE ";
+                                } else {
+                                    woQuery = "";
+                                }
 
-                            final MetaObject[] vermeidungsgruppen = MetaObjectCache.getInstance()
-                                            .getMetaObjectsByQuery(
-                                                query
-                                                + tmp.getBean().getProperty("art.id")
-                                                + woQuery,
-                                                WRRLUtil.DOMAIN_NAME);
+                                final MetaObject[] vermeidungsgruppen = MetaObjectCache.getInstance()
+                                                .getMetaObjectsByQuery(
+                                                    query
+                                                    + tmp.getBean().getProperty("art.id")
+                                                    + woQuery,
+                                                    WRRLUtil.DOMAIN_NAME);
 
-                            if (vermeidungsgruppen != null) {
-                                for (final MetaObject vermeidungsgruppe : vermeidungsgruppen) {
-                                    final CidsBean newBean = CidsBean.createNewCidsBeanFromTableName(
-                                            WRRLUtil.DOMAIN_NAME,
-                                            "gup_vermeidungsgruppe_art");
-                                    newBean.setProperty("art", abschnitt);
-                                    newBean.setProperty("vermeidungsgruppe", vermeidungsgruppe.getBean());
-                                    beanList.add(newBean);
+                                if (vermeidungsgruppen != null) {
+                                    for (final MetaObject vermeidungsgruppe : vermeidungsgruppen) {
+                                        final CidsBean newBean = CidsBean.createNewCidsBeanFromTableName(
+                                                WRRLUtil.DOMAIN_NAME,
+                                                "gup_vermeidungsgruppe_art");
+                                        newBean.setProperty("art", abschnitt);
+                                        newBean.setProperty("vermeidungsgruppe", vermeidungsgruppe.getBean());
+                                        beanList.add(newBean);
+                                    }
                                 }
                             }
                         }
@@ -1193,8 +1197,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
 
-                        for (final MetaObject mo : metaObjects) {
-                            beanList.add(mo.getBean());
+                        if (metaObjects != null) {
+                            for (final MetaObject mo : metaObjects) {
+                                beanList.add(mo.getBean());
+                            }
                         }
 
                         return beanList;
@@ -1271,8 +1277,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
 
-                        for (final MetaObject mo : metaObjects) {
-                            beanList.add(mo.getBean());
+                        if (metaObjects != null) {
+                            for (final MetaObject mo : metaObjects) {
+                                beanList.add(mo.getBean());
+                            }
                         }
 
                         return beanList;
@@ -1345,8 +1353,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
 
-                        for (final MetaObject mo : metaObjects) {
-                            beanList.add(mo.getBean());
+                        if (metaObjects != null) {
+                            for (final MetaObject mo : metaObjects) {
+                                beanList.add(mo.getBean());
+                            }
                         }
 
                         return beanList;
@@ -1404,8 +1414,10 @@ public class GupPlanungsabschnittEditor extends JPanel implements CidsBeanRender
 
                         final List<CidsBean> beanList = new ArrayList<CidsBean>();
 
-                        for (final MetaObject mo : metaObjects) {
-                            beanList.add(mo.getBean());
+                        if (metaObjects != null) {
+                            for (final MetaObject mo : metaObjects) {
+                                beanList.add(mo.getBean());
+                            }
                         }
 
                         return beanList;
