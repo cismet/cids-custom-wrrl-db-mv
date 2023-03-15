@@ -26,8 +26,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 
-import org.mortbay.log.Log;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -598,7 +596,7 @@ public class WkFgReport {
             } else { // ??? bewirtschaftungsende should contain only none or one CidsBean?
                 final CidsBean bewirtschaftungsende = bewirtschaftungsende_coll.iterator().next();
                 bewirtschaftung_bis = (Double)bewirtschaftungsende.getProperty("stat.wert");
-                Log.warn("Teil " + teil.getProperty("ID") + " hat mehrere Bewirtschaftungsenden.");
+                LOG.warn("Teil " + teil.getProperty("ID") + " hat mehrere Bewirtschaftungsenden.");
             }
             stationierungen += df.format(bewirtschaftung_von) + " - " + df.format(bewirtschaftung_bis) + ", ";
         }
