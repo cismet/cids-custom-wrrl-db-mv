@@ -730,7 +730,11 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel9.setOpaque(false);
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblPhyChem1, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblPhyChem1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblPhyChem1,
+            org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.lblPhyChem1.text")); // NOI18N
         lblPhyChem1.setMaximumSize(new java.awt.Dimension(277, 35));
         lblPhyChem1.setMinimumSize(new java.awt.Dimension(277, 35));
         lblPhyChem1.setPreferredSize(new java.awt.Dimension(277, 35));
@@ -757,7 +761,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel8.setOpaque(false);
         jPanel8.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSpace, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblSpace.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblSpace,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblSpace.text")); // NOI18N
         lblSpace.setMaximumSize(new java.awt.Dimension(167, 17));
         lblSpace.setMinimumSize(new java.awt.Dimension(167, 17));
         lblSpace.setPreferredSize(new java.awt.Dimension(167, 17));
@@ -768,7 +774,11 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblSpace, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblMst1Header, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblMst1Header.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblMst1Header,
+            org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.lblMst1Header.text")); // NOI18N
         lblMst1Header.setMaximumSize(new java.awt.Dimension(220, 17));
         lblMst1Header.setMinimumSize(new java.awt.Dimension(220, 17));
         lblMst1Header.setPreferredSize(new java.awt.Dimension(220, 17));
@@ -779,7 +789,11 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblMst1Header, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblMst2Header, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblMst2Header.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblMst2Header,
+            org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.lblMst2Header.text")); // NOI18N
         lblMst2Header.setMaximumSize(new java.awt.Dimension(220, 17));
         lblMst2Header.setMinimumSize(new java.awt.Dimension(220, 17));
         lblMst2Header.setPreferredSize(new java.awt.Dimension(220, 17));
@@ -790,7 +804,11 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblMst2Header, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSchwellwertHeader, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblSchwellwertHeader.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblSchwellwertHeader,
+            org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.lblSchwellwertHeader.text")); // NOI18N
         lblSchwellwertHeader.setMaximumSize(new java.awt.Dimension(120, 17));
         lblSchwellwertHeader.setMinimumSize(new java.awt.Dimension(120, 35));
         lblSchwellwertHeader.setPreferredSize(new java.awt.Dimension(120, 35));
@@ -801,7 +819,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblSchwellwertHeader, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblGk, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblGk.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblGk,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblGk.text")); // NOI18N
         lblGk.setMaximumSize(new java.awt.Dimension(110, 35));
         lblGk.setMinimumSize(new java.awt.Dimension(110, 35));
         lblGk.setPreferredSize(new java.awt.Dimension(110, 35));
@@ -812,7 +832,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblGk, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblGk1, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblGk1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblGk1,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblGk1.text")); // NOI18N
         lblGk1.setMaximumSize(new java.awt.Dimension(60, 17));
         lblGk1.setMinimumSize(new java.awt.Dimension(60, 17));
         lblGk1.setPreferredSize(new java.awt.Dimension(60, 17));
@@ -823,7 +845,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel8.add(lblGk1, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblGk2, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblGk2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblGk2,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblGk2.text")); // NOI18N
         lblGk2.setMaximumSize(new java.awt.Dimension(200, 35));
         lblGk2.setMinimumSize(new java.awt.Dimension(200, 35));
         lblGk2.setPreferredSize(new java.awt.Dimension(200, 35));
@@ -847,7 +871,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblNo3, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblNo3.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblNo3,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblNo3.text")); // NOI18N
         lblNo3.setMaximumSize(new java.awt.Dimension(167, 25));
         lblNo3.setMinimumSize(new java.awt.Dimension(167, 25));
         lblNo3.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -858,7 +884,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblNo3, gridBagConstraints);
 
-        txtNo3Mst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNo3Mst1.text", new Object[] {})); // NOI18N
+        txtNo3Mst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNo3Mst1.text",
+                new Object[] {})); // NOI18N
         txtNo3Mst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtNo3Mst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtNo3Mst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -869,7 +898,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtNo3Mst1, gridBagConstraints);
 
-        txtNo3Mst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNo3Mst2.text", new Object[] {})); // NOI18N
+        txtNo3Mst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNo3Mst2.text",
+                new Object[] {})); // NOI18N
         txtNo3Mst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtNo3Mst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtNo3Mst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -880,7 +912,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtNo3Mst2, gridBagConstraints);
 
-        txtNo3sw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNo3sw.text", new Object[] {})); // NOI18N
+        txtNo3sw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNo3sw.text",
+                new Object[] {})); // NOI18N
         txtNo3sw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtNo3sw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtNo3sw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -891,7 +926,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtNo3sw, gridBagConstraints);
 
-        txtNo3Gk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNo3Gk.text", new Object[] {})); // NOI18N
+        txtNo3Gk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNo3Gk.text",
+                new Object[] {})); // NOI18N
         txtNo3Gk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtNo3Gk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtNo3Gk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -902,7 +940,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtNo3Gk, gridBagConstraints);
 
-        txtNo3Ei.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNo3Ei.text", new Object[] {})); // NOI18N
+        txtNo3Ei.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNo3Ei.text",
+                new Object[] {})); // NOI18N
         txtNo3Ei.setMaximumSize(new java.awt.Dimension(60, 25));
         txtNo3Ei.setMinimumSize(new java.awt.Dimension(60, 25));
         txtNo3Ei.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -913,7 +954,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(txtNo3Ei, gridBagConstraints);
 
-        txtNo3Hi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNo3Hi.text", new Object[] {})); // NOI18N
+        txtNo3Hi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNo3Hi.text",
+                new Object[] {})); // NOI18N
         txtNo3Hi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtNo3Hi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtNo3Hi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -937,7 +981,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblAs5, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblAs5.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblAs5,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblAs5.text")); // NOI18N
         lblAs5.setMaximumSize(new java.awt.Dimension(167, 25));
         lblAs5.setMinimumSize(new java.awt.Dimension(167, 25));
         lblAs5.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -948,7 +994,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblAs5, gridBagConstraints);
 
-        txtAs5Mst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtAs5Mst1.text", new Object[] {})); // NOI18N
+        txtAs5Mst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtAs5Mst1.text",
+                new Object[] {})); // NOI18N
         txtAs5Mst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtAs5Mst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtAs5Mst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -959,7 +1008,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(txtAs5Mst1, gridBagConstraints);
 
-        txtAs5Mst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtAs5Mst2.text", new Object[] {})); // NOI18N
+        txtAs5Mst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtAs5Mst2.text",
+                new Object[] {})); // NOI18N
         txtAs5Mst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtAs5Mst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtAs5Mst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -970,7 +1022,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(txtAs5Mst2, gridBagConstraints);
 
-        txtAs5sw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtAs5sw.text", new Object[] {})); // NOI18N
+        txtAs5sw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtAs5sw.text",
+                new Object[] {})); // NOI18N
         txtAs5sw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtAs5sw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtAs5sw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -981,7 +1036,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(txtAs5sw, gridBagConstraints);
 
-        txtAs5Gk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtAs5Gk.text", new Object[] {})); // NOI18N
+        txtAs5Gk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtAs5Gk.text",
+                new Object[] {})); // NOI18N
         txtAs5Gk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtAs5Gk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtAs5Gk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -992,7 +1050,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(txtAs5Gk, gridBagConstraints);
 
-        txtAs5Ei.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtAs5Ei.text", new Object[] {})); // NOI18N
+        txtAs5Ei.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtAs5Ei.text",
+                new Object[] {})); // NOI18N
         txtAs5Ei.setMaximumSize(new java.awt.Dimension(60, 25));
         txtAs5Ei.setMinimumSize(new java.awt.Dimension(60, 25));
         txtAs5Ei.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1003,7 +1064,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(txtAs5Ei, gridBagConstraints);
 
-        txtAs5Hi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtAs5Hi.text", new Object[] {})); // NOI18N
+        txtAs5Hi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtAs5Hi.text",
+                new Object[] {})); // NOI18N
         txtAs5Hi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtAs5Hi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtAs5Hi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1027,7 +1091,12 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblCd5, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblCd5.text", new Object[] {})); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblCd5,
+            org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.lblCd5.text",
+                new Object[] {})); // NOI18N
         lblCd5.setMaximumSize(new java.awt.Dimension(167, 25));
         lblCd5.setMinimumSize(new java.awt.Dimension(167, 25));
         lblCd5.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -1038,7 +1107,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblCd5, gridBagConstraints);
 
-        txtCd5Mst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtCd5Mst1.text", new Object[] {})); // NOI18N
+        txtCd5Mst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtCd5Mst1.text",
+                new Object[] {})); // NOI18N
         txtCd5Mst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtCd5Mst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtCd5Mst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1049,7 +1121,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtCd5Mst1, gridBagConstraints);
 
-        txtCd5Mst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtCd5Mst2.text", new Object[] {})); // NOI18N
+        txtCd5Mst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtCd5Mst2.text",
+                new Object[] {})); // NOI18N
         txtCd5Mst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtCd5Mst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtCd5Mst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1060,7 +1135,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtCd5Mst2, gridBagConstraints);
 
-        txtCd5sw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtCd5sw.text", new Object[] {})); // NOI18N
+        txtCd5sw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtCd5sw.text",
+                new Object[] {})); // NOI18N
         txtCd5sw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtCd5sw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtCd5sw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -1071,7 +1149,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtCd5sw, gridBagConstraints);
 
-        txtCd5Gk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtCd5Gk.text", new Object[] {})); // NOI18N
+        txtCd5Gk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtCd5Gk.text",
+                new Object[] {})); // NOI18N
         txtCd5Gk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtCd5Gk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtCd5Gk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -1082,7 +1163,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtCd5Gk, gridBagConstraints);
 
-        txtCd5Ei.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtCd5Ei.text", new Object[] {})); // NOI18N
+        txtCd5Ei.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtCd5Ei.text",
+                new Object[] {})); // NOI18N
         txtCd5Ei.setMaximumSize(new java.awt.Dimension(60, 25));
         txtCd5Ei.setMinimumSize(new java.awt.Dimension(60, 25));
         txtCd5Ei.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1093,7 +1177,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(txtCd5Ei, gridBagConstraints);
 
-        txtCd5Hi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtCd5Hi.text", new Object[] {})); // NOI18N
+        txtCd5Hi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtCd5Hi.text",
+                new Object[] {})); // NOI18N
         txtCd5Hi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtCd5Hi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtCd5Hi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1117,7 +1204,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel5.setOpaque(false);
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblPb5, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblPb5.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblPb5,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblPb5.text")); // NOI18N
         lblPb5.setMaximumSize(new java.awt.Dimension(167, 25));
         lblPb5.setMinimumSize(new java.awt.Dimension(167, 25));
         lblPb5.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -1128,7 +1217,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(lblPb5, gridBagConstraints);
 
-        txtPb5Mst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPb5Mst1.text", new Object[] {})); // NOI18N
+        txtPb5Mst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPb5Mst1.text",
+                new Object[] {})); // NOI18N
         txtPb5Mst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtPb5Mst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtPb5Mst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1139,7 +1231,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtPb5Mst1, gridBagConstraints);
 
-        txtPb5Mst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPb5Mst2.text", new Object[] {})); // NOI18N
+        txtPb5Mst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPb5Mst2.text",
+                new Object[] {})); // NOI18N
         txtPb5Mst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtPb5Mst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtPb5Mst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1150,7 +1245,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtPb5Mst2, gridBagConstraints);
 
-        txtPb5sw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPb5sw.text", new Object[] {})); // NOI18N
+        txtPb5sw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPb5sw.text",
+                new Object[] {})); // NOI18N
         txtPb5sw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtPb5sw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtPb5sw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -1161,7 +1259,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtPb5sw, gridBagConstraints);
 
-        txtPb5Gk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPb5Gk.text", new Object[] {})); // NOI18N
+        txtPb5Gk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPb5Gk.text",
+                new Object[] {})); // NOI18N
         txtPb5Gk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtPb5Gk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtPb5Gk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -1172,7 +1273,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtPb5Gk, gridBagConstraints);
 
-        txtPb5Ei.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPb5Ei.text", new Object[] {})); // NOI18N
+        txtPb5Ei.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPb5Ei.text",
+                new Object[] {})); // NOI18N
         txtPb5Ei.setMaximumSize(new java.awt.Dimension(60, 25));
         txtPb5Ei.setMinimumSize(new java.awt.Dimension(60, 25));
         txtPb5Ei.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1183,7 +1287,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel5.add(txtPb5Ei, gridBagConstraints);
 
-        txtPb5Hi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPb5Hi.text", new Object[] {})); // NOI18N
+        txtPb5Hi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPb5Hi.text",
+                new Object[] {})); // NOI18N
         txtPb5Hi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtPb5Hi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtPb5Hi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1207,7 +1314,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel6.setOpaque(false);
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblHg5, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblHg5.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblHg5,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblHg5.text")); // NOI18N
         lblHg5.setMaximumSize(new java.awt.Dimension(167, 25));
         lblHg5.setMinimumSize(new java.awt.Dimension(167, 25));
         lblHg5.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -1218,7 +1327,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(lblHg5, gridBagConstraints);
 
-        txtHg5Mst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtHg5Mst1.text", new Object[] {})); // NOI18N
+        txtHg5Mst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtHg5Mst1.text",
+                new Object[] {})); // NOI18N
         txtHg5Mst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtHg5Mst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtHg5Mst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1229,7 +1341,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(txtHg5Mst1, gridBagConstraints);
 
-        txtHg5Mst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtHg5Mst2.text", new Object[] {})); // NOI18N
+        txtHg5Mst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtHg5Mst2.text",
+                new Object[] {})); // NOI18N
         txtHg5Mst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtHg5Mst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtHg5Mst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1240,7 +1355,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(txtHg5Mst2, gridBagConstraints);
 
-        txtHg5sw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtHg5sw.text", new Object[] {})); // NOI18N
+        txtHg5sw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtHg5sw.text",
+                new Object[] {})); // NOI18N
         txtHg5sw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtHg5sw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtHg5sw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -1251,7 +1369,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(txtHg5sw, gridBagConstraints);
 
-        txtHg5Gk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtHg5Gk.text", new Object[] {})); // NOI18N
+        txtHg5Gk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtHg5Gk.text",
+                new Object[] {})); // NOI18N
         txtHg5Gk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtHg5Gk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtHg5Gk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -1262,7 +1383,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(txtHg5Gk, gridBagConstraints);
 
-        txtHg5Ei.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtHg5Ei.text", new Object[] {})); // NOI18N
+        txtHg5Ei.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtHg5Ei.text",
+                new Object[] {})); // NOI18N
         txtHg5Ei.setMaximumSize(new java.awt.Dimension(60, 25));
         txtHg5Ei.setMinimumSize(new java.awt.Dimension(60, 25));
         txtHg5Ei.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1273,7 +1397,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel6.add(txtHg5Ei, gridBagConstraints);
 
-        txtHg5Hi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtHg5Hi.text", new Object[] {})); // NOI18N
+        txtHg5Hi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtHg5Hi.text",
+                new Object[] {})); // NOI18N
         txtHg5Hi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtHg5Hi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtHg5Hi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1297,7 +1424,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel7.setOpaque(false);
         jPanel7.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblNh4, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblNh4.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblNh4,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblNh4.text")); // NOI18N
         lblNh4.setMaximumSize(new java.awt.Dimension(167, 25));
         lblNh4.setMinimumSize(new java.awt.Dimension(167, 25));
         lblNh4.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -1308,7 +1437,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(lblNh4, gridBagConstraints);
 
-        txtNh4Mst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNh4Mst1.text", new Object[] {})); // NOI18N
+        txtNh4Mst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNh4Mst1.text",
+                new Object[] {})); // NOI18N
         txtNh4Mst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtNh4Mst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtNh4Mst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1319,7 +1451,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(txtNh4Mst1, gridBagConstraints);
 
-        txtNh4Mst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNh4Mst2.text", new Object[] {})); // NOI18N
+        txtNh4Mst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNh4Mst2.text",
+                new Object[] {})); // NOI18N
         txtNh4Mst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtNh4Mst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtNh4Mst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1330,7 +1465,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(txtNh4Mst2, gridBagConstraints);
 
-        txtNh4sw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNh4sw.text", new Object[] {})); // NOI18N
+        txtNh4sw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNh4sw.text",
+                new Object[] {})); // NOI18N
         txtNh4sw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtNh4sw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtNh4sw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -1341,7 +1479,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(txtNh4sw, gridBagConstraints);
 
-        txtNh4Gk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNh4Gk.text", new Object[] {})); // NOI18N
+        txtNh4Gk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNh4Gk.text",
+                new Object[] {})); // NOI18N
         txtNh4Gk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtNh4Gk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtNh4Gk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -1352,7 +1493,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(txtNh4Gk, gridBagConstraints);
 
-        txtNh4Ei.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNh4Ei.text", new Object[] {})); // NOI18N
+        txtNh4Ei.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNh4Ei.text",
+                new Object[] {})); // NOI18N
         txtNh4Ei.setMaximumSize(new java.awt.Dimension(60, 25));
         txtNh4Ei.setMinimumSize(new java.awt.Dimension(60, 25));
         txtNh4Ei.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1363,7 +1507,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(txtNh4Ei, gridBagConstraints);
 
-        txtNh4Hi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNh4Hi.text", new Object[] {})); // NOI18N
+        txtNh4Hi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNh4Hi.text",
+                new Object[] {})); // NOI18N
         txtNh4Hi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtNh4Hi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtNh4Hi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1388,7 +1535,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel10.setOpaque(false);
         jPanel10.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblCl, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblCl.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblCl,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblCl.text")); // NOI18N
         lblCl.setMaximumSize(new java.awt.Dimension(167, 25));
         lblCl.setMinimumSize(new java.awt.Dimension(167, 25));
         lblCl.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -1399,7 +1548,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel10.add(lblCl, gridBagConstraints);
 
-        txtClMst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtClMst1.text", new Object[] {})); // NOI18N
+        txtClMst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtClMst1.text",
+                new Object[] {})); // NOI18N
         txtClMst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtClMst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtClMst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1410,7 +1562,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel10.add(txtClMst1, gridBagConstraints);
 
-        txtClMst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtClMst2.text", new Object[] {})); // NOI18N
+        txtClMst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtClMst2.text",
+                new Object[] {})); // NOI18N
         txtClMst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtClMst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtClMst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1421,7 +1576,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel10.add(txtClMst2, gridBagConstraints);
 
-        txtClsw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtClsw.text", new Object[] {})); // NOI18N
+        txtClsw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtClsw.text",
+                new Object[] {})); // NOI18N
         txtClsw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtClsw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtClsw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -1432,7 +1590,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel10.add(txtClsw, gridBagConstraints);
 
-        txtClGk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtClGk.text", new Object[] {})); // NOI18N
+        txtClGk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtClGk.text",
+                new Object[] {})); // NOI18N
         txtClGk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtClGk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtClGk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -1443,7 +1604,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel10.add(txtClGk, gridBagConstraints);
 
-        txtClEi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtClEi.text", new Object[] {})); // NOI18N
+        txtClEi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtClEi.text",
+                new Object[] {})); // NOI18N
         txtClEi.setMaximumSize(new java.awt.Dimension(60, 25));
         txtClEi.setMinimumSize(new java.awt.Dimension(60, 25));
         txtClEi.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1454,7 +1618,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel10.add(txtClEi, gridBagConstraints);
 
-        txtClHi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtClHi.text", new Object[] {})); // NOI18N
+        txtClHi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtClHi.text",
+                new Object[] {})); // NOI18N
         txtClHi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtClHi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtClHi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1479,7 +1646,11 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel11.setOpaque(false);
         jPanel11.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblNitrit, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblNitrit.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblNitrit,
+            org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.lblNitrit.text")); // NOI18N
         lblNitrit.setMaximumSize(new java.awt.Dimension(167, 25));
         lblNitrit.setMinimumSize(new java.awt.Dimension(167, 25));
         lblNitrit.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -1490,7 +1661,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel11.add(lblNitrit, gridBagConstraints);
 
-        txtNitritMst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNitritMst1.text", new Object[] {})); // NOI18N
+        txtNitritMst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNitritMst1.text",
+                new Object[] {})); // NOI18N
         txtNitritMst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtNitritMst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtNitritMst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1501,7 +1675,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel11.add(txtNitritMst1, gridBagConstraints);
 
-        txtNitritMst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNitritMst2.text", new Object[] {})); // NOI18N
+        txtNitritMst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNitritMst2.text",
+                new Object[] {})); // NOI18N
         txtNitritMst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtNitritMst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtNitritMst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1512,7 +1689,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel11.add(txtNitritMst2, gridBagConstraints);
 
-        txtNitritsw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNitritsw.text", new Object[] {})); // NOI18N
+        txtNitritsw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNitritsw.text",
+                new Object[] {})); // NOI18N
         txtNitritsw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtNitritsw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtNitritsw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -1523,7 +1703,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel11.add(txtNitritsw, gridBagConstraints);
 
-        txtNitritGk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNitritGk.text", new Object[] {})); // NOI18N
+        txtNitritGk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNitritGk.text",
+                new Object[] {})); // NOI18N
         txtNitritGk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtNitritGk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtNitritGk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -1534,7 +1717,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel11.add(txtNitritGk, gridBagConstraints);
 
-        txtNitritEi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNitritEi.text", new Object[] {})); // NOI18N
+        txtNitritEi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNitritEi.text",
+                new Object[] {})); // NOI18N
         txtNitritEi.setMaximumSize(new java.awt.Dimension(60, 25));
         txtNitritEi.setMinimumSize(new java.awt.Dimension(60, 25));
         txtNitritEi.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1545,7 +1731,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel11.add(txtNitritEi, gridBagConstraints);
 
-        txtNitritHi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtNitritHi.text", new Object[] {})); // NOI18N
+        txtNitritHi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtNitritHi.text",
+                new Object[] {})); // NOI18N
         txtNitritHi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtNitritHi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtNitritHi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1570,7 +1759,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel12.setOpaque(false);
         jPanel12.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblPo4, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblPo4.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblPo4,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblPo4.text")); // NOI18N
         lblPo4.setMaximumSize(new java.awt.Dimension(167, 25));
         lblPo4.setMinimumSize(new java.awt.Dimension(167, 25));
         lblPo4.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -1581,7 +1772,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel12.add(lblPo4, gridBagConstraints);
 
-        txtPo4Mst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPo4Mst1.text", new Object[] {})); // NOI18N
+        txtPo4Mst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPo4Mst1.text",
+                new Object[] {})); // NOI18N
         txtPo4Mst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtPo4Mst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtPo4Mst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1592,7 +1786,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel12.add(txtPo4Mst1, gridBagConstraints);
 
-        txtPo4Mst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPo4Mst2.text", new Object[] {})); // NOI18N
+        txtPo4Mst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPo4Mst2.text",
+                new Object[] {})); // NOI18N
         txtPo4Mst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtPo4Mst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtPo4Mst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1603,7 +1800,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel12.add(txtPo4Mst2, gridBagConstraints);
 
-        txtPo4sw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPo4sw.text", new Object[] {})); // NOI18N
+        txtPo4sw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPo4sw.text",
+                new Object[] {})); // NOI18N
         txtPo4sw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtPo4sw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtPo4sw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -1614,7 +1814,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel12.add(txtPo4sw, gridBagConstraints);
 
-        txtPo4Gk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPo4Gk.text", new Object[] {})); // NOI18N
+        txtPo4Gk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPo4Gk.text",
+                new Object[] {})); // NOI18N
         txtPo4Gk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtPo4Gk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtPo4Gk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -1625,7 +1828,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel12.add(txtPo4Gk, gridBagConstraints);
 
-        txtPo4Ei.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPo4Ei.text", new Object[] {})); // NOI18N
+        txtPo4Ei.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPo4Ei.text",
+                new Object[] {})); // NOI18N
         txtPo4Ei.setMaximumSize(new java.awt.Dimension(60, 25));
         txtPo4Ei.setMinimumSize(new java.awt.Dimension(60, 25));
         txtPo4Ei.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1636,7 +1842,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel12.add(txtPo4Ei, gridBagConstraints);
 
-        txtPo4Hi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtPo4Hi.text", new Object[] {})); // NOI18N
+        txtPo4Hi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtPo4Hi.text",
+                new Object[] {})); // NOI18N
         txtPo4Hi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtPo4Hi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtPo4Hi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1661,7 +1870,9 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel13.setOpaque(false);
         jPanel13.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSo42, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblSo42.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblSo42,
+            org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblSo42.text")); // NOI18N
         lblSo42.setMaximumSize(new java.awt.Dimension(167, 25));
         lblSo42.setMinimumSize(new java.awt.Dimension(167, 25));
         lblSo42.setPreferredSize(new java.awt.Dimension(167, 25));
@@ -1672,7 +1883,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel13.add(lblSo42, gridBagConstraints);
 
-        txtSo42Mst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSo42Mst1.text", new Object[] {})); // NOI18N
+        txtSo42Mst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSo42Mst1.text",
+                new Object[] {})); // NOI18N
         txtSo42Mst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtSo42Mst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtSo42Mst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1683,7 +1897,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel13.add(txtSo42Mst1, gridBagConstraints);
 
-        txtSo42Mst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSo42Mst2.text", new Object[] {})); // NOI18N
+        txtSo42Mst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSo42Mst2.text",
+                new Object[] {})); // NOI18N
         txtSo42Mst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtSo42Mst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtSo42Mst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1694,7 +1911,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel13.add(txtSo42Mst2, gridBagConstraints);
 
-        txtSo42sw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSo42sw.text", new Object[] {})); // NOI18N
+        txtSo42sw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSo42sw.text",
+                new Object[] {})); // NOI18N
         txtSo42sw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtSo42sw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtSo42sw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -1705,7 +1925,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel13.add(txtSo42sw, gridBagConstraints);
 
-        txtSo42Gk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSo42Gk.text", new Object[] {})); // NOI18N
+        txtSo42Gk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSo42Gk.text",
+                new Object[] {})); // NOI18N
         txtSo42Gk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtSo42Gk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtSo42Gk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -1716,7 +1939,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel13.add(txtSo42Gk, gridBagConstraints);
 
-        txtSo42Ei.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSo42Ei.text", new Object[] {})); // NOI18N
+        txtSo42Ei.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSo42Ei.text",
+                new Object[] {})); // NOI18N
         txtSo42Ei.setMaximumSize(new java.awt.Dimension(60, 25));
         txtSo42Ei.setMinimumSize(new java.awt.Dimension(60, 25));
         txtSo42Ei.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1727,7 +1953,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel13.add(txtSo42Ei, gridBagConstraints);
 
-        txtSo42Hi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSo42Hi.text", new Object[] {})); // NOI18N
+        txtSo42Hi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSo42Hi.text",
+                new Object[] {})); // NOI18N
         txtSo42Hi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtSo42Hi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtSo42Hi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1752,7 +1981,11 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         jPanel14.setOpaque(false);
         jPanel14.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(lblSumTriTe, org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.lblSumTriTe.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            lblSumTriTe,
+            org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.lblSumTriTe.text")); // NOI18N
         lblSumTriTe.setMaximumSize(new java.awt.Dimension(167, 17));
         lblSumTriTe.setMinimumSize(new java.awt.Dimension(167, 35));
         lblSumTriTe.setPreferredSize(new java.awt.Dimension(167, 35));
@@ -1763,7 +1996,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel14.add(lblSumTriTe, gridBagConstraints);
 
-        txtSumTriTeMst1.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSumTriTeMst1.text", new Object[] {})); // NOI18N
+        txtSumTriTeMst1.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSumTriTeMst1.text",
+                new Object[] {})); // NOI18N
         txtSumTriTeMst1.setMaximumSize(new java.awt.Dimension(220, 25));
         txtSumTriTeMst1.setMinimumSize(new java.awt.Dimension(220, 25));
         txtSumTriTeMst1.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1774,7 +2010,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel14.add(txtSumTriTeMst1, gridBagConstraints);
 
-        txtSumTriTeMst2.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSumTriTeMst2.text", new Object[] {})); // NOI18N
+        txtSumTriTeMst2.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSumTriTeMst2.text",
+                new Object[] {})); // NOI18N
         txtSumTriTeMst2.setMaximumSize(new java.awt.Dimension(220, 25));
         txtSumTriTeMst2.setMinimumSize(new java.awt.Dimension(220, 25));
         txtSumTriTeMst2.setPreferredSize(new java.awt.Dimension(220, 25));
@@ -1785,7 +2024,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel14.add(txtSumTriTeMst2, gridBagConstraints);
 
-        txtSumTriTesw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSumTriTesw.text", new Object[] {})); // NOI18N
+        txtSumTriTesw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSumTriTesw.text",
+                new Object[] {})); // NOI18N
         txtSumTriTesw.setMaximumSize(new java.awt.Dimension(120, 25));
         txtSumTriTesw.setMinimumSize(new java.awt.Dimension(120, 25));
         txtSumTriTesw.setPreferredSize(new java.awt.Dimension(120, 25));
@@ -1796,7 +2038,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel14.add(txtSumTriTesw, gridBagConstraints);
 
-        txtSumTriTeGk.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSumTriTeGk.text", new Object[] {})); // NOI18N
+        txtSumTriTeGk.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSumTriTeGk.text",
+                new Object[] {})); // NOI18N
         txtSumTriTeGk.setMaximumSize(new java.awt.Dimension(110, 25));
         txtSumTriTeGk.setMinimumSize(new java.awt.Dimension(110, 25));
         txtSumTriTeGk.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -1807,7 +2052,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel14.add(txtSumTriTeGk, gridBagConstraints);
 
-        txtSumTriTeEi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSumTriTeEi.text", new Object[] {})); // NOI18N
+        txtSumTriTeEi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSumTriTeEi.text",
+                new Object[] {})); // NOI18N
         txtSumTriTeEi.setMaximumSize(new java.awt.Dimension(60, 25));
         txtSumTriTeEi.setMinimumSize(new java.awt.Dimension(60, 25));
         txtSumTriTeEi.setPreferredSize(new java.awt.Dimension(60, 25));
@@ -1818,7 +2066,10 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel14.add(txtSumTriTeEi, gridBagConstraints);
 
-        txtSumTriTeHi.setText(org.openide.util.NbBundle.getMessage(WkGwMstMessungenPanOne.class, "WkGwMstMessungenPanOne.txtSumTriTeHi.text", new Object[] {})); // NOI18N
+        txtSumTriTeHi.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMessungenPanOne.class,
+                "WkGwMstMessungenPanOne.txtSumTriTeHi.text",
+                new Object[] {})); // NOI18N
         txtSumTriTeHi.setMaximumSize(new java.awt.Dimension(200, 25));
         txtSumTriTeHi.setMinimumSize(new java.awt.Dimension(200, 25));
         txtSumTriTeHi.setPreferredSize(new java.awt.Dimension(200, 25));
@@ -1847,7 +2098,7 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         add(jPanel1, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
