@@ -10,8 +10,12 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -53,6 +57,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
     private CidsBean cidsBean;
     private MetaObject moWk;
+    private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbArt;
@@ -136,6 +141,8 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
     public QuerbauwerkePanTwo(final boolean readOnly) {
         initComponents();
 
+        this.readOnly = readOnly;
+
         if (readOnly) {
             RendererTools.makeReadOnly(tareaBeschreibung);
             RendererTools.makeReadOnly(tareaBemerkung);
@@ -155,6 +162,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
             RendererTools.makeReadOnly(cbArt);
             RendererTools.makeReadOnly(cbIntervall);
             RendererTools.makeReadOnly(cbSubstrat);
+            jLabel10.setForeground(Color.BLUE);
         }
     }
 
@@ -1061,8 +1069,8 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
      * @param  evt  DOCUMENT ME!
      */
     private void jLabel10MouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_jLabel10MouseClicked
-        if ((evt.getClickCount() > 1) && (moWk != null)) {
-            ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObject(moWk.getMetaClass(), moWk.getID(), "");
+        if ((evt.getClickCount() == 1) && readOnly && (moWk != null)) {
+            ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObjectNode(new MetaObjectNode(moWk.getBean()));
         }
     }                                                                        //GEN-LAST:event_jLabel10MouseClicked
 

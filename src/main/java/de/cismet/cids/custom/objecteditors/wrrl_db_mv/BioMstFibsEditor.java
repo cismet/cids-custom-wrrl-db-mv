@@ -14,29 +14,20 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
-import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 
-import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CoordinateConverter;
 
@@ -53,13 +44,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 import de.cismet.connectioncontext.AbstractConnectionContext;
 import de.cismet.connectioncontext.ConnectionContext;
 
-import de.cismet.security.WebAccessManager;
-
-import de.cismet.tools.BrowserLauncher;
-
 import de.cismet.tools.gui.FooterComponentProvider;
-import de.cismet.tools.gui.StaticSwingTools;
-import de.cismet.tools.gui.WaitingDialogThread;
 
 /**
  * DOCUMENT ME!
@@ -67,7 +52,7 @@ import de.cismet.tools.gui.WaitingDialogThread;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRenderer,
+public class BioMstFibsEditor extends JPanel implements CidsBeanRenderer,
     EditorSaveListener,
     FooterComponentProvider,
     DocumentListener {
@@ -77,57 +62,59 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
     private static final ConnectionContext CC = ConnectionContext.create(
             AbstractConnectionContext.Category.EDITOR,
             "WkGwMstGueteStammdatenEditor");
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            WkGwMstGueteStammdatenEditor.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BioMstFibsEditor.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
-            "wk_gw_mst_chemie_messungen",
-            CC);
+            "bio_mst_messungen");
 
     //~ Instance fields --------------------------------------------------------
 
     private boolean readOnly = false;
 
     private CidsBean cidsBean;
+    private int measureNumber = 0;
     private boolean noDocumentUpdate = false;
     private volatile boolean urlExists = true;
+    private boolean noEditAllowed = true;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.BioMstFibsMessungenEditor bioMstFibsMessungenEditor1;
     private javax.swing.JButton btnBack1;
     private javax.swing.JButton btnForward;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblBauj;
-    private javax.swing.JLabel lblBaujVal;
-    private javax.swing.JLabel lblFilterOb;
-    private javax.swing.JLabel lblFilterObVal;
-    private javax.swing.JLabel lblFilterUn;
-    private javax.swing.JLabel lblFilterUnVal;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblFischTyp;
     private javax.swing.JLabel lblFoot;
-    private javax.swing.JLabel lblGelHoehe;
-    private javax.swing.JLabel lblGelHoeheVal;
+    private javax.swing.JLabel lblGew;
     private javax.swing.JLabel lblGewVal;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblHoeheM;
-    private javax.swing.JLabel lblHoeheMVal;
+    private javax.swing.JLabel lblHeading1;
+    private javax.swing.JLabel lblHoReVal;
+    private javax.swing.JLabel lblHore;
+    private javax.swing.JLabel lblLage;
     private javax.swing.JLabel lblLageVal;
+    private javax.swing.JLabel lblLawa;
+    private javax.swing.JLabel lblLawaVal;
+    private javax.swing.JLabel lblMst;
     private javax.swing.JLabel lblMstCodeVal;
-    private javax.swing.JLabel lblMstKennz;
-    private javax.swing.JLabel lblMstName;
-    private javax.swing.JLabel lblReHo;
-    private javax.swing.JLabel lblStatus;
-    private javax.swing.JLabel lblStatusVal;
-    private javax.swing.JLabel lblSteckbrief;
-    private javax.swing.JLabel lblSteckbriefVal;
-    private javax.swing.JLabel lblWkGw;
-    private javax.swing.JLabel lblWkGwVal;
+    private javax.swing.JLabel lblNwb;
+    private javax.swing.JLabel lblNwbVal;
+    private javax.swing.JLabel lblSatluVal;
+    private javax.swing.JLabel lblStalu;
+    private javax.swing.JLabel lblWk;
+    private javax.swing.JLabel lblWkVal;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private javax.swing.JList<String> listFisch;
     private javax.swing.JPanel panFooter;
+    private de.cismet.tools.gui.RoundedPanel panGeo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
+    private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
+    private javax.swing.JPanel panInfoContent1;
     private javax.swing.JPanel panScr;
     private javax.swing.JPanel panStamm;
     private javax.swing.JTextField txtJahr;
-    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwMstChemieMessungenEditor wkGwMstChemieMessungenEditor1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -136,7 +123,7 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
     /**
      * Creates new form WkFgEditor.
      */
-    public WkGwMstGueteStammdatenEditor() {
+    public BioMstFibsEditor() {
         this(false);
     }
 
@@ -145,7 +132,7 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
      *
      * @param  readOnly  DOCUMENT ME!
      */
-    public WkGwMstGueteStammdatenEditor(final boolean readOnly) {
+    public BioMstFibsEditor(final boolean readOnly) {
         this(readOnly, false);
     }
 
@@ -155,9 +142,25 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
      * @param  readOnly  DOCUMENT ME!
      * @param  embedded  DOCUMENT ME!
      */
-    public WkGwMstGueteStammdatenEditor(final boolean readOnly, final boolean embedded) {
+    public BioMstFibsEditor(final boolean readOnly, final boolean embedded) {
         this.readOnly = readOnly;
+        try {
+            noEditAllowed = !SessionManager.getSession()
+                        .getUser()
+                        .getUserGroup()
+                        .getName()
+                        .equalsIgnoreCase("Administratoren");
+        } catch (Exception e) {
+            LOG.error("Cannot check user group", e);
+        }
         initComponents();
+        lblFischTyp.setVisible(false);
+        jScrollPane1.setVisible(false);
+        listFisch.setVisible(false);
+
+        linearReferencedLineEditor.setDrawingFeaturesEnabled(!readOnly);
+        linearReferencedLineEditor.setLineField("linie"); // NOI18N
+        linearReferencedLineEditor.setOtherLinesEnabled(false);
 
         if (embedded) {
             panStamm.setVisible(false);
@@ -165,22 +168,22 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
 
         txtJahr.getDocument().addDocumentListener(this);
 
-        if (readOnly) {
-            lblWkGwVal.setForeground(Color.BLUE);
-            lblWkGwVal.addMouseListener(new MouseAdapter() {
-
-                    @Override
-                    public void mouseClicked(final MouseEvent e) {
-                        final CidsBean bean = (CidsBean)cidsBean.getProperty("wk_gw");
-
-                        if ((bean != null) && readOnly) {
-                            ComponentRegistry.getRegistry()
-                                    .getDescriptionPane()
-                                    .gotoMetaObject(bean.getMetaObject(), "");
-                        }
-                    }
-                });
-        }
+//        if (readOnly) {
+//            lblWkGwVal.setForeground(Color.BLUE);
+//            lblWkGwVal.addMouseListener(new MouseAdapter() {
+//
+//                    @Override
+//                    public void mouseClicked(final MouseEvent e) {
+//                        final CidsBean bean = (CidsBean)cidsBean.getProperty("wk_gw");
+//
+//                        if ((bean != null) && readOnly) {
+//                            ComponentRegistry.getRegistry()
+//                                    .getDescriptionPane()
+//                                    .gotoMetaObject(bean.getMetaObject(), "");
+//                        }
+//                    }
+//                });
+//        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -205,65 +208,13 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
                 });
             refreshMeasures();
             bindingGroup.bind();
-            final String url = "https://www.fis-wasser-mv.de/doku/gwk_steckbr/" + cidsBean.getProperty("messstelle")
-                        + ".pdf";
-
-            EventQueue.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        lblSteckbriefVal.setText(
-                            "<html><a href=\""
-                                    + url
-                                    + "\">"
-                                    + cidsBean.getProperty("messstelle")
-                                    + "</a></html>");
-                    }
-                });
-            lblSteckbriefVal.addMouseListener(new MouseAdapter() {
-
-                    @Override
-                    public void mouseClicked(final MouseEvent e) {
-                        try {
-                            if (urlExists) {
-                                BrowserLauncher.openURL(url);
-                            }
-                        } catch (Exception ex) {
-                            LOG.warn(ex, ex);
-                        }
-                    }
-                });
-
-            final Thread checkUrl = new Thread() {
-
-                    @Override
-                    public void run() {
-                        try {
-                            final boolean check = WebAccessManager.getInstance().checkIfURLaccessible(new URL(url));
-
-                            if (!check) {
-                                EventQueue.invokeLater(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            lblSteckbriefVal.setText("kein Steckbrief vorhanden");
-                                            urlExists = false;
-                                        }
-                                    });
-                            }
-                        } catch (MalformedURLException e) {
-                            LOG.error("URL invalid: " + url, e);
-                        }
-                    }
-                };
-
-            checkUrl.start();
+            linearReferencedLineEditor.setCidsBean(cidsBean);
         } else {
             EventQueue.invokeLater(new Runnable() {
 
                     @Override
                     public void run() {
-                        wkGwMstChemieMessungenEditor1.setCidsBeans(null, null);
+                        bioMstFibsMessungenEditor1.setCidsBean(null);
                     }
                 });
         }
@@ -291,34 +242,37 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         lblHeading = new javax.swing.JLabel();
         panInfoContent = new javax.swing.JPanel();
         panStamm = new javax.swing.JPanel();
-        lblMstKennz = new javax.swing.JLabel();
-        lblMstName = new javax.swing.JLabel();
-        lblReHo = new javax.swing.JLabel();
-        lblBauj = new javax.swing.JLabel();
+        lblMst = new javax.swing.JLabel();
+        lblGew = new javax.swing.JLabel();
+        lblNwb = new javax.swing.JLabel();
+        lblHore = new javax.swing.JLabel();
         lblMstCodeVal = new javax.swing.JLabel();
         lblGewVal = new javax.swing.JLabel();
+        lblNwbVal = new javax.swing.JLabel();
+        lblHoReVal = new javax.swing.JLabel();
+        lblWk = new javax.swing.JLabel();
+        lblWkVal = new javax.swing.JLabel();
+        lblFischTyp = new javax.swing.JLabel();
+        lblLawa = new javax.swing.JLabel();
+        lblLawaVal = new javax.swing.JLabel();
+        lblLage = new javax.swing.JLabel();
         lblLageVal = new javax.swing.JLabel();
-        lblBaujVal = new javax.swing.JLabel();
-        lblStatus = new javax.swing.JLabel();
-        lblStatusVal = new javax.swing.JLabel();
-        lblFilterOb = new javax.swing.JLabel();
-        lblFilterObVal = new javax.swing.JLabel();
-        lblFilterUnVal = new javax.swing.JLabel();
-        lblFilterUn = new javax.swing.JLabel();
-        lblGelHoehe = new javax.swing.JLabel();
-        lblGelHoeheVal = new javax.swing.JLabel();
-        lblHoeheMVal = new javax.swing.JLabel();
-        lblHoeheM = new javax.swing.JLabel();
-        lblSteckbrief = new javax.swing.JLabel();
-        lblSteckbriefVal = new javax.swing.JLabel();
-        lblWkGw = new javax.swing.JLabel();
-        lblWkGwVal = new javax.swing.JLabel();
+        lblStalu = new javax.swing.JLabel();
+        lblSatluVal = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listFisch = new javax.swing.JList<>();
         panScr = new javax.swing.JPanel();
         txtJahr = new javax.swing.JTextField();
         btnBack1 = new javax.swing.JButton();
         btnForward = new javax.swing.JButton();
-        wkGwMstChemieMessungenEditor1 =
-            new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkGwMstChemieMessungenEditor();
+        bioMstFibsMessungenEditor1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.BioMstFibsMessungenEditor();
+        panGeo = new de.cismet.tools.gui.RoundedPanel();
+        panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
+        lblHeading1 = new javax.swing.JLabel();
+        panInfoContent1 = new javax.swing.JPanel();
+        linearReferencedLineEditor = ((readOnly || noEditAllowed)
+                ? new LinearReferencedLineRenderer(true)
+                : new de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor());
         jPanel1 = new javax.swing.JPanel();
 
         panFooter.setOpaque(false);
@@ -332,8 +286,8 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1400, 1200));
-        setPreferredSize(new java.awt.Dimension(1400, 1200));
+        setMinimumSize(new java.awt.Dimension(1400, 600));
+        setPreferredSize(new java.awt.Dimension(1400, 600));
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setMinimumSize(new java.awt.Dimension(1400, 1200));
@@ -359,49 +313,45 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         panStamm.setOpaque(false);
         panStamm.setLayout(new java.awt.GridBagLayout());
 
-        lblMstKennz.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblMstKennz.text")); // NOI18N
+        lblMst.setText(org.openide.util.NbBundle.getMessage(
+                BioMstFibsEditor.class,
+                "BioMstFibsEditor.lblMstKennz.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStamm.add(lblMstKennz, gridBagConstraints);
+        panStamm.add(lblMst, gridBagConstraints);
 
-        lblMstName.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblMstName.text")); // NOI18N
+        lblGew.setText(org.openide.util.NbBundle.getMessage(
+                BioMstFibsEditor.class,
+                "BioMstFibsEditor.lblMstName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStamm.add(lblMstName, gridBagConstraints);
+        panStamm.add(lblGew, gridBagConstraints);
 
-        lblReHo.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblReHo.text")); // NOI18N
+        lblNwb.setText(org.openide.util.NbBundle.getMessage(BioMstFibsEditor.class, "BioMstFibsEditor.lblReHo.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panStamm.add(lblReHo, gridBagConstraints);
+        panStamm.add(lblNwb, gridBagConstraints);
 
-        lblBauj.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblBauj.text")); // NOI18N
+        lblHore.setText(org.openide.util.NbBundle.getMessage(BioMstFibsEditor.class, "BioMstFibsEditor.lblBauj.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStamm.add(lblBauj, gridBagConstraints);
+        panStamm.add(lblHore, gridBagConstraints);
 
         lblMstCodeVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblMstCodeVal.setPreferredSize(new java.awt.Dimension(200, 20));
@@ -409,7 +359,7 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.messstelle}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_mst.messstelle}"),
                 lblMstCodeVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -431,7 +381,7 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mst_name}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_n}"),
                 lblGewVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
@@ -447,14 +397,34 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panStamm.add(lblGewVal, gridBagConstraints);
 
-        lblLageVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblLageVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblNwbVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblNwbVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.the_geom}"),
-                lblLageVal,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.b9ausw}"),
+                lblNwbVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panStamm.add(lblNwbVal, gridBagConstraints);
+
+        lblHoReVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblHoReVal.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_mst.geom}"),
+                lblHoReVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("/");
         binding.setSourceUnreadableValue("<error>");
@@ -462,55 +432,31 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblLageVal, gridBagConstraints);
-
-        lblBaujVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblBaujVal.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.baujahr}"),
-                lblBaujVal,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStamm.add(lblBaujVal, gridBagConstraints);
+        panStamm.add(lblHoReVal, gridBagConstraints);
 
-        lblStatus.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstStammdatenEditor.lbStatus.text")); // NOI18N
+        lblWk.setText(org.openide.util.NbBundle.getMessage(BioMstFibsEditor.class, "BioMstFibsEditor.lbStatus.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panStamm.add(lblStatus, gridBagConstraints);
+        panStamm.add(lblWk, gridBagConstraints);
 
-        lblStatusVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblStatusVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblWkVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblWkVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.status}"),
-                lblStatusVal,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wk_k}"),
+                lblWkVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<error>");
@@ -523,153 +469,42 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblStatusVal, gridBagConstraints);
+        panStamm.add(lblWkVal, gridBagConstraints);
 
-        lblFilterOb.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblFilterOb.text")); // NOI18N
+        lblFischTyp.setText(org.openide.util.NbBundle.getMessage(
+                BioMstFibsEditor.class,
+                "BioMstFibsEditor.lblFilterOb.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panStamm.add(lblFilterOb, gridBagConstraints);
+        panStamm.add(lblFischTyp, gridBagConstraints);
 
-        lblFilterObVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblFilterObVal.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.filter_bis} m"),
-                lblFilterObVal,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblFilterObVal, gridBagConstraints);
-
-        lblFilterUnVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblFilterUnVal.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.filter_von} m"),
-                lblFilterUnVal,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblFilterUnVal, gridBagConstraints);
-
-        lblFilterUn.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblFilterUn.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panStamm.add(lblFilterUn, gridBagConstraints);
-
-        lblGelHoehe.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblGelHoehe.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panStamm.add(lblGelHoehe, gridBagConstraints);
-
-        lblGelHoeheVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblGelHoeheVal.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gelaendehoehe} ${cidsBean.h_sys_gel.value}"),
-                lblGelHoeheVal,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblGelHoeheVal, gridBagConstraints);
-
-        lblHoeheMVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblHoeheMVal.setPreferredSize(new java.awt.Dimension(200, 20));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hoehe_messpunkt} ${cidsBean.h_sys_mp.value}"),
-                lblHoeheMVal,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("<nicht gesetzt>");
-        binding.setSourceUnreadableValue("<error>");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblHoeheMVal, gridBagConstraints);
-
-        lblHoeheM.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblHoeheM.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panStamm.add(lblHoeheM, gridBagConstraints);
-
-        lblSteckbrief.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstStammdatenEditor.lbSteckbrief.text")); // NOI18N
+        lblLawa.setText(org.openide.util.NbBundle.getMessage(
+                BioMstFibsEditor.class,
+                "BioMstFibsEditor.lbSteckbrief.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
-        panStamm.add(lblSteckbrief, gridBagConstraints);
+        panStamm.add(lblLawa, gridBagConstraints);
 
-        lblSteckbriefVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblSteckbriefVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblLawaVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblLawaVal.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create(
+                    "${cidsBean.bio_mst.lawa_typ.value} - ${cidsBean.bio_mst.lawa_typ.name}"),
+                lblLawaVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
@@ -677,27 +512,25 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
-        panStamm.add(lblSteckbriefVal, gridBagConstraints);
+        panStamm.add(lblLawaVal, gridBagConstraints);
 
-        lblWkGw.setText(org.openide.util.NbBundle.getMessage(
-                WkGwMstGueteStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblWkGw.text")); // NOI18N
+        lblLage.setText(org.openide.util.NbBundle.getMessage(BioMstFibsEditor.class, "BioMstFibsEditor.lblWkGw.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStamm.add(lblWkGw, gridBagConstraints);
+        panStamm.add(lblLage, gridBagConstraints);
 
-        lblWkGwVal.setMinimumSize(new java.awt.Dimension(200, 20));
-        lblWkGwVal.setPreferredSize(new java.awt.Dimension(200, 20));
+        lblLageVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblLageVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_gw.name}"),
-                lblWkGwVal,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bio_mst.lage}"),
+                lblLageVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<error>");
@@ -710,7 +543,66 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panStamm.add(lblWkGwVal, gridBagConstraints);
+        panStamm.add(lblLageVal, gridBagConstraints);
+
+        lblStalu.setText(org.openide.util.NbBundle.getMessage(
+                BioMstFibsEditor.class,
+                "BioMstFibsEditor.lblReHo1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panStamm.add(lblStalu, gridBagConstraints);
+
+        lblSatluVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblSatluVal.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.stalu.kurz}"),
+                lblSatluVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panStamm.add(lblSatluVal, gridBagConstraints);
+
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(200, 80));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 80));
+
+        listFisch.setModel(new javax.swing.AbstractListModel<String>() {
+
+                String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+                @Override
+                public String getElementAt(final int i) {
+                    return strings[i];
+                }
+            });
+        jScrollPane1.setViewportView(listFisch);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panStamm.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -795,15 +687,53 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
         panInfoContent.add(panScr, gridBagConstraints);
 
-        wkGwMstChemieMessungenEditor1.setMinimumSize(new java.awt.Dimension(1000, 600));
-        wkGwMstChemieMessungenEditor1.setPreferredSize(new java.awt.Dimension(1000, 600));
+        bioMstFibsMessungenEditor1.setMinimumSize(new java.awt.Dimension(1000, 130));
+        bioMstFibsMessungenEditor1.setPreferredSize(new java.awt.Dimension(1000, 130));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        panInfoContent.add(wkGwMstChemieMessungenEditor1, gridBagConstraints);
+        panInfoContent.add(bioMstFibsMessungenEditor1, gridBagConstraints);
+
+        panGeo.setMinimumSize(new java.awt.Dimension(640, 100));
+        panGeo.setPreferredSize(new java.awt.Dimension(640, 100));
+
+        panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
+        panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
+        panHeadInfo1.setLayout(new java.awt.FlowLayout());
+
+        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+                BioMstFibsEditor.class,
+                "DghEditor.lblHeading1.text",
+                new Object[] {})); // NOI18N
+        panHeadInfo1.add(lblHeading1);
+
+        panGeo.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
+
+        panInfoContent1.setOpaque(false);
+        panInfoContent1.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        panInfoContent1.add(linearReferencedLineEditor, gridBagConstraints);
+
+        panGeo.add(panInfoContent1, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInfoContent.add(panGeo, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -831,49 +761,34 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
      */
     private void btnBack1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnBack1ActionPerformed
         int year = getCurrentlyEnteredYear();
-        --year;
+
+        if (--measureNumber < 0) {
+            measureNumber = 0;
+            --year;
+        }
 
         noDocumentUpdate = true;
         txtJahr.setText(String.valueOf(year));
         noDocumentUpdate = false;
 
         final int newYear = year;
-        final WaitingDialogThread<YearAndMeasure> wdt = new WaitingDialogThread<YearAndMeasure>(
-                StaticSwingTools.getParentFrame(this),
-                true,
-                "Lade Messwerte",
-                null,
-                100) {
+        new Thread(new Runnable() {
 
                 @Override
-                protected YearAndMeasure doInBackground() throws Exception {
-                    CidsBean[] measure = null;
-                    int measureYear = newYear;
+                public void run() {
+                    synchronized (BioMstFibsEditor.this) {
+                        CidsBean measure = null;
+                        int measureYear = newYear;
 
-                    do {
-                        measure = getDataForYear(measureYear);
-                        --measureYear;
-                    } while ((measure == null) && (measureYear > 2000));
-
-                    return new YearAndMeasure(measure, ++measureYear);
-                }
-
-                @Override
-                protected void done() {
-                    try {
-                        final YearAndMeasure measure = get();
-
-                        noDocumentUpdate = true;
-                        txtJahr.setText(String.valueOf(measure.getYear()));
-                        noDocumentUpdate = false;
-                        showNewMeasure(measure.getMeasure());
-                    } catch (Exception e) {
-                        LOG.error("Erro while searching measure values", e);
+                        do {
+                            txtJahr.setText(String.valueOf(measureYear));
+                            measure = getDataForYear(measureYear, measureNumber);
+                            showNewMeasure(measure);
+                            --measureYear;
+                        } while ((measure == null) && (measureYear > 1990));
                     }
                 }
-            };
-
-        wdt.start();
+            }).start();
     } //GEN-LAST:event_btnBack1ActionPerformed
 
     /**
@@ -883,59 +798,51 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
      */
     private void btnForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnForwardActionPerformed
         int year = getCurrentlyEnteredYear();
-        ++year;
 
-        final int newYear = year;
-        final WaitingDialogThread<YearAndMeasure> wdt = new WaitingDialogThread<YearAndMeasure>(StaticSwingTools
-                        .getParentFrame(this),
-                true,
-                "Lade Messwerte",
-                null,
-                100) {
+        noDocumentUpdate = true;
+        txtJahr.setText(String.valueOf(year));
+        ++measureNumber;
+        final CidsBean measure = getDataForYear(year, measureNumber);
 
-                @Override
-                protected YearAndMeasure doInBackground() throws Exception {
-                    CidsBean[] measure = null;
-                    int measureYear = newYear;
-                    final int currentYear = (new GregorianCalendar()).get(GregorianCalendar.YEAR);
+        if (measure == null) {
+            measureNumber = 0;
+            ++year;
+            txtJahr.setText(String.valueOf(year));
 
-                    do {
-                        measure = getDataForYear(measureYear);
-                        ++measureYear;
-                    } while ((measure == null) && (measureYear <= currentYear));
+            final int newYear = year;
+            new Thread(new Runnable() {
 
-                    return new YearAndMeasure(measure, --measureYear);
-                }
+                    @Override
+                    public void run() {
+                        synchronized (BioMstFibsEditor.this) {
+                            CidsBean measure = null;
+                            int measureYear = newYear;
+                            final int currentYear = (new GregorianCalendar()).get(GregorianCalendar.YEAR);
 
-                @Override
-                protected void done() {
-                    try {
-                        final YearAndMeasure measure = get();
-
-                        noDocumentUpdate = true;
-                        txtJahr.setText(String.valueOf(measure.getYear()));
-                        noDocumentUpdate = false;
-                        showNewMeasure(measure.getMeasure());
-                    } catch (Exception e) {
-                        LOG.error("Erro while searching measure values", e);
+                            do {
+                                txtJahr.setText(String.valueOf(measureYear));
+                                measure = getDataForYear(measureYear, measureNumber);
+                                showNewMeasure(measure);
+                                ++measureYear;
+                            } while ((measure == null) && (measureYear <= currentYear));
+                        }
                     }
-                }
-            };
+                }).start();
+        } else {
+            showNewMeasure(measure);
+        }
 
-        wdt.start();
+        noDocumentUpdate = false;
     } //GEN-LAST:event_btnForwardActionPerformed
 
     /**
-     * DOCUMENT ME!
-     */
-    /**
-     * DOCUMENT ME!
+     * shows the measure of the currently entered year.
      */
     private void refreshMeasures() {
         final int year = getCurrentlyEnteredYear();
+        measureNumber = 0;
 
-        final CidsBean[] measure = getDataForYear(year);
-
+        final CidsBean measure = getDataForYear(year, measureNumber);
         EventQueue.invokeLater(new Runnable() {
 
                 @Override
@@ -950,8 +857,12 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
      *
      * @param  measure  DOCUMENT ME!
      */
-    private void showNewMeasure(final CidsBean[] measure) {
-        wkGwMstChemieMessungenEditor1.setCidsBeans(measure, cidsBean);
+    private void showNewMeasure(final CidsBean measure) {
+        if (!readOnly) {
+            bioMstFibsMessungenEditor1.setCidsBean(measure, cidsBean);
+        } else {
+            bioMstFibsMessungenEditor1.setCidsBean(measure);
+        }
     }
 
     /**
@@ -973,11 +884,12 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
     @Override
     public void dispose() {
         bindingGroup.unbind();
+        linearReferencedLineEditor.dispose();
     }
 
     @Override
     public String getTitle() {
-        return String.valueOf(cidsBean);
+        return "Abschnitt für Fischbewertung " + String.valueOf(cidsBean);
     }
 
     @Override
@@ -987,12 +899,14 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
 
     @Override
     public void editorClosed(final EditorClosedEvent event) {
-        // TODO ?
+        linearReferencedLineEditor.editorClosed(event);
     }
 
     @Override
     public boolean prepareForSave() {
-        return true;
+        boolean save = true;
+        save &= linearReferencedLineEditor.prepareForSave();
+        return save;
     }
 
     @Override
@@ -1003,33 +917,25 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
     /**
      * DOCUMENT ME!
      *
-     * @param   year  DOCUMENT ME!
+     * @param   year    DOCUMENT ME!
+     * @param   number  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private CidsBean[] getDataForYear(final int year) {
+    private CidsBean getDataForYear(final int year, final int number) {
         try {
-            String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName();      // NOI18N
-            query += " m WHERE m.mst = '" + cidsBean.getProperty("messstelle");                                      // NOI18N
-            query += "' AND date_part('year'::text, datum)::integer = " + year
-                        + " and (wert_nitrat is not null or wert_arsen is not null or wert_cadmium is not null "
-                        + "or wert_blei is not null or wert_quecksilber is not null or wert_ammonium is not null "
-                        + "or wert_chlorid is not null or wert_nitrit is not null or wert_orthophosphat_p is not null or "
-                        + "wert_sulfat is not null or wert_sum_tri_tetrachlorethen is not null) order by datum asc"; // NOI18N
+            String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
+            query += " m, bio_mst_stammdaten s";                                                                // NOI18N
+            query += " WHERE m.messstelle = s.id AND s.id = " + cidsBean.getProperty("bio_mst.id");             // NOI18N
+            query += " AND messjahr = " + year + " order by id asc";                                            // NOI18N
 
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
 
-            if ((metaObjects != null) && (metaObjects.length >= 0)) {
-                final List<CidsBean> beans = new ArrayList<>();
+            if ((metaObjects != null) && (number >= 0) && (number < metaObjects.length)) {
+                final CidsBean retVal = metaObjects[number].getBean();
+                final int index = -1;
 
-                for (final MetaObject mo : metaObjects) {
-                    final CidsBean retVal = mo.getBean();
-
-                    // if the bean is already in the beansToSave list, the bean from the list should be used
-                    beans.add(retVal);
-                }
-
-                return (beans.isEmpty() ? null : beans.toArray(new CidsBean[beans.size()]));
+                return retVal;
             } else {
                 return null;
             }

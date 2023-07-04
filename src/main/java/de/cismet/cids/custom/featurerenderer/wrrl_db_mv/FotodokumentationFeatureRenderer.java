@@ -68,7 +68,9 @@ public class FotodokumentationFeatureRenderer extends CustomCidsFeatureRenderer 
             final Object winkelObj = foto.getProperty("angle");
             if (winkelObj instanceof Integer) {
                 final int winkel = (Integer)winkelObj;
-                final BufferedImage rotatedArrow = ImageUtil.rotateImage(ARROW, -winkel);
+                // Icon dreht sich im Uhrzeigersinn siehe Windrose im Wiki:
+                // https://www.fis-wasser-mv.de/nutzerhandbuch/index.php?title=Neue_Fotodokumentation_anlegen#Felder_des_Editors
+                final BufferedImage rotatedArrow = ImageUtil.rotateImage(ARROW, winkel);
                 final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(rotatedArrow);
                 symb.setSweetSpotX(0.5);
                 symb.setSweetSpotY(0.5);

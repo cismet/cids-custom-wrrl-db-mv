@@ -281,6 +281,7 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
         if (cbGeom instanceof DefaultCismapGeometryComboBoxEditor) {
             ((DefaultCismapGeometryComboBoxEditor)cbGeom).setAllowedGeometryTypes(
                 new Class[] { LineString.class, MultiLineString.class });
+            ((DefaultCismapGeometryComboBoxEditor)cbGeom).setLocalRenderFeatureString("geom");
         }
 
         final List<Integer> years = new ArrayList<Integer>();
@@ -1492,10 +1493,8 @@ public class DghEditor extends JPanel implements CidsBeanRenderer,
 
         panBew.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2),
-                org.openide.util.NbBundle.getMessage(
-                    DghEditor.class,
-                    "DghEditor.panBew.border.title",
-                    new Object[] {}),
+                org.openide.util.NbBundle.getMessage(DghEditor.class, "DghEditor.panBew.border.title", new Object[] {
+                    }),
                 javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                 javax.swing.border.TitledBorder.DEFAULT_POSITION,
                 new java.awt.Font("Dialog", 0, 12),

@@ -35,6 +35,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -230,6 +232,8 @@ public abstract class AbstractLegendPrintingTemplate extends AbstractPrintingIns
         if (legend != null) {
             legendArray.add(legend);
         }
+
+        Collections.reverse(legendArray);
 
         return legendArray;
     }
