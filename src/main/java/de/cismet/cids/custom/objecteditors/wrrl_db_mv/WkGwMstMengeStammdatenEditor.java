@@ -13,6 +13,7 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.ui.ComponentRegistry;
+
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObjectNode;
 
@@ -165,10 +166,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         if (embedded) {
             panStamm.setVisible(false);
         }
-        
+
         if (readOnly) {
             lblWkGwVal.setForeground(Color.BLUE);
-            
         }
     }
 
@@ -394,11 +394,15 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         panInfoContent.setOpaque(false);
         panInfoContent.setLayout(new java.awt.GridBagLayout());
 
-        panStamm.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Stammdaten"));
+        panStamm.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
+                "Stammdaten"));
         panStamm.setOpaque(false);
         panStamm.setLayout(new java.awt.GridBagLayout());
 
-        lblMstName.setText(org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeStammdatenEditor.lblMstName.text")); // NOI18N
+        lblMstName.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblMstName.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -407,7 +411,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panStamm.add(lblMstName, gridBagConstraints);
 
-        lblReHo.setText(org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeStammdatenEditor.lblReHo.text")); // NOI18N
+        lblReHo.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblReHo.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -419,7 +425,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblMstCodeVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblMstCodeVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.messstelle}"), lblMstCodeVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.messstelle}"),
+                lblMstCodeVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("error");
         bindingGroup.addBinding(binding);
@@ -436,7 +447,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblGewVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblGewVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mst_name}"), lblGewVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.mst_name}"),
+                lblGewVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("error");
         bindingGroup.addBinding(binding);
@@ -453,7 +469,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblLageVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblLageVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.the_geom}"), lblLageVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.the_geom}"),
+                lblLageVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("/");
         binding.setSourceUnreadableValue("error");
         binding.setConverter(new CoordinateConverter());
@@ -468,7 +489,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panStamm.add(lblLageVal, gridBagConstraints);
 
-        lblFilterOb.setText(org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeStammdatenEditor.lblFilterOb.text")); // NOI18N
+        lblFilterOb.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblFilterOb.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
@@ -477,7 +500,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panStamm.add(lblFilterOb, gridBagConstraints);
 
-        lblFilterUn.setText(org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeStammdatenEditor.lblFilterUn.text")); // NOI18N
+        lblFilterUn.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblFilterUn.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
@@ -489,7 +514,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblFilterObVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblFilterObVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.filter_bis} m"), lblFilterObVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.filter_bis} m"),
+                lblFilterObVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("error");
         bindingGroup.addBinding(binding);
@@ -506,7 +536,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblFilterUnVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblFilterUnVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.filter_von} m"), lblFilterUnVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.filter_von} m"),
+                lblFilterUnVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("error");
         bindingGroup.addBinding(binding);
@@ -520,7 +555,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panStamm.add(lblFilterUnVal, gridBagConstraints);
 
-        lblMstKennz.setText(org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeStammdatenEditor.lblMstKennz.text")); // NOI18N
+        lblMstKennz.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblMstKennz.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -529,7 +566,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panStamm.add(lblMstKennz, gridBagConstraints);
 
-        lblBauj.setText(org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeStammdatenEditor.lblBauj.text")); // NOI18N
+        lblBauj.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblBauj.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -541,7 +580,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblBaujVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblBaujVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.baujahr}"), lblBaujVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.baujahr}"),
+                lblBaujVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("error");
         bindingGroup.addBinding(binding);
@@ -555,7 +599,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panStamm.add(lblBaujVal, gridBagConstraints);
 
-        lblGelHoehe.setText(org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeStammdatenEditor.lblGelHoehe.text")); // NOI18N
+        lblGelHoehe.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblGelHoehe.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 3;
@@ -567,7 +613,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblGelHoeheVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblGelHoeheVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gelaendehoehe} ${cidsBean.h_sys_gel.value}"), lblGelHoeheVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gelaendehoehe} ${cidsBean.h_sys_gel.value}"),
+                lblGelHoeheVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
@@ -581,7 +632,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panStamm.add(lblGelHoeheVal, gridBagConstraints);
 
-        lblHoeheM.setText(org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeStammdatenEditor.lblHoeheM.text")); // NOI18N
+        lblHoeheM.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblHoeheM.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 4;
@@ -593,7 +646,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblHoeheMVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblHoeheMVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hoehe_messpunkt} ${cidsBean.h_sys_mp.value}"), lblHoeheMVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hoehe_messpunkt} ${cidsBean.h_sys_mp.value}"),
+                lblHoeheMVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");
         binding.setSourceUnreadableValue("<error>");
         bindingGroup.addBinding(binding);
@@ -607,7 +665,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panStamm.add(lblHoeheMVal, gridBagConstraints);
 
-        lblWkGw.setText(org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeStammdatenEditor.lblFilterOb.text")); // NOI18N
+        lblWkGw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblFilterOb.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
@@ -619,14 +679,21 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblWkGwVal.setMinimumSize(new java.awt.Dimension(200, 20));
         lblWkGwVal.setPreferredSize(new java.awt.Dimension(200, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_gw.name}"), lblWkGwVal, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_gw.name}"),
+                lblWkGwVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         lblWkGwVal.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblWkGwValMouseClicked(evt);
-            }
-        });
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblWkGwValMouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 1;
@@ -644,7 +711,16 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
         panInfoContent.add(panStamm, gridBagConstraints);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), org.openide.util.NbBundle.getMessage(WkGwMstMengeStammdatenEditor.class, "WkGwMstMengeMessungenEditor.jPanel4.border.title", new Object[] {}), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12), new java.awt.Color(28, 72, 227))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)),
+                org.openide.util.NbBundle.getMessage(
+                    WkGwMstMengeStammdatenEditor.class,
+                    "WkGwMstMengeMessungenEditor.jPanel4.border.title",
+                    new Object[] {}),
+                javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
+                javax.swing.border.TitledBorder.DEFAULT_POSITION,
+                new java.awt.Font("Dialog", 0, 12),
+                new java.awt.Color(28, 72, 227))); // NOI18N
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
@@ -699,15 +775,20 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
-    private void lblWkGwValMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblWkGwValMouseClicked
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblWkGwValMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblWkGwValMouseClicked
         if ((evt.getClickCount() == 1) && readOnly && (cidsBean.getProperty("wk_gw") instanceof CidsBean)) {
             ComponentRegistry.getRegistry()
                     .getDescriptionPane()
                     .gotoMetaObjectNode(new MetaObjectNode((CidsBean)cidsBean.getProperty("wk_gw")));
         }
-    }//GEN-LAST:event_lblWkGwValMouseClicked
+    }                                                                          //GEN-LAST:event_lblWkGwValMouseClicked
 
     /**
      * DOCUMENT ME!
