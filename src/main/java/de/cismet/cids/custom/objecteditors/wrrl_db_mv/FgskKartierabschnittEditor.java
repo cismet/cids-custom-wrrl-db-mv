@@ -31,6 +31,7 @@ import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -763,6 +764,24 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
                         this,
                         "Die Summe der Sohlsubstrate muss entweder 100 oder 0 ergeben.",
                         "Ungültige Sohlsubstrate",
+                        JOptionPane.WARNING_MESSAGE);
+
+                    return false;
+                }
+            }
+
+            final Object ed = cidsBean.getProperty("erfassungsdatum");
+
+            if (ed instanceof Date) {
+                final Date year2010 = new Date(110, 0, 1, 0, 0, 0);
+                final Date now = new Date();
+                final Date today = new Date(now.getYear(), now.getMonth(), now.getDay(), 23, 59, 59);
+
+                if (((Date)ed).after(today) || ((Date)ed).before(year2010)) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Die Erfassungszeit muss zwischen 2010 und jetzt sein.",
+                        "Ungültige Erfassungszeit",
                         JOptionPane.WARNING_MESSAGE);
 
                     return false;

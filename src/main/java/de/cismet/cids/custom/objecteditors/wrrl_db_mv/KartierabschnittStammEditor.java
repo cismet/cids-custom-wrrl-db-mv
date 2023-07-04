@@ -8,19 +8,25 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -89,6 +95,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private CidsBean cidsBean;
     private CidsBean lastStation = null;
     private boolean readOnly = false;
+    private MetaObject wkFgMo = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFliessgewaesser;
@@ -158,6 +165,21 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         txtWkNameFreitext.setEnabled(false);
         txtWkNameFreitext.setEditable(!readOnly);
         linearReferencedLineEditor.addListener(this);
+
+        if (readOnly) {
+            txtWk.setForeground(Color.BLUE);
+            txtWk.addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(final MouseEvent e) {
+                        if ((wkFgMo != null) && readOnly) {
+                            ComponentRegistry.getRegistry()
+                                    .getDescriptionPane()
+                                    .gotoMetaObjectNode(new MetaObjectNode(wkFgMo.getBean()));
+                        }
+                    }
+                });
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -742,6 +764,15 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     /**
      * DOCUMENT ME!
      *
+     * @return  DOCUMENT ME!
+     */
+    public JTextField getTxtWk() {
+        return txtWk;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  wkk  DOCUMENT ME!
      */
     public void refreshLabels(final String wkk) {
@@ -753,6 +784,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                             + MC.getTableName() + " where wk_k = '" + wkk + "'";
                 final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
                 if (metaObjects.length == 1) {
+                    wkFgMo = metaObjects[0];
                     wkName = (String)metaObjects[0].getBean().getProperty("wk_n");
                     final CidsBean lawaType = (CidsBean)metaObjects[0].getBean().getProperty("lawa_type");
 

@@ -16,14 +16,20 @@ import Sirius.server.middleware.types.MetaObject;
 
 import org.apache.log4j.Logger;
 
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import de.cismet.cids.custom.wrrl_db_mv.fgsk.Calc;
 import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
@@ -127,6 +133,26 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         if (readOnly) {
             setReadOnly(readOnly);
         }
+
+        glassPanel.addMouseListener(new MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final MouseEvent e) {
+                    final Point p = new Point((int)e.getX(), (int)e.getY() - 15);
+                    Component c = kartierabschnittStammEditor1.getComponentAt(p);
+
+                    while (c instanceof JPanel) {
+                        if (c == c.getComponentAt(p)) {
+                            break;
+                        }
+                        c = c.getComponentAt(p);
+                    }
+
+                    if ((c instanceof JTextField) && c.equals(kartierabschnittStammEditor1.getTxtWk())) {
+                        c.dispatchEvent(e);
+                    }
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -704,8 +730,8 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
      */
     public void setReadOnly(final boolean readOnly) {
         if (readOnly) {
-            glassPanel.addMouseListener(new MouseAdapter() {
-                });
+//            glassPanel.addMouseListener(new MouseAdapter() {
+//                });
             glassPanel1.addMouseListener(new MouseAdapter() {
                 });
             glassPanel2.addMouseListener(new MouseAdapter() {

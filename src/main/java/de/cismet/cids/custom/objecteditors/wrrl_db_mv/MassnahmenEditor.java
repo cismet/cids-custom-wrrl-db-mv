@@ -16,6 +16,7 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 import Sirius.navigator.tools.CacheException;
 import Sirius.navigator.tools.MetaObjectCache;
+import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -29,6 +30,8 @@ import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -488,6 +491,22 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
             RendererTools.makeReadOnly(cbRejected);
             lblGeom.setVisible(false);
             cbGeom.setVisible(false);
+            lblValWk_name.setForeground(Color.BLUE);
+            lblValWk_name.addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(final MouseEvent e) {
+                        if ((getWkField() != null) && readOnly) {
+                            final CidsBean wk = (CidsBean)cidsBean.getProperty(getWkField());
+
+                            if (wk != null) {
+                                ComponentRegistry.getRegistry()
+                                        .getDescriptionPane()
+                                        .gotoMetaObject(wk.getMetaObject(), "");
+                            }
+                        }
+                    }
+                });
         } else {
             ((DefaultCismapGeometryComboBoxEditor)cbGeom).setLocalRenderFeatureString("additional_geom");
         }
@@ -2120,8 +2139,8 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_fg.wb_predecs}"),
                 lblValFormerName,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2147,7 +2166,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
         panInfoContent.add(jPanel2, gridBagConstraints);
 
@@ -2769,7 +2787,6 @@ public class MassnahmenEditor extends JPanel implements CidsBeanRenderer,
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 20);
         panInfoContent.add(jPanel3, gridBagConstraints);
 

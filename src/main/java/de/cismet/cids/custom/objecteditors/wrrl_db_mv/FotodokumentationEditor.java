@@ -179,7 +179,13 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
             public String convertForward(final CidsBean value) {
                 if (value != null) {
                     final Object geom = value.getProperty("geo_field");
-                    return String.valueOf(geom);
+
+                    if (geom instanceof Point) {
+                        return "POINT (" + (int)((Point)geom).getCoordinate().x + " "
+                                    + (int)((Point)geom).getCoordinate().y + ")";
+                    } else {
+                        return String.valueOf(geom);
+                    }
                 } else {
                     return "Keine Geometrie gesetzt";
                 }
