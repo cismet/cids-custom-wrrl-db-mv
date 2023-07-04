@@ -160,12 +160,15 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JLabel lblSpacingBottom;
     private javax.swing.JLabel lblSpacingBottom1;
+    private javax.swing.JLabel lblSpacingBottom2;
     private javax.swing.JPanel panAllgemeines;
     private javax.swing.JPanel panFooter;
     private javax.swing.JTabbedPane tpMain;
+    private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanBio wkKgPanBio1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanOne wkKgPanOne1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTen wkKgPanTen1;
     // End of variables declaration//GEN-END:variables
@@ -213,6 +216,9 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         jPanel1 = new javax.swing.JPanel();
         wkKgPanTen1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanTen(readOnly);
         lblSpacingBottom1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        wkKgPanBio1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.WkKgPanBio();
+        lblSpacingBottom2 = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -280,6 +286,32 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
                 new Object[] {}),
             jPanel1); // NOI18N
 
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(wkKgPanBio1, gridBagConstraints);
+
+        lblSpacingBottom2.setText(org.openide.util.NbBundle.getMessage(
+                WkKgEditor.class,
+                "WkKgEditor.lblSpacingBottom2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(lblSpacingBottom2, gridBagConstraints);
+
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(
+                WkKgEditor.class,
+                "WkKgEditor.jPanel2.TabConstraints.tabTitle",
+                new Object[] {}),
+            jPanel2); // NOI18N
+
         add(tpMain, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
 
@@ -295,6 +327,7 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         if (cidsBean != null) {
             wkKgPanOne1.setCidsBean(cidsBean);
             wkKgPanTen1.setCidsBean(cidsBean);
+            wkKgPanBio1.setCidsBean(cidsBean);
 
             // *.setCidsBean(cidsBean);
             bindingGroup.bind();

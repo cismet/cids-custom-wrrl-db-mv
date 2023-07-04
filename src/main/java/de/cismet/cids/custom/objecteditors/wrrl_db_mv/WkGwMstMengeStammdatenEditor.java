@@ -12,7 +12,10 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.ui.ComponentRegistry;
+
 import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObjectNode;
 
 import javafx.application.Platform;
 
@@ -81,14 +84,14 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             WkGwMstMengeStammdatenEditor.class);
-    private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
-            WRRLUtil.DOMAIN_NAME,
-            "wk_gw_mst_chemie_messungen");
     private static final String OLD_SIZE =
         "{\"viewer\":{\"width\":1100,\"height\":700,\"padding\":10,\"fill\":false},\"browser\":{\"width\":1100,\"height\":700,\"padding\":40,\"fill\":false}}";
     private static final String NEW_SIZE =
         "{\"viewer\":{\"width\":1000,\"height\":636,\"padding\":10,\"fill\":false},\"browser\":{\"width\":1000,\"height\":636,\"padding\":40,\"fill\":false}}";
-    private static final String URL_TEMPLATE = "https://fis-wasser-mv.de/charts/ganglinien/mkz/%1s.html";
+//    private static final String URL_TEMPLATE = "https://fis-wasser-mv.de/charts/ganglinien/mkz/%1s.html";
+    private static final String URL_TEMPLATE = "https://www.fis-wasser-mv.de/doku/chart_menge/%1s.html";
+    private static int CHART_WIDTH = 800;
+    private static int CHART_HEIGHT = 600;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -122,6 +125,8 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
     private javax.swing.JLabel lblMstKennz;
     private javax.swing.JLabel lblMstName;
     private javax.swing.JLabel lblReHo;
+    private javax.swing.JLabel lblWkGw;
+    private javax.swing.JLabel lblWkGwVal;
     private javax.swing.JPanel panFooter;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
@@ -161,6 +166,10 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         if (embedded) {
             panStamm.setVisible(false);
         }
+
+        if (readOnly) {
+            lblWkGwVal.setForeground(Color.BLUE);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -199,14 +208,14 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                     content.append(tmp).append("\n");
                 }
 
-                jPanel1.setSize(1500, 900);
-                jPanel1.setMinimumSize(new Dimension(1500, 900));
-                jPanel1.setMaximumSize(new Dimension(1500, 900));
-                jPanel1.setPreferredSize(new Dimension(1500, 900));
-                browserPanel.setSize(1400, 800);
-                browserPanel.setMinimumSize(new Dimension(1500, 900));
-                browserPanel.setMaximumSize(new Dimension(1500, 900));
-                browserPanel.setPreferredSize(new Dimension(1500, 900));
+                jPanel1.setSize(CHART_WIDTH + 100, CHART_HEIGHT);
+                jPanel1.setMinimumSize(new Dimension(CHART_WIDTH + 100, CHART_HEIGHT));
+                jPanel1.setMaximumSize(new Dimension(CHART_WIDTH + 100, CHART_HEIGHT));
+                jPanel1.setPreferredSize(new Dimension(CHART_WIDTH + 100, CHART_HEIGHT));
+                browserPanel.setSize(CHART_WIDTH, CHART_HEIGHT);
+                browserPanel.setMinimumSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                browserPanel.setMaximumSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                browserPanel.setPreferredSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
                 browserPanel.loadContent(content.toString());
 //                browserPanel.loadContent(content.toString().replace(OLD_SIZE, NEW_SIZE));
                 loadingComplete = false;
@@ -217,7 +226,7 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                         public void run() {
                             while (!loadingComplete) {
                                 try {
-                                    Thread.sleep(10);
+                                    Thread.sleep(10000);
                                 } catch (InterruptedException ex) {
                                     // nothing to do
                                 }
@@ -259,10 +268,13 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                                                         jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
                                                         jLabel1.setIcon(new ImageIcon(i));
                                                         jLabel1.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                                                        jPanel1.setSize(1400, 750);
-                                                        jPanel1.setMinimumSize(new Dimension(1400, 900));
-                                                        jPanel1.setMaximumSize(new Dimension(1400, 900));
-                                                        jPanel1.setPreferredSize(new Dimension(1400, 900));
+                                                        jPanel1.setSize(CHART_WIDTH, CHART_HEIGHT);
+                                                        jPanel1.setMinimumSize(
+                                                            new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                                                        jPanel1.setMaximumSize(
+                                                            new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                                                        jPanel1.setPreferredSize(
+                                                            new Dimension(CHART_WIDTH, CHART_HEIGHT));
                                                         jLabel1.addMouseListener(new MouseAdapter() {
 
                                                                 @Override
@@ -282,7 +294,7 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                         }
                     };
 
-                t.start();
+//                t.start();
             } catch (Exception e) {
                 LOG.error("error", e);
                 EventQueue.invokeLater(new Runnable() {
@@ -343,6 +355,8 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         lblGelHoeheVal = new javax.swing.JLabel();
         lblHoeheM = new javax.swing.JLabel();
         lblHoeheMVal = new javax.swing.JLabel();
+        lblWkGw = new javax.swing.JLabel();
+        lblWkGwVal = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -651,6 +665,44 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panStamm.add(lblHoeheMVal, gridBagConstraints);
 
+        lblWkGw.setText(org.openide.util.NbBundle.getMessage(
+                WkGwMstMengeStammdatenEditor.class,
+                "WkGwMstMengeStammdatenEditor.lblFilterOb.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panStamm.add(lblWkGw, gridBagConstraints);
+
+        lblWkGwVal.setMinimumSize(new java.awt.Dimension(200, 20));
+        lblWkGwVal.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wk_gw.name}"),
+                lblWkGwVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        lblWkGwVal.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    lblWkGwValMouseClicked(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        panStamm.add(lblWkGwVal, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -724,6 +776,19 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void lblWkGwValMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblWkGwValMouseClicked
+        if ((evt.getClickCount() == 1) && readOnly && (cidsBean.getProperty("wk_gw") instanceof CidsBean)) {
+            ComponentRegistry.getRegistry()
+                    .getDescriptionPane()
+                    .gotoMetaObjectNode(new MetaObjectNode((CidsBean)cidsBean.getProperty("wk_gw")));
+        }
+    }                                                                          //GEN-LAST:event_lblWkGwValMouseClicked
 
     /**
      * DOCUMENT ME!

@@ -44,19 +44,19 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
     private static final String PROP_EINHEIT = "einh_";
     private static final String PROP_UNTERB = "unterbg_";
     private static final String PROP_GK = "gk_";
-    private static final String PROP_SW = "sw_";
+    private static final String PROP_SW = "sw_"; // _sw_check
 
-    private static final String PROP_NITRAT = "nitrat";
-    private static final String PROP_ARSEN = "arsen";
-    private static final String PROP_CADMIUM = "cadmium";
-    private static final String PROP_BLEI = "blei";
-    private static final String PROP_QUECKSILBER = "quecksilber";
-    private static final String PROP_AMMONIUM = "ammonium";
-    private static final String PROP_CHLORID = "chlorid";
-    private static final String PROP_NITRIT = "nitrit";
-    private static final String PROP_ORTHO = "orthophosphat_p";
-    private static final String PROP_SULFAT = "sulfat";
-    private static final String PROP_SUM_TRI_TE = "sum_tri_tetrachlorethen";
+    private static final String PROP_NITRAT = "nitrat";                      // wert_no3
+    private static final String PROP_ARSEN = "arsen";                        // ar
+    private static final String PROP_CADMIUM = "cadmium";                    // cd
+    private static final String PROP_BLEI = "blei";                          // pb
+    private static final String PROP_QUECKSILBER = "quecksilber";            // hg
+    private static final String PROP_AMMONIUM = "ammonium";                  // nh4
+    private static final String PROP_CHLORID = "chlorid";                    // cl
+    private static final String PROP_NITRIT = "nitrit";                      // no2
+    private static final String PROP_ORTHO = "orthophosphat_p";              // po4
+    private static final String PROP_SULFAT = "sulfat";                      // so4
+    private static final String PROP_SUM_TRI_TE = "sum_tri_tetrachlorethen"; // cmhm
 
     //~ Enums ------------------------------------------------------------------
 

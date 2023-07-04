@@ -652,6 +652,9 @@
                       <Property name="incompletePathValue" type="java.lang.String" value="kein Wasserk&#xf6;rper zugewiesen"/>
                     </BindingProperty>
                   </BindingProperties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel7MouseClicked"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new WkFgLabel()"/>
                   </AuxValues>

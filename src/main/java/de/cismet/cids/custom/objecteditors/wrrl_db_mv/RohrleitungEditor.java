@@ -13,6 +13,11 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.ui.ComponentRegistry;
+
+import Sirius.server.middleware.types.MetaObjectNode;
+
+import java.awt.Color;
 
 import java.util.ArrayList;
 
@@ -153,6 +158,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
             RendererTools.makeReadOnly(spDurchmesser);
             RendererTools.makeReadOnly(spHoeheAuslauf);
             RendererTools.makeReadOnly(spLaenge);
+            jLabel7.setForeground(Color.BLUE);
         } else {
             new CidsBeanDropTarget(jLabel2);
             new CidsBeanDropTarget(jLabel7);
@@ -749,6 +755,13 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         binding.setSourceUnreadableValue("kein Wasserkörper zugewiesen");
         bindingGroup.addBinding(binding);
 
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    jLabel7MouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -800,6 +813,19 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
     private void jCheckBox1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
     } //GEN-LAST:event_jCheckBox1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jLabel7MouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_jLabel7MouseClicked
+        if ((evt.getClickCount() == 1) && readOnly && (cidsBean.getProperty("wk_fg") instanceof CidsBean)) {
+            ComponentRegistry.getRegistry()
+                    .getDescriptionPane()
+                    .gotoMetaObjectNode(new MetaObjectNode((CidsBean)cidsBean.getProperty("wk_fg")));
+        }
+    }                                                                       //GEN-LAST:event_jLabel7MouseClicked
 
     @Override
     public CidsBean getCidsBean() {
