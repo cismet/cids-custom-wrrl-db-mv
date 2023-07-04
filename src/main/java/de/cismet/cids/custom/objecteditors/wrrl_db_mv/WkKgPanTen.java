@@ -113,7 +113,7 @@ public class WkKgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                             ((JLabel)c).setToolTipText(null);
                         }
 
-                        if (!isSelected && (column > 3)) {
+                        if (!isSelected && (column > 1)) {
                             if ((value != null) && String.valueOf(value).equalsIgnoreCase("ja")) {
                                 ((JLabel)c).setBackground(Color.GREEN);
                             } else if ((value != null) && String.valueOf(value).equalsIgnoreCase("nein")) {
