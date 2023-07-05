@@ -28,6 +28,8 @@
  */
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
+import Sirius.navigator.connection.SessionManager;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -194,6 +196,16 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
         initComponents();
 
         tpMain.setUI(new TabbedPaneUITransparent());
+
+        final boolean isAdmin = SessionManager.getSession()
+                    .getUser()
+                    .getUserGroup()
+                    .getName()
+                    .equalsIgnoreCase("administratoren");
+        if (!isAdmin) {
+            tpMain.remove(jPanel2);
+            jPanel2.setVisible(false);
+        }
     }
 
     //~ Methods ----------------------------------------------------------------

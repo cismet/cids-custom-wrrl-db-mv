@@ -61,7 +61,7 @@ public class BioMstFibsEditor extends JPanel implements CidsBeanRenderer,
 
     private static final ConnectionContext CC = ConnectionContext.create(
             AbstractConnectionContext.Category.EDITOR,
-            "WkGwMstGueteStammdatenEditor");
+            "BioMstFibsEditor");
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BioMstFibsEditor.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
@@ -198,7 +198,8 @@ public class BioMstFibsEditor extends JPanel implements CidsBeanRenderer,
             urlExists = true;
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
-                cidsBean);
+                cidsBean,
+                CC);
             EventQueue.invokeLater(new Runnable() {
 
                     @Override
@@ -929,7 +930,7 @@ public class BioMstFibsEditor extends JPanel implements CidsBeanRenderer,
             query += " WHERE m.messstelle = s.id AND s.id = " + cidsBean.getProperty("bio_mst.id");             // NOI18N
             query += " AND messjahr = " + year + " order by id asc";                                            // NOI18N
 
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
+            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
 
             if ((metaObjects != null) && (number >= 0) && (number < metaObjects.length)) {
                 final CidsBean retVal = metaObjects[number].getBean();
