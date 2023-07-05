@@ -32,6 +32,9 @@ import de.cismet.cids.editors.EditorSaveListener;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 import de.cismet.tools.gui.FooterComponentProvider;
 
 /**
@@ -48,6 +51,9 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             BioMstFibsMessungenEditor.class);
+    private static final ConnectionContext CC = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "BioMstFibsMessungenEditor");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -56,11 +62,11 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFisch;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblFiBS;
     private javax.swing.JLabel lblFiBSVal;
     private javax.swing.JLabel lblFisch;
+    private javax.swing.JLabel lblFischeVal;
     private javax.swing.JLabel lblFoot;
     private javax.swing.JPanel panFooter;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -83,7 +89,6 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
     public BioMstFibsMessungenEditor(final boolean readOnly) {
         this.readOnly = readOnly;
         initComponents();
-        RendererTools.makeReadOnly(cbFisch);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -107,7 +112,8 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
         if (cidsBean != null) {
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
-                cidsBean);
+                cidsBean,
+                CC);
             bindingGroup.bind();
 
             if (parent != null) {
@@ -136,7 +142,7 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
      */
     private void clearForm() {
         lblFiBSVal.setText("");
-        cbFisch.setSelectedIndex(-1);
+        lblFischeVal.setText("");
     }
 
     /**
@@ -153,9 +159,9 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
         lblFoot = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         lblFisch = new javax.swing.JLabel();
-        cbFisch = new ScrollableComboBox(new QualityStatusCodeComparator());
         lblFiBS = new javax.swing.JLabel();
         lblFiBSVal = new javax.swing.JLabel();
+        lblFischeVal = new javax.swing.JLabel();
 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
@@ -188,26 +194,6 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         jPanel4.add(lblFisch, gridBagConstraints);
 
-        cbFisch.setMaximumSize(new java.awt.Dimension(200, 20));
-        cbFisch.setMinimumSize(new java.awt.Dimension(150, 20));
-        cbFisch.setPreferredSize(new java.awt.Dimension(150, 20));
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_fische_gesamt}"),
-                cbFisch,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        jPanel4.add(cbFisch, gridBagConstraints);
-
         lblFiBS.setText(org.openide.util.NbBundle.getMessage(
                 BioMstFibsMessungenEditor.class,
                 "BioMstStammdatenEditor.lblFiBS.text")); // NOI18N
@@ -222,7 +208,7 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
         lblFiBSVal.setMinimumSize(new java.awt.Dimension(150, 20));
         lblFiBSVal.setPreferredSize(new java.awt.Dimension(150, 20));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fibs.name}"),
@@ -239,6 +225,28 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblFiBSVal, gridBagConstraints);
+
+        lblFischeVal.setMinimumSize(new java.awt.Dimension(150, 20));
+        lblFischeVal.setPreferredSize(new java.awt.Dimension(150, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_fische_gesamt}"),
+                lblFischeVal,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("<nicht gesetzt>");
+        binding.setSourceUnreadableValue("<nicht gesetzt>");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        jPanel4.add(lblFischeVal, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

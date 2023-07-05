@@ -149,7 +149,7 @@ public class WkKgPanBio extends javax.swing.JPanel implements DisposableCidsBean
                 }
             });
 
-        wkKgBioDetailPanel1.setCidsBean(getMst(null));
+        wkKgBioDetailPanel1.setCidsBean(null);
         jScrollPane1.getViewport().setOpaque(false);
         jtMstTab1.getSelectionModel().addListSelectionListener(this);
         txtJahr.getDocument().addDocumentListener(this);
@@ -601,37 +601,6 @@ public class WkKgPanBio extends javax.swing.JPanel implements DisposableCidsBean
         }
 
         return data;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   cidsBean  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static synchronized CidsBean getMst(final CidsBean cidsBean) {
-        if (cidsBean == null) {
-            return null;
-        }
-        try {
-            final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                    WRRLUtil.DOMAIN_NAME,
-                    "wk_kg_mst_stammdaten");
-            String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
-            query += " m WHERE m.messstelle = '" + cidsBean.getProperty("messstelle") + "'";                    // NOI18N
-
-            final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0);
-
-            if ((metaObjects != null) && (metaObjects.length == 1)) {
-                return metaObjects[0].getBean();
-            } else {
-                return null;
-            }
-        } catch (final ConnectionException e) {
-            LOG.error("Error while trying to receive measurements.", e); // NOI18N
-            return null;
-        }
     }
 
     /**
