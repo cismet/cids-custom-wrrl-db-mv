@@ -65,7 +65,8 @@ public class BioMstFibsEditor extends JPanel implements CidsBeanRenderer,
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BioMstFibsEditor.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
-            "bio_mst_messungen");
+            "bio_mst_messungen",
+            CC);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -778,7 +779,7 @@ public class BioMstFibsEditor extends JPanel implements CidsBeanRenderer,
                 @Override
                 public void run() {
                     synchronized (BioMstFibsEditor.this) {
-                        CidsBean measure = null;
+                        CidsBean measure;
                         int measureYear = newYear;
 
                         do {
@@ -816,7 +817,7 @@ public class BioMstFibsEditor extends JPanel implements CidsBeanRenderer,
                     @Override
                     public void run() {
                         synchronized (BioMstFibsEditor.this) {
-                            CidsBean measure = null;
+                            CidsBean measure;
                             int measureYear = newYear;
                             final int currentYear = (new GregorianCalendar()).get(GregorianCalendar.YEAR);
 
