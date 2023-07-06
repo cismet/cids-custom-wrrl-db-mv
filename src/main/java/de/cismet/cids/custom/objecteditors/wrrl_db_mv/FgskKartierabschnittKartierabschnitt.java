@@ -132,27 +132,27 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
 
         if (readOnly) {
             setReadOnly(readOnly);
-        }
 
-        glassPanel.addMouseListener(new MouseAdapter() {
+            glassPanel.addMouseListener(new MouseAdapter() {
 
-                @Override
-                public void mouseClicked(final MouseEvent e) {
-                    final Point p = new Point((int)e.getX(), (int)e.getY() - 15);
-                    Component c = kartierabschnittStammEditor1.getComponentAt(p);
+                    @Override
+                    public void mouseClicked(final MouseEvent e) {
+                        final Point p = new Point((int)e.getX(), (int)e.getY() - 15);
+                        Component c = kartierabschnittStammEditor1.getComponentAt(p);
 
-                    while (c instanceof JPanel) {
-                        if (c == c.getComponentAt(p)) {
-                            break;
+                        while (c instanceof JPanel) {
+                            if (c == c.getComponentAt(p)) {
+                                break;
+                            }
+                            c = c.getComponentAt(p);
                         }
-                        c = c.getComponentAt(p);
-                    }
 
-                    if ((c instanceof JTextField) && c.equals(kartierabschnittStammEditor1.getTxtWk())) {
-                        c.dispatchEvent(e);
+                        if ((c instanceof JTextField) && c.equals(kartierabschnittStammEditor1.getTxtWk())) {
+                            c.dispatchEvent(e);
+                        }
                     }
-                }
-            });
+                });
+        }
     }
 
     //~ Methods ----------------------------------------------------------------

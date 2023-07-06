@@ -14,6 +14,8 @@ import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.middleware.types.MetaObjectNode;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -24,9 +26,12 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.SwingWorker;
 
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
@@ -42,6 +47,12 @@ import de.cismet.cids.editors.EditorSaveListener;
 import de.cismet.cids.editors.converters.SqlTimestampToUtilDateConverter;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.cismap.commons.CrsTransformer;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -60,6 +71,9 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             KartierabschnittStammEditor.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "wk_fg");
+    private static final ConnectionContext CC = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "KartierabschnittStammEditor");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -98,13 +112,18 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private MetaObject wkFgMo = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOk;
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbFliessgewaesser;
     private javax.swing.JCheckBox cbHistorisch;
     private javax.swing.JCheckBox cbVorkatierung;
+    private javax.swing.JDialog diaFoto;
     private javax.swing.JDialog geomDialog;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBearbeiter;
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblFotoNr;
@@ -121,6 +140,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
     private javax.swing.JLabel lblWkType;
     private javax.swing.JLabel lblfliessrichtung;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.LinearReferencedLineEditor linearReferencedLineEditor;
+    private javax.swing.JList<String> lstFotos;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.RoundedPanel panInfo;
     private javax.swing.JPanel panInfoContent;
@@ -168,6 +188,8 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
 
         if (readOnly) {
             txtWk.setForeground(Color.BLUE);
+            txtWk.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
             txtWk.addMouseListener(new MouseAdapter() {
 
                     @Override
@@ -197,6 +219,11 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         geomDialog = new JDialog(StaticSwingTools.getParentFrame(this));
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
+        diaFoto = new javax.swing.JDialog();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstFotos = new javax.swing.JList<>();
+        btnOk = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         panInfo = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeading = new javax.swing.JLabel();
@@ -231,6 +258,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         lblHistorisch = new javax.swing.JLabel();
         lblWkNameFreitext = new javax.swing.JLabel();
         txtWkNameFreitext = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         geomDialog.setTitle(org.openide.util.NbBundle.getMessage(
                 KartierabschnittStammEditor.class,
@@ -247,6 +275,60 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         jScrollPane1.setViewportView(jPanel1);
 
         geomDialog.getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        diaFoto.setTitle(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.diaFoto.title",
+                new Object[] {})); // NOI18N
+        diaFoto.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane2.setViewportView(lstFotos);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 10, 10);
+        diaFoto.getContentPane().add(jScrollPane2, gridBagConstraints);
+
+        btnOk.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.btnOk.text",
+                new Object[] {})); // NOI18N
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnOkActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 5);
+        diaFoto.getContentPane().add(btnOk, gridBagConstraints);
+
+        btnCancel.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.btnCancel.text",
+                new Object[] {})); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnCancelActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 10);
+        diaFoto.getContentPane().add(btnCancel, gridBagConstraints);
 
         setMinimumSize(new java.awt.Dimension(1100, 275));
         setOpaque(false);
@@ -475,6 +557,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -507,6 +590,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
@@ -527,6 +611,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -603,7 +688,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
@@ -704,6 +789,28 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent.add(txtWkNameFreitext, gridBagConstraints);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/compasses.png"))); // NOI18N
+        jButton1.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.jButton1.text",
+                new Object[] {}));                                                                         // NOI18N
+        jButton1.setToolTipText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittStammEditor.class,
+                "KartierabschnittStammEditor.jButton1.toolTipText",
+                new Object[] {}));                                                                         // NOI18N
+        jButton1.setPreferredSize(new java.awt.Dimension(20, 20));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 10);
+        panInfoContent.add(jButton1, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
@@ -725,6 +832,88 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
         final boolean visible = linearReferencedLineEditor.changeOtherLinesPanelVisibility();
         otherLinesPanelVisibilityChange(visible);
     }                                                                            //GEN-LAST:event_geomDialogWindowClosing
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
+
+        final SwingWorker<ListModel<String>, Void> sw = new SwingWorker<ListModel<String>, Void>() {
+
+                @Override
+                protected ListModel<String> doInBackground() throws Exception {
+                    final DefaultListModel<String> model = new DefaultListModel<>();
+                    final MetaClass MC = ClassCacheMultiple.getMetaClass(
+                            WRRLUtil.DOMAIN_NAME,
+                            "fotodokumentation",
+                            CC);
+                    final Geometry geom = (Geometry)cidsBean.getProperty("linie.geom.geo_field");
+
+                    if (geom != null) {
+                        final Integer srid = CismapBroker.getInstance().getDefaultCrsAlias();
+                        String query = "select " + MC.getID() + ", f." + MC.getPrimaryKey() + " from "
+                                    + MC.getTableName();               // NOI18N
+                        query += " f join geom g on (f.point = g.id)"; // NOI18N
+                        query += " WHERE st_intersects(g.geo_field, st_buffer(st_setSrid('" + geom.toText()
+                                    + "'::Geometry, "
+                                    + srid + "), 15))";                // NOI18N
+
+                        final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+
+                        if ((metaObjects != null) && (metaObjects.length > 0)) {
+                            for (final MetaObject mo : metaObjects) {
+                                model.addElement(mo.getName());
+                            }
+                        }
+                    }
+
+                    return model;
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        final ListModel<String> model = get();
+
+                        if (model != null) {
+                            lstFotos.setModel(model);
+                        }
+                    } catch (Exception ex) {
+                        LOG.error("error while retrieving fotodokumentation objects", ex);
+                    }
+                }
+            };
+        sw.execute();
+
+        diaFoto.setSize(300, 350);
+        StaticSwingTools.centerWindowOnScreen(diaFoto);
+    } //GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnOkActionPerformed
+        final String selectedValue = lstFotos.getSelectedValue();
+
+        if (selectedValue != null) {
+            txtFotoNr.setText(selectedValue);
+        }
+
+        diaFoto.setVisible(false);
+    } //GEN-LAST:event_btnOkActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnCancelActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnCancelActionPerformed
+        diaFoto.setVisible(false);
+    }                                                                             //GEN-LAST:event_btnCancelActionPerformed
 
     @Override
     public CidsBean getCidsBean() {

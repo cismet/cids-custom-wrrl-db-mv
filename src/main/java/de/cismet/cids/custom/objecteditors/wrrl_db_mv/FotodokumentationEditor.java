@@ -110,6 +110,7 @@ import de.cismet.cids.editors.DefaultBeanInitializer;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
+import de.cismet.cids.editors.converters.SqlTimestampToUtilDateConverter;
 
 import de.cismet.cids.navigator.utils.CidsBeanDropListener;
 import de.cismet.cids.navigator.utils.CidsBeanDropTarget;
@@ -243,6 +244,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
 
     //~ Instance fields --------------------------------------------------------
 
+    private SqlTimestampToUtilDateConverter dateConverter = new SqlTimestampToUtilDateConverter();
+
     private final JFileChooser fileChooser;
     private final Timer timer;
     private final CardLayout cardLayout;
@@ -316,6 +319,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private javax.swing.JSpinner spnAngle;
     private javax.swing.JTextArea taDescription;
     private javax.swing.JTextArea taDescriptionDoku;
+    private de.cismet.cids.editors.DefaultBindableTimestampChooser timErfassungsdatum;
     private javax.swing.JTextField txtDokumentationName;
     private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -536,6 +540,8 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         setComponentEditable(taDescriptionDoku);
         setComponentEditable(txtDokumentationName);
         setComponentEditable(txtName);
+        timErfassungsdatum.setVisible(editable);
+        lblDateTxt.setVisible(!editable);
         if (!editable) {
             final EmptyBorder eBorder = new EmptyBorder(0, 0, 0, 0);
             scpDescription.setBorder(eBorder);
@@ -794,8 +800,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         cbGeom = new DefaultCismapGeometryComboBoxEditor();
         jLabel1 = new javax.swing.JLabel();
         lblDate = new javax.swing.JLabel();
-        lblDateTxt = new javax.swing.JLabel();
         lblWkFg = new WkFgLabel();
+        timErfassungsdatum = new de.cismet.cids.editors.DefaultBindableTimestampChooser();
+        lblDateTxt = new javax.swing.JLabel();
         rpVorschau = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
         lblHeadingVorschau = new javax.swing.JLabel();
@@ -1172,29 +1179,6 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblDate, gridBagConstraints);
 
-        lblDateTxt.setMaximumSize(new java.awt.Dimension(0, 25));
-        lblDateTxt.setMinimumSize(new java.awt.Dimension(0, 25));
-        lblDateTxt.setPreferredSize(new java.awt.Dimension(0, 25));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_date}"),
-                lblDateTxt,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("<Error>");
-        binding.setConverter(TimestampConverter.getInstance());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        roundedPanel1.add(lblDateTxt, gridBagConstraints);
-
         lblWkFg.setText(org.openide.util.NbBundle.getMessage(
                 FotodokumentationEditor.class,
                 "FotodokumentationEditor.lblWkFg.text")); // NOI18N
@@ -1205,6 +1189,50 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         roundedPanel1.add(lblWkFg, gridBagConstraints);
+
+        timErfassungsdatum.setMinimumSize(new java.awt.Dimension(170, 20));
+        timErfassungsdatum.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto_date}"),
+                timErfassungsdatum,
+                org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding.setConverter(dateConverter);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel1.add(timErfassungsdatum, gridBagConstraints);
+
+        lblDateTxt.setMaximumSize(new java.awt.Dimension(40, 25));
+        lblDateTxt.setMinimumSize(new java.awt.Dimension(40, 25));
+        lblDateTxt.setPreferredSize(new java.awt.Dimension(40, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_date}"),
+                lblDateTxt,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("<error>");
+        binding.setConverter(TimestampConverter.getInstance());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel1.add(lblDateTxt, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1947,10 +1975,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         //~ Static fields/initializers -----------------------------------------
 
         private static final String PROP_POINT = "point";
+        private static final String PROP_DATE = "foto_date";
 
         //~ Instance fields ----------------------------------------------------
-
-        private boolean exifInfosFound = false;
 
         private final Collection<File> fotos;
 
@@ -2006,7 +2033,15 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
 
                             geom.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, point);
                             cidsBean.setProperty(PROP_POINT, geom);
-                            exifInfosFound = true;
+                        }
+                    }
+
+                    if (cidsBean.getProperty(PROP_DATE) == null) {
+                        final java.util.Date imageDate = reader.getTimeDate();
+                        if (imageDate != null) {
+                            cidsBean.setProperty(PROP_DATE, new java.sql.Timestamp(imageDate.getTime()));
+                        } else {
+                            cidsBean.setProperty(PROP_DATE, new java.sql.Timestamp(System.currentTimeMillis()));
                         }
                     }
 
