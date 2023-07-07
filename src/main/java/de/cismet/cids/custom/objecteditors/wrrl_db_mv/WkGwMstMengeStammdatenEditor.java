@@ -786,7 +786,7 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         if ((evt.getClickCount() == 1) && readOnly && (cidsBean.getProperty("wk_gw") instanceof CidsBean)) {
             ComponentRegistry.getRegistry()
                     .getDescriptionPane()
-                    .gotoMetaObjectNode(new MetaObjectNode((CidsBean)cidsBean.getProperty("wk_gw")));
+                    .gotoMetaObjectNode(new MetaObjectNode((CidsBean)cidsBean.getProperty("wk_gw")), false);
         }
     }                                                                          //GEN-LAST:event_lblWkGwValMouseClicked
 

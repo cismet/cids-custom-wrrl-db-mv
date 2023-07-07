@@ -1070,7 +1070,9 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
      */
     private void jLabel10MouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_jLabel10MouseClicked
         if ((evt.getClickCount() == 1) && readOnly && (moWk != null)) {
-            ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObjectNode(new MetaObjectNode(moWk.getBean()));
+            ComponentRegistry.getRegistry()
+                    .getDescriptionPane()
+                    .gotoMetaObjectNode(new MetaObjectNode(moWk.getBean()), false);
         }
     }                                                                        //GEN-LAST:event_jLabel10MouseClicked
 

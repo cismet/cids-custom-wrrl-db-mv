@@ -18,6 +18,7 @@ import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -176,7 +177,7 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
                         if ((bean != null) && readOnly) {
                             ComponentRegistry.getRegistry()
                                     .getDescriptionPane()
-                                    .gotoMetaObject(bean.getMetaObject(), "");
+                                    .gotoMetaObjectNode(new MetaObjectNode(bean), false);
                         }
                     }
                 });

@@ -197,7 +197,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                         if ((wkFgMo != null) && readOnly) {
                             ComponentRegistry.getRegistry()
                                     .getDescriptionPane()
-                                    .gotoMetaObjectNode(new MetaObjectNode(wkFgMo.getBean()));
+                                    .gotoMetaObjectNode(new MetaObjectNode(wkFgMo.getBean()), false);
                         }
                     }
                 });

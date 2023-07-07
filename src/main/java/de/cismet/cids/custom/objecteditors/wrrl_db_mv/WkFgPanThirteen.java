@@ -18,21 +18,19 @@ import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
 
 import org.jdesktop.swingx.JXTable;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import java.text.DecimalFormat;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -42,7 +40,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.QualityStatusCodeComparator;
@@ -55,8 +52,6 @@ import de.cismet.cids.dynamics.DisposableCidsBeanStore;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
-
-import de.cismet.cismap.commons.features.FeatureServiceFeature;
 
 import de.cismet.tools.BrowserLauncher;
 
@@ -161,7 +156,7 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
                     }
                 });
 
-            jtMstTab1.addMouseListener(new MouseListener() {
+            jtMstTab1.addMouseListener(new MouseAdapter() {
 
                     @Override
                     public void mouseClicked(final MouseEvent e) {
@@ -177,29 +172,15 @@ public class WkFgPanThirteen extends javax.swing.JPanel implements DisposableCid
                             if (columnName.equalsIgnoreCase("MST") && (row < model.getData().size())) {
                                 final CidsBean mstBean = model.getData().get(row);
 
-                                if ((mstBean != null)) {
+                                if ((mstBean != null) && (mstBean.getProperty("messstelle") instanceof CidsBean)) {
                                     ComponentRegistry.getRegistry()
                                             .getDescriptionPane()
-                                            .gotoMetaObject(mstBean.getMetaObject(), "");
+                                            .gotoMetaObjectNode(
+                                                new MetaObjectNode((CidsBean)mstBean.getProperty("messstelle")),
+                                                false);
                                 }
                             }
                         }
-                    }
-
-                    @Override
-                    public void mousePressed(final MouseEvent e) {
-                    }
-
-                    @Override
-                    public void mouseReleased(final MouseEvent e) {
-                    }
-
-                    @Override
-                    public void mouseEntered(final MouseEvent e) {
-                    }
-
-                    @Override
-                    public void mouseExited(final MouseEvent e) {
                     }
                 });
         }
