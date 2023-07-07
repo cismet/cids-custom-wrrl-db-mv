@@ -232,7 +232,7 @@ public class BioMstFibsMessungenEditor extends JPanel implements CidsBeanRendere
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_fische_gesamt}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.gk_fische_gesamt.name}"),
                 lblFischeVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("<nicht gesetzt>");

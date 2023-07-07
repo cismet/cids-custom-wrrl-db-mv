@@ -823,7 +823,7 @@ public class RohrleitungEditor extends javax.swing.JPanel implements CidsBeanRen
         if ((evt.getClickCount() == 1) && readOnly && (cidsBean.getProperty("wk_fg") instanceof CidsBean)) {
             ComponentRegistry.getRegistry()
                     .getDescriptionPane()
-                    .gotoMetaObjectNode(new MetaObjectNode((CidsBean)cidsBean.getProperty("wk_fg")));
+                    .gotoMetaObjectNode(new MetaObjectNode((CidsBean)cidsBean.getProperty("wk_fg")), false);
         }
     }                                                                       //GEN-LAST:event_jLabel7MouseClicked
 

@@ -14,15 +14,24 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
+import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.IntegerConverter;
@@ -154,6 +163,56 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
             jbMacPhytoVorb.setVisible(false);
             jbMzbVorb.setVisible(false);
             jbPhytoVorb.setVisible(false);
+            jtMstTab1.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+
+                    @Override
+                    public Component getTableCellRendererComponent(final JTable table,
+                            final Object value,
+                            final boolean isSelected,
+                            final boolean hasFocus,
+                            final int row,
+                            final int column) {
+                        final Component c = super.getTableCellRendererComponent(
+                                table,
+                                value,
+                                isSelected,
+                                hasFocus,
+                                row,
+                                column);
+
+                        c.setForeground(Color.BLUE);
+
+                        return c;
+                    }
+                });
+
+            jtMstTab1.addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(final MouseEvent e) {
+                        int row = jtMstTab1.rowAtPoint(e.getPoint());
+
+                        if (row != -1) {
+                            int col = jtMstTab1.getTableHeader().getColumnModel().getColumnIndexAtX(e.getX());
+                            col = jtMstTab1.convertColumnIndexToModel(col);
+                            final String columnName = model.getColumnName(col);
+                            row = jtMstTab1.convertRowIndexToModel(row);
+                            final Object value = model.getValueAt(row, col);
+
+                            if (columnName.equalsIgnoreCase("MST") && (row < model.getData().size())) {
+                                final CidsBean mstBean = model.getData().get(row);
+
+                                if ((mstBean != null) && (mstBean.getProperty("messstelle") instanceof CidsBean)) {
+                                    ComponentRegistry.getRegistry()
+                                            .getDescriptionPane()
+                                            .gotoMetaObjectNode(
+                                                new MetaObjectNode((CidsBean)mstBean.getProperty("messstelle")),
+                                                false);
+                                }
+                            }
+                        }
+                    }
+                });
         }
     }
 
@@ -1153,6 +1212,15 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
 
             isLoading = false;
             fireTableDataChanged();
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public List<CidsBean> getData() {
+            return data;
         }
 
         /**
