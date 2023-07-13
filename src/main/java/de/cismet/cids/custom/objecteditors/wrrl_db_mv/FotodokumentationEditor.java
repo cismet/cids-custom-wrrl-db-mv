@@ -279,7 +279,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private javax.swing.JLabel lblAngle;
     private org.jdesktop.swingx.JXBusyLabel lblBusy;
     private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblDate1;
     private javax.swing.JLabel lblDateTxt;
+    private javax.swing.JLabel lblDateTxt1;
     private javax.swing.JLabel lblDescription;
     private javax.swing.JLabel lblDescriptionDoku;
     private javax.swing.JLabel lblDokumentationName;
@@ -320,6 +322,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
     private javax.swing.JTextArea taDescription;
     private javax.swing.JTextArea taDescriptionDoku;
     private de.cismet.cids.editors.DefaultBindableTimestampChooser timErfassungsdatum;
+    private de.cismet.cids.editors.DefaultBindableTimestampChooser timErfassungsdatum1;
     private javax.swing.JTextField txtDokumentationName;
     private javax.swing.JTextField txtName;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -541,7 +544,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         setComponentEditable(txtDokumentationName);
         setComponentEditable(txtName);
         timErfassungsdatum.setVisible(editable);
+        timErfassungsdatum1.setVisible(editable);
         lblDateTxt.setVisible(!editable);
+        lblDateTxt1.setVisible(!editable);
         if (!editable) {
             final EmptyBorder eBorder = new EmptyBorder(0, 0, 0, 0);
             scpDescription.setBorder(eBorder);
@@ -832,6 +837,9 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         lblFile = new javax.swing.JLabel();
         lblFileTxt = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        lblDate1 = new javax.swing.JLabel();
+        timErfassungsdatum1 = new de.cismet.cids.editors.DefaultBindableTimestampChooser();
+        lblDateTxt1 = new javax.swing.JLabel();
         final CurvedFlowBackgroundPanel cfp = new CurvedFlowBackgroundPanel();
         // cfp.setOben(0.53944d);
         // cfp.setUnten(0.16844d);
@@ -1218,7 +1226,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_date}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto_date}"),
                 lblDateTxt,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("null");
@@ -1567,6 +1575,61 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         gridBagConstraints.gridheight = 6;
         gridBagConstraints.weightx = 1.0;
         roundedPanel2.add(jPanel1, gridBagConstraints);
+
+        lblDate1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDate1.setText(org.openide.util.NbBundle.getMessage(
+                FotodokumentationEditor.class,
+                "FotodokumentationEditor.lblDate1.text"));    // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel2.add(lblDate1, gridBagConstraints);
+
+        timErfassungsdatum1.setMinimumSize(new java.awt.Dimension(170, 20));
+        timErfassungsdatum1.setPreferredSize(new java.awt.Dimension(170, 20));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                lstFotos,
+                org.jdesktop.beansbinding.ELProperty.create("${selectedElement.foto_date}"),
+                timErfassungsdatum1,
+                org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding.setConverter(dateConverter);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel2.add(timErfassungsdatum1, gridBagConstraints);
+
+        lblDateTxt1.setMaximumSize(new java.awt.Dimension(40, 25));
+        lblDateTxt1.setMinimumSize(new java.awt.Dimension(40, 25));
+        lblDateTxt1.setPreferredSize(new java.awt.Dimension(40, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                lstFotos,
+                org.jdesktop.beansbinding.ELProperty.create("${selectedElement.foto_date}"),
+                lblDateTxt1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("<error>");
+        binding.setConverter(TimestampConverter.getInstance());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        roundedPanel2.add(lblDateTxt1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -2036,13 +2099,11 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
                         }
                     }
 
-                    if (cidsBean.getProperty(PROP_DATE) == null) {
-                        final java.util.Date imageDate = reader.getTimeDate();
-                        if (imageDate != null) {
-                            cidsBean.setProperty(PROP_DATE, new java.sql.Timestamp(imageDate.getTime()));
-                        } else {
-                            cidsBean.setProperty(PROP_DATE, new java.sql.Timestamp(System.currentTimeMillis()));
-                        }
+                    final java.util.Date imageDate = reader.getTimeDate();
+                    if (imageDate != null) {
+                        newFotoBean.setProperty(PROP_DATE, new java.sql.Timestamp(imageDate.getTime()));
+                    } else {
+                        newFotoBean.setProperty(PROP_DATE, new java.sql.Timestamp(System.currentTimeMillis()));
                     }
 
                     newFotoBean.setProperty(PROP_ANGLE, (int)reader.getGpsDirection());

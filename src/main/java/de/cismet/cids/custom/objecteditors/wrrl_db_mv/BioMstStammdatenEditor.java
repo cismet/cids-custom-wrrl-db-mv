@@ -172,11 +172,17 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
 //                }, false);
 //            defaultBindableCheckboxField1.
         } else {
-            if (!readOnly) {
-                bioMstMessungenEditor1.setCidsBean(null);
-            } else {
-                bioMstMessungenRenderer1.setCidsBean(null);
-            }
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (!readOnly) {
+                            bioMstMessungenEditor1.setCidsBean(null);
+                        } else {
+                            bioMstMessungenRenderer1.setCidsBean(null);
+                        }
+                    }
+                });
         }
 
         lblFoot.setText("");
@@ -753,13 +759,19 @@ public class BioMstStammdatenEditor extends JPanel implements CidsBeanRenderer,
      *
      * @param  measure  DOCUMENT ME!
      */
-    private void showNewMeasure(final CidsBean measure) {
-        if (!readOnly) {
-            saveLastMeasure();
-            bioMstMessungenEditor1.setCidsBean(measure, cidsBean);
-        } else {
-            bioMstMessungenRenderer1.setCidsBean(measure);
-        }
+    private synchronized void showNewMeasure(final CidsBean measure) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (!readOnly) {
+                        saveLastMeasure();
+                        bioMstMessungenEditor1.setCidsBean(measure, cidsBean);
+                    } else {
+                        bioMstMessungenRenderer1.setCidsBean(measure);
+                    }
+                }
+            });
     }
 
     /**

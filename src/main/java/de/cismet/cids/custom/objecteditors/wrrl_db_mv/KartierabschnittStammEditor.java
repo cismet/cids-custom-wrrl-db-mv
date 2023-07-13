@@ -858,7 +858,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                         query += " f join geom g on (f.point = g.id)"; // NOI18N
                         query += " WHERE st_intersects(g.geo_field, st_buffer(st_setSrid('" + geom.toText()
                                     + "'::Geometry, "
-                                    + srid + "), 15))";                // NOI18N
+                                    + srid + "), 25))";                // NOI18N
 
                         final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
 

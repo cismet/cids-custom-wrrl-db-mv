@@ -170,8 +170,11 @@ public abstract class AbstractLegendPrintingTemplate extends AbstractPrintingIns
         final TreeMap<Integer, MapService> serviceMap = model.getRasterServices();
         final List<BufferedImage> legendArray = new ArrayList<BufferedImage>();
         BufferedImage legend = null;
+        final List<Integer> keys = new ArrayList<>(serviceMap.keySet());
+        Collections.sort(keys);
+        Collections.reverse(keys);
 
-        for (final Integer key : serviceMap.keySet()) {
+        for (final Integer key : keys) {
             final MapService service = serviceMap.get(key);
 
             if ((service.getPNode() != null) && !service.getPNode().getVisible()) {
@@ -232,8 +235,6 @@ public abstract class AbstractLegendPrintingTemplate extends AbstractPrintingIns
         if (legend != null) {
             legendArray.add(legend);
         }
-
-        Collections.reverse(legendArray);
 
         return legendArray;
     }

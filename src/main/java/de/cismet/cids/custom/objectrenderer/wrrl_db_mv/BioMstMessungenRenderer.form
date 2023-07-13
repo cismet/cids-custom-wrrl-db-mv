@@ -280,7 +280,7 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.sti_mp.name}" target="lblSTIMPVal" targetPath="text" updateStrategy="0" immediately="false">
+            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.sti_mp.name}" target="lblSTIMPVal" targetPath="text" updateStrategy="1" immediately="false">
               <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
               <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
             </BindingProperty>
