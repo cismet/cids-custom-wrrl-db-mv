@@ -477,7 +477,7 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="timestamp" source="Form" sourcePath="${cidsBean.foto_date}" target="timErfassungsdatum" targetPath="timestamp" updateStrategy="0" immediately="false">
+            <BindingProperty name="timestamp" source="Form" sourcePath="${cidsBean.av_date}" target="timErfassungsdatum" targetPath="timestamp" updateStrategy="0" immediately="false">
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="dateConverter" type="code"/>
               </Property>
@@ -502,7 +502,7 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.foto_date}" target="lblDateTxt" targetPath="text" updateStrategy="1" immediately="false">
+            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.av_date}" target="lblDateTxt" targetPath="text" updateStrategy="1" immediately="false">
               <Property name="nullValue" type="java.lang.String" value="null"/>
               <Property name="incompletePathValue" type="java.lang.String" value="&lt;error&gt;"/>
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">

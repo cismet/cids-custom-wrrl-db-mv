@@ -543,7 +543,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         setComponentEditable(taDescriptionDoku);
         setComponentEditable(txtDokumentationName);
         setComponentEditable(txtName);
-        timErfassungsdatum.setVisible(editable);
+        timErfassungsdatum.setVisible(false);
         timErfassungsdatum1.setVisible(editable);
         lblDateTxt.setVisible(!editable);
         lblDateTxt1.setVisible(!editable);
@@ -1204,7 +1204,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto_date}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_date}"),
                 timErfassungsdatum,
                 org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
         binding.setConverter(dateConverter);
@@ -1226,7 +1226,7 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.foto_date}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.av_date}"),
                 lblDateTxt,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("null");

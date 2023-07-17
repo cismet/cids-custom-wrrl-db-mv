@@ -22,6 +22,7 @@ import de.cismet.connectioncontext.AbstractConnectionContext;
 import de.cismet.connectioncontext.ConnectionContext;
 
 import de.cismet.tools.configuration.StartupHook;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  * DOCUMENT ME!
@@ -29,6 +30,7 @@ import de.cismet.tools.configuration.StartupHook;
  * @author   therter
  * @version  $Revision$, $Date$
  */
+@ServiceProvider(service = StartupHook.class)
 public class ConfigStartupHook implements StartupHook {
 
     //~ Static fields/initializers ---------------------------------------------
