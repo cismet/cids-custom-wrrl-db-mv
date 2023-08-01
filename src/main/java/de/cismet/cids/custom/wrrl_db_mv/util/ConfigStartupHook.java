@@ -16,6 +16,8 @@ import Sirius.navigator.connection.SessionManager;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.lookup.ServiceProvider;
+
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.connectioncontext.AbstractConnectionContext;
@@ -29,6 +31,7 @@ import de.cismet.tools.configuration.StartupHook;
  * @author   therter
  * @version  $Revision$, $Date$
  */
+@ServiceProvider(service = StartupHook.class)
 public class ConfigStartupHook implements StartupHook {
 
     //~ Static fields/initializers ---------------------------------------------

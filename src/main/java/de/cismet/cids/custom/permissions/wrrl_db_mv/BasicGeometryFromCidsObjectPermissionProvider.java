@@ -10,6 +10,10 @@ package de.cismet.cids.custom.permissions.wrrl_db_mv;
 import Sirius.server.newuser.User;
 
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.index.strtree.STRtree;
 
 import java.sql.Timestamp;
@@ -88,7 +92,10 @@ public abstract class BasicGeometryFromCidsObjectPermissionProvider extends Abst
             final Date now = new Date();
             final String restrictionkeys = (String)cb.getProperty("restrictionkeys");
 
-            final boolean geometryHit = hitGeom.contains(objectGeom);
+//            final boolean geometryHit = hitGeom.contains(objectGeom);
+            final Geometry intersectionGeom = hitGeom.intersection(objectGeom);
+            final boolean geometryHit = !intersectionGeom.isEmpty()
+                        && (sizeByPercent(intersectionGeom, objectGeom) > 75);
             final boolean keyWordHit = restrictionkeys.toLowerCase().indexOf(getKey().toLowerCase()) > -1;
             final boolean timestampHit = ((ts == null) || (ts.getTime() > now.getTime()));
 
@@ -100,6 +107,24 @@ public abstract class BasicGeometryFromCidsObjectPermissionProvider extends Abst
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   intersectionGeom  DOCUMENT ME!
+     * @param   geom              DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private double sizeByPercent(final Geometry intersectionGeom, final Geometry geom) {
+        if ((geom instanceof Polygon) || (geom instanceof MultiPolygon)) {
+            return intersectionGeom.getArea() * 100.0 / geom.getArea();
+        } else if ((geom instanceof LineString) || (geom instanceof MultiLineString)) {
+            return intersectionGeom.getLength() * 100.0 / geom.getLength();
+        } else {
+            return 100.0;
         }
     }
 

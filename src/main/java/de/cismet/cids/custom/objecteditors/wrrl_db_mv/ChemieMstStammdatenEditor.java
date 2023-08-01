@@ -14,11 +14,16 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
+import Sirius.navigator.ui.ComponentRegistry;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -120,6 +125,23 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         this.readOnly = readOnly;
         initComponents();
         txtJahr.getDocument().addDocumentListener(this);
+
+        if (readOnly) {
+            lblWkVal.setForeground(Color.BLUE);
+            lblWkVal.addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(final MouseEvent e) {
+                        final CidsBean bean = (CidsBean)cidsBean.getProperty("wk_fg");
+
+                        if ((bean != null) && readOnly) {
+                            ComponentRegistry.getRegistry()
+                                    .getDescriptionPane()
+                                    .gotoMetaObjectNode(new MetaObjectNode(bean), false);
+                        }
+                    }
+                });
+        }
     }
 
     //~ Methods ----------------------------------------------------------------

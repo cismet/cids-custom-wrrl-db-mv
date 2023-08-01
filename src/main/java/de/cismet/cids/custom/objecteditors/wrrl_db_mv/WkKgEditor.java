@@ -197,15 +197,21 @@ public class WkKgEditor extends javax.swing.JPanel implements CidsBeanRenderer,
 
         tpMain.setUI(new TabbedPaneUITransparent());
 
-        final boolean isAdmin = SessionManager.getSession()
-                    .getUser()
-                    .getUserGroup()
-                    .getName()
-                    .equalsIgnoreCase("administratoren");
-        if (!isAdmin) {
-            tpMain.remove(jPanel2);
-            jPanel2.setVisible(false);
-        }
+//        final boolean isAdmin = SessionManager.getSession()
+//                .getUser()
+//                .getUserGroup()
+//                .getName()
+//                .equalsIgnoreCase("administratoren")
+//                || SessionManager.getSession()
+//                .getUser()
+//                .getUserGroup()
+//                .getName()
+//                .toLowerCase()
+//                .startsWith("stalu");
+//        if (!isAdmin) {
+//            tpMain.remove(jPanel2);
+//            jPanel2.setVisible(false);
+//        }
     }
 
     //~ Methods ----------------------------------------------------------------

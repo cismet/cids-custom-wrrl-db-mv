@@ -170,6 +170,48 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
         if (readOnly) {
             lblWkGwVal.setForeground(Color.BLUE);
         }
+
+        jPanel4.addMouseListener(new MouseAdapter() {
+
+                boolean isHandCursor = false;
+
+                @Override
+                public void mouseClicked(final MouseEvent e) {
+                    if (isMouseOver(e)) {
+                        try {
+                            final String url = String.format(
+                                    URL_TEMPLATE,
+                                    WebDavHelper.encodeURL(String.valueOf(cidsBean.getProperty("messstelle"))));
+                            BrowserLauncher.openURL(url);
+                        } catch (Exception ex) {
+                            LOG.warn(ex, ex);
+                        }
+                    }
+                }
+
+                @Override
+                public void mouseMoved(final MouseEvent e) {
+                    if (!isHandCursor && isMouseOver(e)) {
+                        jPanel4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        isHandCursor = true;
+                    } else if (isHandCursor) {
+                        jPanel4.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        isHandCursor = false;
+                    }
+                }
+
+                @Override
+                public void mouseExited(final MouseEvent e) {
+                    if (isHandCursor) {
+                        jPanel4.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        isHandCursor = false;
+                    }
+                }
+
+                private boolean isMouseOver(final MouseEvent e) {
+                    return ((e.getPoint().x > 10) && (e.getPoint().x < 85) && (e.getPoint().y < 18));
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
