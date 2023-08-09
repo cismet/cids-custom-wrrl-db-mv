@@ -97,6 +97,9 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.interaction.CrsChangeListener;
 import de.cismet.cismap.commons.interaction.events.CrsChangedEvent;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 import de.cismet.tools.CurrentStackTrace;
 
 import de.cismet.tools.gui.StaticSwingTools;
@@ -131,6 +134,10 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private static final MetaClass MC_STATIONLINIE = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             CN_STATIONLINE);
+    private static final ConnectionContext CC = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "LinearReferencedLineEditor");
+    private static final String PROPERTY_OHNE_ROUTE = "ohne_route";
 
     private static Icon ICON_MERGED_WITH_FROM_POINT = new javax.swing.ImageIcon(LinearReferencedLineEditor.class
                     .getResource("/de/cismet/cids/custom/objecteditors/wrrl_db_mv/sql-join-left.png"));
@@ -191,6 +198,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private String otherLinesWhereQueryPart;
     private boolean isOtherLinesEnabled = true;
     private List<CidsBean> otherLines;
+    private boolean historisch = false;
 
     private Collection<LinearReferencedLineEditorListener> listeners =
         new ArrayList<LinearReferencedLineEditorListener>();
@@ -199,6 +207,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     private LinearReferencedLineEditor externalOthersEditor;
     private LinearReferencedLineEditor parent = null;
     private LinePropertyChangeListener linePropertyChangeListener = new LinePropertyChangeListener();
+    private CidsBean stationFromBackup;
+    private CidsBean stationToBackup;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnFromBadGeom;
@@ -396,6 +406,35 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     /**
      * DOCUMENT ME!
      *
+     * @param  withoutRoute  DOCUMENT ME!
+     */
+    private void adjustWithoutRoute(final boolean withoutRoute) {
+        if (withoutRoute) {
+            spnFrom.setVisible(false);
+            spnTo.setVisible(false);
+            lblFromValue.setVisible(false);
+            lblToValue.setVisible(false);
+            btnRoute.setVisible(false);
+            lblRoute.setVisible(false);
+            btnToBadGeom.setVisible(false);
+            btnToBadGeomCorrect.setVisible(false);
+            btnToPointSplit.setVisible(false);
+            btnFromBadGeom.setVisible(false);
+            btnFromBadGeomCorrect.setVisible(false);
+            btnFromPointSplit.setVisible(false);
+        } else {
+            spnFrom.setVisible(isEditable);
+            spnTo.setVisible(isEditable);
+            lblFromValue.setVisible(!isEditable);
+            lblToValue.setVisible(!isEditable);
+            btnRoute.setVisible(isEditable);
+            lblRoute.setVisible(!isEditable);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
     public final boolean isEditable() {
@@ -431,7 +470,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @return  DOCUMENT ME!
      */
     public final boolean isDrawingFeaturesEnabled() {
-        return isDrawingFeatureEnabled;
+        return isDrawingFeatureEnabled && !historisch;
     }
 
     /**
@@ -682,6 +721,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         if (cidsBean != null) {
             MERGE_REGISTRY.addRequestListener(cidsBean, this);
+
+            if (lineField != null) {
+                stationFromBackup = (CidsBean)cidsBean.getProperty(lineField + ".von");
+                stationToBackup = (CidsBean)cidsBean.getProperty(lineField + ".bis");
+            }
         }
 
         // cache für beans setzen
@@ -692,12 +736,13 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         if (lineBean != null) {
             lineBean.addPropertyChangeListener(linePropertyChangeListener);
-            boolean historisch = ((lineBean.getProperty("von.ohne_route") != null)
-                    ? (Boolean)lineBean.getProperty("von.ohne_route") : false);
+            historisch = ((lineBean.getProperty(PROP_STATIONLINIE_FROM + "." + PROPERTY_OHNE_ROUTE) != null)
+                    ? (Boolean)lineBean.getProperty(PROP_STATIONLINIE_FROM + "." + PROPERTY_OHNE_ROUTE) : false);
             historisch = historisch
-                        || ((lineBean.getProperty("bis.ohne_route") != null)
-                            ? (Boolean)lineBean.getProperty("bis.ohne_route") : false);
+                        || ((lineBean.getProperty(PROP_STATIONLINIE_TO + "." + PROPERTY_OHNE_ROUTE) != null)
+                            ? (Boolean)lineBean.getProperty(PROP_STATIONLINIE_TO + "." + PROPERTY_OHNE_ROUTE) : false);
             geomHistorisch.setSelected(historisch);
+            adjustWithoutRoute(historisch);
         }
 
         // beans mit denen aus dem Cache erstzen
@@ -718,9 +763,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         if (isEditable() && isOtherLinesEnabled()) {
             updateOtherLinesOnBaseline();
         }
-        btnRoute.setVisible(panOtherLines.getComponents().length != 0);
-        lblRoute.setVisible(panOtherLines.getComponents().length == 0);
 
+        if (!historisch) {
+            btnRoute.setVisible(panOtherLines.getComponents().length != 0);
+            lblRoute.setVisible(panOtherLines.getComponents().length == 0);
+        }
         if (getLineBean() != null) {
             // Farbe setzen (wird neu ermittelt, falls nicht schon eine feature existiert)
             setLineColor(getNextColor(getLineBean()));
@@ -1244,6 +1291,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  isFrom  DOCUMENT ME!
      */
     private void switchBadGeomVisibility(final boolean isFrom) {
+        if (historisch) {
+            return;
+        }
         if (isEditable()) {
             final Feature badGeomFeature = getBadGeomFeature(isFrom);
             final Feature pointFeature = getPointFeature(isFrom);
@@ -1659,6 +1709,9 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  isFrom  DOCUMENT ME!
      */
     protected void updateSplitMergeControls(final boolean isFrom) {
+        if (historisch) {
+            return;
+        }
         if (isEditable()) {
             final boolean isPointMerged = isPointMerged(isFrom);
             if (btnRoute.isSelected()) {
@@ -1717,9 +1770,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @param  isFrom  DOCUMENT ME!
      */
     private void updateBadGeomButton(final boolean isFrom) {
-        final boolean visible = isEditable() && (getBadGeomFeature(isFrom) != null);
-        getBadGeomButton(isFrom).setVisible(visible);
-        getBadGeomCorrectButton(isFrom).setVisible(visible && getBadGeomButton(isFrom).isSelected());
+        if (!historisch) {
+            final boolean visible = isEditable() && (getBadGeomFeature(isFrom) != null);
+            getBadGeomButton(isFrom).setVisible(visible);
+            getBadGeomCorrectButton(isFrom).setVisible(visible && getBadGeomButton(isFrom).isSelected());
+        }
     }
 
     /**
@@ -2448,7 +2503,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
         panLinePoints.add(geomHistorisch, gridBagConstraints);
@@ -2573,8 +2627,10 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      */
     private void geomHistorischActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_geomHistorischActionPerformed
         try {
-            getLineBean().setProperty("von.ohne_route", geomHistorisch.isSelected());
-            getLineBean().setProperty("bis.ohne_route", geomHistorisch.isSelected());
+            historisch = geomHistorisch.isSelected();
+            getLineBean().setProperty(PROP_STATIONLINIE_FROM + "." + PROPERTY_OHNE_ROUTE, geomHistorisch.isSelected());
+            getLineBean().setProperty(PROP_STATIONLINIE_TO + "." + PROPERTY_OHNE_ROUTE, geomHistorisch.isSelected());
+            adjustWithoutRoute(historisch);
         } catch (Exception ex) {
             geomHistorisch.setSelected(!geomHistorisch.isSelected());
             LOG.error("Cannot change ohne_route property", ex);
@@ -2984,6 +3040,56 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
     @Override
     public boolean prepareForSave() {
+        final CidsBean from = (CidsBean)cidsBean.getProperty(lineField + "." + PROP_STATIONLINIE_FROM);
+        final CidsBean to = (CidsBean)cidsBean.getProperty(lineField + "." + PROP_STATIONLINIE_TO);
+        final Boolean fromOhne = ((from.getProperty(PROPERTY_OHNE_ROUTE) == null)
+                ? Boolean.FALSE : (Boolean)from.getProperty(PROPERTY_OHNE_ROUTE));
+        final Boolean statBackupOhne = ((stationFromBackup.getProperty(PROPERTY_OHNE_ROUTE) == null)
+                ? Boolean.FALSE : (Boolean)stationFromBackup.getProperty(PROPERTY_OHNE_ROUTE));
+
+        if ((from.getMetaObject().getID() != -1) && fromOhne
+                    && !statBackupOhne) {
+            try {
+                final String query = "select " + MC_STATION.getID() + ", getStationWithoutRoute("
+                            + from.getMetaObject().getID() + ")";
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+
+                if (metaObjects.length == 1) {
+                    if (metaObjects[0].getID() != from.getMetaObject().getID()) {
+                        ((CidsBean)cidsBean.getProperty(lineField)).setProperty(
+                            PROP_STATIONLINIE_FROM,
+                            metaObjects[0].getBean());
+                    }
+                }
+            } catch (Exception e) {
+                LOG.error("Error while checking the ohne_route property.");
+            }
+        }
+
+        final Boolean toOhne = ((to.getProperty(PROPERTY_OHNE_ROUTE) == null)
+                ? Boolean.FALSE : (Boolean)to.getProperty(PROPERTY_OHNE_ROUTE));
+        final Boolean statToBackupOhne = ((stationToBackup.getProperty(PROPERTY_OHNE_ROUTE) == null)
+                ? Boolean.FALSE : (Boolean)stationToBackup.getProperty(PROPERTY_OHNE_ROUTE));
+
+        if ((to.getMetaObject().getID() != -1) && toOhne
+                    && !statToBackupOhne) {
+            try {
+                final String query = "select " + MC_STATION.getID() + ", getStationWithoutRoute("
+                            + to.getMetaObject().getID() + ")";
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+
+                if (metaObjects.length == 1) {
+                    if (metaObjects[0].getID() != to.getMetaObject().getID()) {
+                        ((CidsBean)cidsBean.getProperty(lineField)).setProperty(
+                            PROP_STATIONLINIE_TO,
+                            metaObjects[0].getBean());
+                    }
+                }
+            } catch (Exception e) {
+                LOG.error("Error while checking the ohne_route property.");
+            }
+        }
+
         return true;
     }
 
