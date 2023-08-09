@@ -22,6 +22,7 @@ import Sirius.server.middleware.types.MetaObjectNode;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -47,6 +48,9 @@ import de.cismet.cids.editors.SaveVetoable;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
@@ -60,10 +64,18 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkFgPanTen.class);
+    private static ConnectionContext CC = ConnectionContext.create(
+            AbstractConnectionContext.Category.EDITOR,
+            "WkFgPanTen");
+
+    private static final MetaClass MC_STAMM = ClassCacheMultiple.getMetaClass(
+            WRRLUtil.DOMAIN_NAME,
+            "bio_mst_stammdaten",
+            CC);
 
     //~ Instance fields --------------------------------------------------------
 
-    private MetaClass mc = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "bio_mst_messungen");
+    private MetaClass mc = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "bio_mst_messungen", CC);
     private String[][] header = {
             { "MST", "messstelle.messstelle" },       // NOI18N
             { "WK", "messstelle.wk_fg.wk_k" },        // NOI18N
@@ -76,6 +88,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
     private final MstTableModel model = new MstTableModel(mc, header);
 
     private CidsBean cidsBean;
+    private boolean readOnly = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cids.editors.DefaultBindableReferenceCombo cbBen_Inv;
@@ -139,6 +152,7 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
      */
     public WkFgPanTen(final boolean readOnly) {
         initComponents();
+        this.readOnly = readOnly;
 
         RendererTools.makeReadOnly(cbConfidence);
 
@@ -159,6 +173,14 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
             RendererTools.makeReadOnly(cbFisch);
             RendererTools.makeReadOnly(cbMacPhyto);
             RendererTools.makeReadOnly(cbPhyto);
+            txtBenInvMst.setForeground(Color.BLUE);
+            txtFishGkMst.setForeground(Color.BLUE);
+            txtMacPhytoGkMst.setForeground(Color.BLUE);
+            txtPhytoGkMst.setForeground(Color.BLUE);
+            txtBenInvMst.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            txtFishGkMst.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            txtMacPhytoGkMst.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            txtPhytoGkMst.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             jbFishVorb.setVisible(false);
             jbMacPhytoVorb.setVisible(false);
             jbMzbVorb.setVisible(false);
@@ -386,6 +408,13 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtPhytoGkMst.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    txtPhytoGkMstMouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 5;
@@ -473,6 +502,13 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtBenInvMst.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    txtBenInvMstMouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 3;
@@ -569,6 +605,13 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtMacPhytoGkMst.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    txtMacPhytoGkMstMouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 4;
@@ -657,6 +700,13 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        txtFishGkMst.addMouseListener(new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(final java.awt.event.MouseEvent evt) {
+                    txtFishGkMstMouseClicked(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 6;
@@ -1042,6 +1092,114 @@ public class WkFgPanTen extends javax.swing.JPanel implements DisposableCidsBean
                 }
             }).start();
     } //GEN-LAST:event_jbFishVorbActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtBenInvMstMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_txtBenInvMstMouseClicked
+        if ((evt.getClickCount() == 1) && readOnly && (cidsBean.getProperty("ben_inv_gk_mst") instanceof String)
+                    && !cidsBean.getProperty("ben_inv_gk_mst").equals("")) {
+            try {
+                String query = "select " + MC_STAMM.getID() + ", m." + MC_STAMM.getPrimaryKey() + " from "
+                            + MC_STAMM.getTableName();                           // NOI18N
+                query += " m";                                                   // NOI18N
+                query += " WHERE m.messstelle = '" + (String)cidsBean.getProperty("ben_inv_gk_mst") + "'";
+
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+
+                if ((metaObjects != null) && (metaObjects.length == 1)) {
+                    ComponentRegistry.getRegistry()
+                            .getDescriptionPane()
+                            .gotoMetaObjectNode(new MetaObjectNode(metaObjects[0].getBean()), false);
+                }
+            } catch (Exception e) {
+                LOG.error("Error while retrieving class", e);
+            }
+        }
+    } //GEN-LAST:event_txtBenInvMstMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtMacPhytoGkMstMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_txtMacPhytoGkMstMouseClicked
+        if ((evt.getClickCount() == 1) && readOnly && (cidsBean.getProperty("mac_phyto_gk_mst") instanceof String)
+                    && !cidsBean.getProperty("mac_phyto_gk_mst").equals("")) {
+            try {
+                String query = "select " + MC_STAMM.getID() + ", m." + MC_STAMM.getPrimaryKey() + " from "
+                            + MC_STAMM.getTableName();                               // NOI18N
+                query += " m";                                                       // NOI18N
+                query += " WHERE m.messstelle = '" + (String)cidsBean.getProperty("mac_phyto_gk_mst") + "'";
+
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+
+                if ((metaObjects != null) && (metaObjects.length == 1)) {
+                    ComponentRegistry.getRegistry()
+                            .getDescriptionPane()
+                            .gotoMetaObjectNode(new MetaObjectNode(metaObjects[0].getBean()), false);
+                }
+            } catch (Exception e) {
+                LOG.error("Error while retrieving class", e);
+            }
+        }
+    } //GEN-LAST:event_txtMacPhytoGkMstMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtPhytoGkMstMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_txtPhytoGkMstMouseClicked
+        if ((evt.getClickCount() == 1) && readOnly && (cidsBean.getProperty("phyto_gk_mst") instanceof String)
+                    && !cidsBean.getProperty("phyto_gk_mst").equals("")) {
+            try {
+                String query = "select " + MC_STAMM.getID() + ", m." + MC_STAMM.getPrimaryKey() + " from "
+                            + MC_STAMM.getTableName();                            // NOI18N
+                query += " m";                                                    // NOI18N
+                query += " WHERE m.messstelle = '" + (String)cidsBean.getProperty("phyto_gk_mst") + "'";
+
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+
+                if ((metaObjects != null) && (metaObjects.length == 1)) {
+                    ComponentRegistry.getRegistry()
+                            .getDescriptionPane()
+                            .gotoMetaObjectNode(new MetaObjectNode(metaObjects[0].getBean()), false);
+                }
+            } catch (Exception e) {
+                LOG.error("Error while retrieving class", e);
+            }
+        }
+    } //GEN-LAST:event_txtPhytoGkMstMouseClicked
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void txtFishGkMstMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_txtFishGkMstMouseClicked
+        if ((evt.getClickCount() == 1) && readOnly && (cidsBean.getProperty("fish_gk_mst") instanceof String)
+                    && !cidsBean.getProperty("fish_gk_mst").equals("")) {
+            try {
+                String query = "select " + MC_STAMM.getID() + ", m." + MC_STAMM.getPrimaryKey() + " from "
+                            + MC_STAMM.getTableName();                           // NOI18N
+                query += " m";                                                   // NOI18N
+                query += " WHERE m.messstelle = '" + (String)cidsBean.getProperty("fish_gk_mst") + "'";
+
+                final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+
+                if ((metaObjects != null) && (metaObjects.length == 1)) {
+                    ComponentRegistry.getRegistry()
+                            .getDescriptionPane()
+                            .gotoMetaObjectNode(new MetaObjectNode(metaObjects[0].getBean()), false);
+                }
+            } catch (Exception e) {
+                LOG.error("Error while retrieving class", e);
+            }
+        }
+    } //GEN-LAST:event_txtFishGkMstMouseClicked
 
     @Override
     public CidsBean getCidsBean() {

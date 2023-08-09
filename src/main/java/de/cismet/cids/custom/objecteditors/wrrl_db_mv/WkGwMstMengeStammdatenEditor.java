@@ -169,6 +169,7 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
 
         if (readOnly) {
             lblWkGwVal.setForeground(Color.BLUE);
+            lblWkGwVal.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         }
 
         jPanel4.addMouseListener(new MouseAdapter() {
@@ -709,7 +710,7 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
 
         lblWkGw.setText(org.openide.util.NbBundle.getMessage(
                 WkGwMstMengeStammdatenEditor.class,
-                "WkGwMstMengeStammdatenEditor.lblFilterOb.text")); // NOI18N
+                "WkGwMstMengeStammdatenEditor.lblWkGw.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
