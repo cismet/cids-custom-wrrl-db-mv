@@ -42,21 +42,22 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
     private static final Logger LOG = Logger.getLogger(WkGwMstMessungenPanOne.class);
     private static final String PROP_WERT = "wert_";
     private static final String PROP_EINHEIT = "einh_";
-    private static final String PROP_UNTERB = "unterbg_";
-    private static final String PROP_GK = "gk_";
+    private static final String PROP_UNTERB = "bg_";
+    private static final String PROP_GK = "";
     private static final String PROP_SW = "sw_"; // _sw_check
+    private static final String PROP_GK_SUFFIX = "_sw_check";
 
-    private static final String PROP_NITRAT = "nitrat";                      // wert_no3
-    private static final String PROP_ARSEN = "arsen";                        // ar
-    private static final String PROP_CADMIUM = "cadmium";                    // cd
-    private static final String PROP_BLEI = "blei";                          // pb
-    private static final String PROP_QUECKSILBER = "quecksilber";            // hg
-    private static final String PROP_AMMONIUM = "ammonium";                  // nh4
-    private static final String PROP_CHLORID = "chlorid";                    // cl
-    private static final String PROP_NITRIT = "nitrit";                      // no2
-    private static final String PROP_ORTHO = "orthophosphat_p";              // po4
-    private static final String PROP_SULFAT = "sulfat";                      // so4
-    private static final String PROP_SUM_TRI_TE = "sum_tri_tetrachlorethen"; // cmhm
+    private static final String PROP_NITRAT = "no3";      // no3
+    private static final String PROP_ARSEN = "ar";        // ar
+    private static final String PROP_CADMIUM = "cd";      // cd
+    private static final String PROP_BLEI = "pb";         // pb
+    private static final String PROP_QUECKSILBER = "hg";  // hg
+    private static final String PROP_AMMONIUM = "nh4";    // nh4
+    private static final String PROP_CHLORID = "cl";      // cl
+    private static final String PROP_NITRIT = "no2";      // no2
+    private static final String PROP_ORTHO = "po4";       // po4
+    private static final String PROP_SULFAT = "so4";      // so4
+    private static final String PROP_SUM_TRI_TE = "cmhm"; // cmhm
 
     //~ Enums ------------------------------------------------------------------
 
@@ -359,6 +360,7 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
 
                 txtSumTriTeGk.setText(getBeanProperty(PROP_SUM_TRI_TE, PropertyType.GK, 1));
                 txtSumTriTeMst1.setText(getBeanProperty(PROP_SUM_TRI_TE, PropertyType.MST, 1));
+                txtSumTriTesw.setText(getBeanProperty(PROP_SUM_TRI_TE, PropertyType.SW, 1));
                 txtSumTriTeEi.setText(getBeanProperty(PROP_SUM_TRI_TE, PropertyType.EINHEIT, 1));
                 txtSumTriTeHi.setText(getBeanProperty(PROP_SUM_TRI_TE, PropertyType.HINWEIS, 1));
                 txtSumTriTeHi.setToolTipText(getBeanProperty(PROP_SUM_TRI_TE, PropertyType.HI_TOOLTIP, 1));
@@ -420,7 +422,7 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
 
             switch (type) {
                 case GK: {
-                    propName = PROP_GK + name;
+                    propName = PROP_GK + name + PROP_GK_SUFFIX;
                     int num = cidsBeans.length - 1;
                     prop = cidsBeans[num].getProperty(propName);
 
@@ -511,7 +513,7 @@ public class WkGwMstMessungenPanOne extends javax.swing.JPanel {
 
             switch (type) {
                 case GK: {
-                    propName = PROP_GK + name;
+                    propName = PROP_GK + name + PROP_GK_SUFFIX;
                     Object prop = cidsBeans[cidsBeans.length - 1].getProperty(propName);
 
                     if (prop == null) {

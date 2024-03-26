@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -690,8 +691,26 @@ public class FotodokumentationEditor extends javax.swing.JPanel implements CidsB
      */
     private BufferedImage downloadImageFromWebDAV(final String fileName) throws IOException {
         final String encodedFileName = WebDavHelper.encodeURL(fileName);
+        final Map<String, String> responseHeaders = new HashMap<>();
+        final Map<String, Object> statusValues = new HashMap<>();
         final InputStream iStream = webDavClient.getInputStream(WEB_DAV_DIRECTORY
-                        + encodedFileName);
+                        + encodedFileName,
+                responseHeaders,
+                statusValues);
+        if (log.isDebugEnabled()) {
+            log.debug("status headers:");
+            for (final String key : responseHeaders.keySet()) {
+                if (log.isDebugEnabled()) {
+                    log.debug(key + ": " + responseHeaders.get(key));
+                }
+            }
+            log.debug("statusValues:");
+            for (final String key : statusValues.keySet()) {
+                if (log.isDebugEnabled()) {
+                    log.debug(key + ": " + String.valueOf(statusValues.get(key)));
+                }
+            }
+        }
         if (log.isDebugEnabled()) {
             log.debug("original: " + fileName + "\nweb dav path: " + WEB_DAV_DIRECTORY + encodedFileName);
         }

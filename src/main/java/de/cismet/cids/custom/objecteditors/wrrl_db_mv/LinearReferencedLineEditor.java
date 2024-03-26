@@ -1621,6 +1621,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             }
         }
     }
+
     /**
      * spinner ändern feature ändern realgeoms anpassen.
      *
@@ -3040,37 +3041,62 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
     @Override
     public boolean prepareForSave() {
-        /*final CidsBean from = (CidsBean)cidsBean.getProperty(lineField + "." + PROP_STATIONLINIE_FROM);
-         * final CidsBean to = (CidsBean)cidsBean.getProperty(lineField + "." + PROP_STATIONLINIE_TO); final Boolean
-         * fromOhne = ((from.getProperty(PROPERTY_OHNE_ROUTE) == null)     ? Boolean.FALSE :
-         * (Boolean)from.getProperty(PROPERTY_OHNE_ROUTE)); final Boolean statBackupOhne =
-         * ((stationFromBackup.getProperty(PROPERTY_OHNE_ROUTE) == null)     ? Boolean.FALSE :
-         * (Boolean)stationFromBackup.getProperty(PROPERTY_OHNE_ROUTE));
-         *
-         * if ((from.getMetaObject().getID() != -1) && fromOhne              && !statBackupOhne) { try {     final String
-         * query = "select " + MC_STATION.getID() + ", getStationWithoutRoute("                 +
-         * from.getMetaObject().getID() + ")";     final MetaObject[] metaObjects =
-         * SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
-         *
-         *   if (metaObjects.length == 1) {         if (metaObjects[0].getID() != from.getMetaObject().getID()) {
-         *      ((CidsBean)cidsBean.getProperty(lineField)).setProperty(                 PROP_STATIONLINIE_FROM,
-         *         metaObjects[0].getBean());         }     } } catch (Exception e) {     LOG.error("Error while
-         * checking the ohne_route property."); } }
-         *
-         * final Boolean toOhne = ((to.getProperty(PROPERTY_OHNE_ROUTE) == null)     ? Boolean.FALSE :
-         * (Boolean)to.getProperty(PROPERTY_OHNE_ROUTE)); final Boolean statToBackupOhne =
-         * ((stationToBackup.getProperty(PROPERTY_OHNE_ROUTE) == null)     ? Boolean.FALSE :
-         * (Boolean)stationToBackup.getProperty(PROPERTY_OHNE_ROUTE));
-         *
-         * if ((to.getMetaObject().getID() != -1) && toOhne         && !statToBackupOhne) { try {     final String query =
-         * "select " + MC_STATION.getID() + ", getStationWithoutRoute("                 + to.getMetaObject().getID() +
-         * ")";     final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
-         *
-         *   if (metaObjects.length == 1) {         if (metaObjects[0].getID() != to.getMetaObject().getID()) {
-         *    ((CidsBean)cidsBean.getProperty(lineField)).setProperty(                 PROP_STATIONLINIE_TO,
-         *     metaObjects[0].getBean());         }     } } catch (Exception e) {     LOG.error("Error while checking
-         * the ohne_route property."); } }
-         */
+        if (cidsBean != null) {
+            final CidsBean from = (CidsBean)cidsBean.getProperty(lineField + "." + PROP_STATIONLINIE_FROM);
+            final CidsBean to = (CidsBean)cidsBean.getProperty(lineField + "." + PROP_STATIONLINIE_TO);
+
+            if ((from != null) && (to != null)) {
+                final Boolean fromOhne = ((from.getProperty(PROPERTY_OHNE_ROUTE) == null)
+                        ? Boolean.FALSE : (Boolean)from.getProperty(PROPERTY_OHNE_ROUTE));
+                final Boolean statBackupOhne =
+                    (((stationFromBackup == null) || (stationFromBackup.getProperty(PROPERTY_OHNE_ROUTE) == null))
+                        ? Boolean.FALSE : (Boolean)stationFromBackup.getProperty(PROPERTY_OHNE_ROUTE));
+
+                if ((from.getMetaObject().getID() != -1) && fromOhne && !statBackupOhne) {
+                    try {
+                        final String query = "select " + MC_STATION.getID() + ", getStationWithoutRoute("
+                                    + from.getMetaObject().getID() + ")";
+                        final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+
+                        if (metaObjects.length == 1) {
+                            if (metaObjects[0].getID() != from.getMetaObject().getID()) {
+                                ((CidsBean)cidsBean.getProperty(lineField)).setProperty(
+                                    PROP_STATIONLINIE_FROM,
+                                    metaObjects[0].getBean());
+                            }
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Error while checking the ohne_route property.");
+                    }
+                }
+
+                final Boolean toOhne = ((to.getProperty(PROPERTY_OHNE_ROUTE) == null)
+                        ? Boolean.FALSE : (Boolean)to.getProperty(PROPERTY_OHNE_ROUTE));
+                final Boolean statToBackupOhne =
+                    (((stationToBackup == null) || (stationToBackup.getProperty(PROPERTY_OHNE_ROUTE) == null))
+                        ? Boolean.FALSE : (Boolean)stationToBackup.getProperty(PROPERTY_OHNE_ROUTE));
+
+                if ((to.getMetaObject().getID() != -1) && toOhne && !statToBackupOhne) {
+                    try {
+                        final String query = "select " + MC_STATION.getID() + ", getStationWithoutRoute("
+                                    + to.getMetaObject().getID()
+                                    + ")";
+                        final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
+
+                        if (metaObjects.length == 1) {
+                            if (metaObjects[0].getID() != to.getMetaObject().getID()) {
+                                ((CidsBean)cidsBean.getProperty(lineField)).setProperty(
+                                    PROP_STATIONLINIE_TO,
+                                    metaObjects[0].getBean());
+                            }
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Error while checking the ohne_route property.");
+                    }
+                }
+            }
+        }
+
         return true;
     }
 
