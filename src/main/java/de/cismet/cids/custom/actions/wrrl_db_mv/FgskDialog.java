@@ -21,9 +21,12 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -54,6 +57,9 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.LinearReferencedPointF
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
+
 import de.cismet.tools.gui.StaticSwingTools;
 
 /**
@@ -78,6 +84,16 @@ public class FgskDialog extends javax.swing.JDialog {
     private static final MetaClass MC_GEOM = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
             LinearReferencingConstants.CN_GEOM);
+    private static final ConnectionContext CC = ConnectionContext.create(
+            AbstractConnectionContext.Category.OTHER,
+            "FgskDialog");
+    private static final List<String> exceptions = new ArrayList<>();
+
+    static {
+        exceptions.add("av_user");
+        exceptions.add("av_date");
+        exceptions.add("linie");
+    }
 
     //~ Instance fields --------------------------------------------------------
 
@@ -87,13 +103,17 @@ public class FgskDialog extends javax.swing.JDialog {
     private CidsBean routeBean = null;
     private final ArrayList<KartierAbschnitt> kartierAbschnitte = new ArrayList<KartierAbschnitt>();
     private boolean allValid;
+    private MetaObject[] mos;
+    private List<Integer> removedIndices = new ArrayList<>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdCancel;
     private javax.swing.JButton cmdOk;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton cmdRemove;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -143,13 +163,43 @@ public class FgskDialog extends javax.swing.JDialog {
 
         // tabelle füllen
         if (routeBean != null) {
-            Double fromPosition = null;
-            for (final double position : positions) {
-                final Double toPosition = position;
-                if (fromPosition != null) {
-                    kartierAbschnitte.add(new KartierAbschnitt(fromPosition.intValue(), toPosition.intValue()));
+            if ((positions != null) && (positions.length > 0)) {
+                Double fromPosition = null;
+
+                for (final double position : positions) {
+                    final Double toPosition = position;
+                    if (fromPosition != null) {
+                        kartierAbschnitte.add(new KartierAbschnitt(fromPosition.intValue(), toPosition.intValue()));
+                    }
+                    fromPosition = toPosition;
                 }
-                fromPosition = toPosition;
+            } else {
+                try {
+                    final MetaClass MC = ClassCacheMultiple.getMetaClass(WRRLUtil.DOMAIN_NAME, "fgsk_kartierabschnitt");
+
+                    String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
+                    query += " m join station_linie sl on (m.linie = sl.id) join station von on (sl.von = von.id)";     // NOI18N
+                    query += " WHERE not coalesce(historisch, false) and von.route = " + routeBean.getProperty("id");   // NOI18N
+                    query += " order by von.wert asc";                                                                  // NOI18N
+                    mos = SessionManager.getSession()
+                                .getConnection()
+                                .getMetaObjectByQuery(SessionManager.getSession().getUser(), query, CC);
+
+                    if ((mos != null) && (mos.length > 0)) {
+                        for (final MetaObject mo : mos) {
+                            final Double fromPosition = (Double)mo.getBean().getProperty("linie.von.wert");
+                            final Double toPosition = (Double)mo.getBean().getProperty("linie.bis.wert");
+
+                            if (fromPosition != null) {
+                                kartierAbschnitte.add(new KartierAbschnitt(
+                                        fromPosition.intValue(),
+                                        toPosition.intValue()));
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    LOG.error("Error while retrieving kartierabschnitte", e);
+                }
             }
         }
 
@@ -167,7 +217,8 @@ public class FgskDialog extends javax.swing.JDialog {
             }
         }
 
-        cmdOk.setEnabled(positions.length > 1);
+        cmdRemove.setVisible(mos != null);
+        cmdOk.setEnabled((positions.length > 1) || (mos.length > 1));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -178,129 +229,129 @@ public class FgskDialog extends javax.swing.JDialog {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
         panDesc = new javax.swing.JPanel();
         lblLeftCaption = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         lblLeftDescription = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
-        lblLeftDescription1 = new javax.swing.JLabel();
         lblLeftCaption1 = new javax.swing.JLabel();
-        cmdOk = new javax.swing.JButton();
-        cmdCancel = new javax.swing.JButton();
+        lblLeftDescription1 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
         panSettings = new javax.swing.JPanel();
         lblRightCaption = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jSeparator4 = new javax.swing.JSeparator();
+        cmdRemove = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        cmdOk = new javax.swing.JButton();
+        cmdCancel = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.title")); // NOI18N
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         panDesc.setBackground(new java.awt.Color(216, 228, 248));
+        panDesc.setMinimumSize(new java.awt.Dimension(270, 400));
+        panDesc.setPreferredSize(new java.awt.Dimension(270, 400));
+        panDesc.setLayout(new java.awt.GridBagLayout());
 
-        lblLeftCaption.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblLeftCaption.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblLeftCaption.setText(org.openide.util.NbBundle.getMessage(
                 FgskDialog.class,
-                "FgskDialog.lblLeftCaption.text")); // NOI18N
+                "FgskDialog.lblLeftCaption.text"));                 // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
+        panDesc.add(lblLeftCaption, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+        panDesc.add(jSeparator2, gridBagConstraints);
 
         lblLeftDescription.setText(org.openide.util.NbBundle.getMessage(
                 FgskDialog.class,
                 "FgskDialog.lblLeftDescription.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+        panDesc.add(lblLeftDescription, gridBagConstraints);
+
+        lblLeftCaption1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblLeftCaption1.setText(org.openide.util.NbBundle.getMessage(
+                FgskDialog.class,
+                "FgskDialog.lblLeftCaption1.text"));                 // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 12, 0, 0);
+        panDesc.add(lblLeftCaption1, gridBagConstraints);
 
         lblLeftDescription1.setText(org.openide.util.NbBundle.getMessage(
                 FgskDialog.class,
                 "FgskDialog.lblLeftDescription1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
+        panDesc.add(lblLeftDescription1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
+        panDesc.add(jSeparator3, gridBagConstraints);
 
-        lblLeftCaption1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        lblLeftCaption1.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblLeftCaption1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        getContentPane().add(panDesc, gridBagConstraints);
 
-        final org.jdesktop.layout.GroupLayout panDescLayout = new org.jdesktop.layout.GroupLayout(panDesc);
-        panDesc.setLayout(panDescLayout);
-        panDescLayout.setHorizontalGroup(
-            panDescLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                jSeparator3,
-                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                438,
-                Short.MAX_VALUE).add(
-                org.jdesktop.layout.GroupLayout.TRAILING,
-                panDescLayout.createSequentialGroup().addContainerGap(426, Short.MAX_VALUE).add(jLabel5)
-                            .addContainerGap()).add(
-                panDescLayout.createSequentialGroup().addContainerGap().add(
-                    panDescLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                        panDescLayout.createSequentialGroup().add(
-                            jSeparator2,
-                            org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                            414,
-                            Short.MAX_VALUE).addContainerGap()).add(
-                        panDescLayout.createSequentialGroup().add(lblLeftCaption).add(354, 354, 354)))).add(
-                panDescLayout.createSequentialGroup().addContainerGap().add(
-                    lblLeftDescription,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(219, Short.MAX_VALUE)).add(
-                panDescLayout.createSequentialGroup().addContainerGap().add(lblLeftCaption1).addContainerGap(
-                    356,
-                    Short.MAX_VALUE)).add(
-                panDescLayout.createSequentialGroup().addContainerGap().add(
-                    lblLeftDescription1,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(215, Short.MAX_VALUE)));
-        panDescLayout.setVerticalGroup(
-            panDescLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                panDescLayout.createSequentialGroup().addContainerGap().add(lblLeftCaption).addPreferredGap(
-                    org.jdesktop.layout.LayoutStyle.RELATED).add(
-                    jSeparator2,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    2,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    org.jdesktop.layout.LayoutStyle.RELATED).add(
-                    lblLeftDescription,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).add(18, 18, 18).add(lblLeftCaption1)
-                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED).add(
-                    lblLeftDescription1,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    org.jdesktop.layout.LayoutStyle.RELATED,
-                    64,
-                    Short.MAX_VALUE).add(jLabel5).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(
-                    jSeparator3,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
+        panSettings.setMinimumSize(new java.awt.Dimension(50, 50));
+        panSettings.setLayout(new java.awt.GridBagLayout());
 
-        cmdOk.setMnemonic('O');
-        cmdOk.setText(org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.cmdOk.text")); // NOI18N
-        cmdOk.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cmdOkActionPerformed(evt);
-                }
-            });
-
-        cmdCancel.setMnemonic('A');
-        cmdCancel.setText(org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.cmdCancel.text")); // NOI18N
-        cmdCancel.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cmdCancelActionPerformed(evt);
-                }
-            });
-
-        lblRightCaption.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblRightCaption.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblRightCaption.setText(org.openide.util.NbBundle.getMessage(
                 FgskDialog.class,
-                "FgskDialog.lblRightCaption.text")); // NOI18N
+                "FgskDialog.lblRightCaption.text"));                 // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 0, 0, 0);
+        panSettings.add(lblRightCaption, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+        panSettings.add(jSeparator1, gridBagConstraints);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][] {},
@@ -323,107 +374,133 @@ public class FgskDialog extends javax.swing.JDialog {
                     return canEdit[columnIndex];
                 }
             });
-        jTable1.setDefaultRenderer(Integer.class, new MyTableCellRenderer());
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
-        jScrollPane1.setViewportView(jTable1);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
 
-        final org.jdesktop.layout.GroupLayout panSettingsLayout = new org.jdesktop.layout.GroupLayout(panSettings);
-        panSettings.setLayout(panSettingsLayout);
-        panSettingsLayout.setHorizontalGroup(
-            panSettingsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                panSettingsLayout.createSequentialGroup().addContainerGap().add(lblRightCaption).addContainerGap(
-                    214,
-                    Short.MAX_VALUE)).add(
-                jSeparator4,
-                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                288,
-                Short.MAX_VALUE).add(
-                org.jdesktop.layout.GroupLayout.TRAILING,
-                panSettingsLayout.createSequentialGroup().addContainerGap().add(
-                    jSeparator1,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    276,
-                    Short.MAX_VALUE)).add(
-                panSettingsLayout.createSequentialGroup().addContainerGap().add(
-                    jScrollPane1,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    276,
-                    Short.MAX_VALUE)));
-        panSettingsLayout.setVerticalGroup(
-            panSettingsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                panSettingsLayout.createSequentialGroup().addContainerGap().add(lblRightCaption).addPreferredGap(
-                    org.jdesktop.layout.LayoutStyle.RELATED).add(
-                    jSeparator1,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    org.jdesktop.layout.LayoutStyle.RELATED).add(
-                    jScrollPane1,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    222,
-                    Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED).add(
-                    jSeparator4,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
+                @Override
+                public void keyTyped(final java.awt.event.KeyEvent evt) {
+                    jTable1KeyTyped(evt);
+                }
+            });
+        jScrollPane2.setViewportView(jTable1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 0, 5, 0);
+        panSettings.add(jScrollPane2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        panSettings.add(jSeparator4, gridBagConstraints);
+
+        cmdRemove.setText(org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.cmdRemove.text")); // NOI18N
+        cmdRemove.setMaximumSize(new java.awt.Dimension(160, 27));
+        cmdRemove.setMinimumSize(new java.awt.Dimension(160, 27));
+        cmdRemove.setPreferredSize(new java.awt.Dimension(160, 27));
+        cmdRemove.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdRemoveActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 12, 12);
+        panSettings.add(cmdRemove, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 12, 0, 12);
+        getContentPane().add(panSettings, gridBagConstraints);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        cmdOk.setMnemonic('O');
+        cmdOk.setText(org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.cmdOk.text")); // NOI18N
+        cmdOk.setMaximumSize(new java.awt.Dimension(100, 27));
+        cmdOk.setMinimumSize(new java.awt.Dimension(100, 27));
+        cmdOk.setPreferredSize(new java.awt.Dimension(100, 27));
+        cmdOk.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdOkActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 12, 12);
+        jPanel1.add(cmdOk, gridBagConstraints);
+
+        cmdCancel.setMnemonic('A');
+        cmdCancel.setText(org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.cmdCancel.text")); // NOI18N
+        cmdCancel.setMaximumSize(new java.awt.Dimension(100, 27));
+        cmdCancel.setMinimumSize(new java.awt.Dimension(100, 27));
+        cmdCancel.setPreferredSize(new java.awt.Dimension(100, 27));
+        cmdCancel.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdCancelActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 12, 0);
+        jPanel1.add(cmdCancel, gridBagConstraints);
+
+        jPanel2.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.weightx = 1.0;
+        jPanel1.add(jPanel2, gridBagConstraints);
 
         jProgressBar1.setVisible(false);
         jProgressBar1.setString(org.openide.util.NbBundle.getMessage(
                 FgskDialog.class,
                 "FgskDialog.jProgressBar1.string")); // NOI18N
         jProgressBar1.setStringPainted(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(11, 12, 12, 0);
+        jPanel1.add(jProgressBar1, gridBagConstraints);
 
-        final org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                layout.createSequentialGroup().add(
-                    layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING).add(
-                        layout.createSequentialGroup().addContainerGap().add(
-                            jProgressBar1,
-                            org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                            294,
-                            Short.MAX_VALUE).addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED).add(
-                            cmdCancel,
-                            org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                            110,
-                            org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                            org.jdesktop.layout.LayoutStyle.RELATED).add(
-                            cmdOk,
-                            org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                            107,
-                            org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).add(
-                        org.jdesktop.layout.GroupLayout.LEADING,
-                        layout.createSequentialGroup().add(
-                            panDesc,
-                            org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                            241,
-                            org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                            org.jdesktop.layout.LayoutStyle.UNRELATED).add(
-                            panSettings,
-                            org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                            org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                            Short.MAX_VALUE))).addContainerGap()));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
-                org.jdesktop.layout.GroupLayout.TRAILING,
-                layout.createSequentialGroup().add(
-                    layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING).add(
-                        panSettings,
-                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).add(
-                        panDesc,
-                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(
-                    layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING).add(
-                        layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(cmdOk).add(
-                            cmdCancel)).add(
-                        jProgressBar1,
-                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                        org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).addContainerGap()));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        getContentPane().add(jPanel1, gridBagConstraints);
 
         pack();
     } // </editor-fold>//GEN-END:initComponents
@@ -451,36 +528,38 @@ public class FgskDialog extends javax.swing.JDialog {
 
         final List<Integer> histFgskAbschn = new ArrayList<Integer>();
 
-        try {
-            final CidsServerSearch search = new FgskIdByIntersectionSearch(routeBean.getMetaObject().getId(),
-                    positions[0],
-                    positions[positions.length - 1]);
-            final Collection res = SessionManager.getProxy()
-                        .customServerSearch(SessionManager.getSession().getUser(), search);
-            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+        if (mos == null) {
+            try {
+                final CidsServerSearch search = new FgskIdByIntersectionSearch(routeBean.getMetaObject().getId(),
+                        positions[0],
+                        positions[positions.length - 1]);
+                final Collection res = SessionManager.getProxy()
+                            .customServerSearch(SessionManager.getSession().getUser(), search);
+                final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
 
-            if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
-                for (final ArrayList l : resArray) {
-                    histFgskAbschn.add((Integer)l.get(0));
+                if ((resArray != null) && (resArray.size() > 0) && (resArray.get(0).size() > 0)) {
+                    for (final ArrayList l : resArray) {
+                        histFgskAbschn.add((Integer)l.get(0));
+                    }
                 }
-            }
 
-            if (histFgskAbschn.size() > 0) {
-                final int returnOption = JOptionPane.showOptionDialog(
-                        StaticSwingTools.getParentFrame(this),
-                        "<html>An der angegebenen Stelle existieren bereits Kartierabschnitt.",
-                        "Vorsicht",
-                        JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,
-                        new String[] { "Abbrechen", "Fortfahren" },
-                        "Abbrechen");
-                if (returnOption == 0) {
-                    cmdCancelActionPerformed(null);
-                    return;
+                if (histFgskAbschn.size() > 0) {
+                    final int returnOption = JOptionPane.showOptionDialog(
+                            StaticSwingTools.getParentFrame(this),
+                            "<html>An der angegebenen Stelle existieren bereits Kartierabschnitt.",
+                            "Vorsicht",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE,
+                            null,
+                            new String[] { "Abbrechen", "Fortfahren" },
+                            "Abbrechen");
+                    if (returnOption == 0) {
+                        cmdCancelActionPerformed(null);
+                        return;
+                    }
                 }
+            } catch (ConnectionException e) {
             }
-        } catch (ConnectionException e) {
         }
 
         cmdOk.setEnabled(false);
@@ -501,174 +580,142 @@ public class FgskDialog extends javax.swing.JDialog {
                             LinearReferencingConstants.PROP_GEOM_GEOFIELD);
 
                     // Abschnitte als historisch markieren
-// final User u = SessionManager.getSession().getUser();
-// final Double minPosition = min(positions);
-// final Double maxPosition = max(positions);
-// for (final Integer id : histFgskAbschn) {
-// try {
-// final MetaObject mo = SessionManager.getProxy()
-// .getMetaObject(u, id, MC_FGSK.getId(), MC_FGSK.getDomain());
-// final CidsBean histBean = mo.getBean();
-// Double from = (Double)histBean.getProperty("linie.von.wert");
-// Double till = (Double)histBean.getProperty("linie.bis.wert");
-//
-// if ((from != null) && (till != null)) {
-// if (from > till) {
-// final Double tmp = from;
-// from = till;
-// till = tmp;
-// }
-// if ((from < minPosition) && (till > maxPosition)) {
-// // new fgsk object are contained in this old fgsk object
-// // divide station line
-// CidsBean newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
-// newPart.setProperty(
-// "linie",
-// CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
-// changeStationLine((CidsBean)newPart.getProperty("linie"), from, minPosition);
-// newPart.persist();
-//
-// // divide station line
-// newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
-// newPart.setProperty(
-// "linie",
-// CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
-// changeStationLine((CidsBean)newPart.getProperty("linie"), maxPosition, till);
-// newPart.persist();
-//
-// final CidsBean statLine = (CidsBean)histBean.getProperty("linie");
-// changeStationLine((CidsBean)histBean.getProperty("linie"),
-// minPosition,
-// maxPosition);
-// statLine.persist();
-// } else if (from < minPosition) {
-// // divide station line
-// final CidsBean newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
-// newPart.setProperty(
-// "linie",
-// CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
-// changeStationLine((CidsBean)newPart.getProperty("linie"), from, minPosition);
-// newPart.persist();
-//
-// // historic part
-// final CidsBean statLine = (CidsBean)histBean.getProperty("linie");
-// changeStationLine((CidsBean)histBean.getProperty("linie"), minPosition, till);
-// statLine.persist();
-// } else if (till > maxPosition) {
-// // divide station line
-// final CidsBean newPart = CidsBeanSupport.cloneCidsBean(histBean, false);
-// newPart.setProperty(
-// "linie",
-// CidsBeanSupport.cloneStationline((CidsBean)histBean.getProperty("linie")));
-// changeStationLine((CidsBean)newPart.getProperty("linie"), maxPosition, till);
-// newPart.persist();
-//
-// // historic part
-// final CidsBean statLine = (CidsBean)histBean.getProperty("linie");
-// changeStationLine(statLine, from, maxPosition);
-// statLine.persist();
-// }
-// }
-// histBean.setProperty("historisch", Boolean.TRUE);
-// histBean.persist();
-// jProgressBar1.setValue(numOfPersisted++);
-// } catch (Exception e) {
-// LOG.error("Cannot adjust old object", e);
-// }
-// }
+                    if (mos != null) {
+                        for (int i = 0; i < mos.length; ++i) {
+                            if (removedIndices.contains(i)) {
+                                continue;
+                            }
+                            try {
+                                final MetaObject mo = mos[i];
+                                final CidsBean histBean = mo.getBean();
 
-                    // stationen erzeugen
-                    final Collection<CidsBean> stationenBeans = new ArrayList<CidsBean>();
-                    for (final Double position : positions) {
-                        try {
-                            final Geometry pointGeom = LinearReferencedPointFeature.getPointOnLine(position, routeGeom);
-                            // punkt geom bean erzeugen
-                            final CidsBean pointGeomBean = MC_GEOM.getEmptyInstance().getBean();
-                            pointGeomBean.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, pointGeom);
-                            // punkt erzeugen
-                            final CidsBean toPointBean = MC_STATION.getEmptyInstance().getBean();
-                            toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM, pointGeomBean);
-                            toPointBean.setProperty(
-                                LinearReferencingConstants.PROP_STATION_VALUE,
-                                ((Integer)position.intValue()).doubleValue());
-                            toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_ROUTE, routeBean);
-                            stationenBeans.add(toPointBean.persist());
-                            jProgressBar1.setValue(numOfPersisted++);
-                        } catch (Exception ex) {
-                            LOG.error("error while creating point bean", ex);
+                                histBean.setProperty("historisch", Boolean.TRUE);
+                                histBean.persist();
+                                jProgressBar1.setValue(numOfPersisted++);
+                            } catch (Exception e) {
+                                LOG.error("Cannot adjust old object", e);
+                            }
                         }
                     }
 
-                    // station_linien erzeugen
-                    CidsBean fromPointBean = null;
-                    for (final CidsBean stationenBean : stationenBeans) {
-                        final CidsBean toPointBean = stationenBean;
-
-                        if (fromPointBean != null) {
-                            final int fromValue =
-                                ((Double)fromPointBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE))
-                                        .intValue();
-                            final int toValue =
-                                ((Double)toPointBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE))
-                                        .intValue();
-                            final Geometry lineGeom = LinearReferencedLineFeature.createSubline(
-                                    fromValue,
-                                    toValue,
-                                    routeGeom);
-
-                            // linien geom bean erzeugen
-                            final CidsBean lineGeomBean = MC_GEOM.getEmptyInstance().getBean();
-                            lineGeomBean.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, lineGeom);
-
-                            // linie bean erzeugen
-                            final CidsBean lineBean = MC_STATIONLINIE.getEmptyInstance().getBean();
-                            lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, fromPointBean);
-                            lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, toPointBean);
-                            lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM, lineGeomBean);
-
-                            // fgsk bean erzeugen
-                            final CidsBean fgskBean = MC_FGSK.getEmptyInstance().getBean();
-                            fgskBean.setProperty("linie", lineBean);
-                            fgskBean.setProperty("erfassungsdatum", new java.sql.Timestamp(System.currentTimeMillis()));
-                            fgskBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
-                            fgskBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
-                            fgskBean.setProperty("gwk", routeBean.getProperty("gwk"));
-
+                    if (mos == null) {
+                        // stationen erzeugen
+                        final Collection<CidsBean> stationenBeans = new ArrayList<CidsBean>();
+                        for (final Double position : positions) {
                             try {
-                                if ((lineBean != null) && (routeBean != null)) {
-                                    final Double vonWert = (Double)lineBean.getProperty("von.wert");
-                                    final Double bisWert = (Double)lineBean.getProperty("bis.wert");
-                                    if ((vonWert != null) && (bisWert != null)) {
-                                        final double wert = (bisWert + vonWert) / 2;
-                                        final CidsServerSearch search = new WKKSearchBySingleStation(String.valueOf(
-                                                    routeBean.getProperty("id")),
-                                                String.valueOf(wert));
-                                        final Collection res = SessionManager.getProxy()
-                                                    .customServerSearch(SessionManager.getSession().getUser(), search);
-                                        final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+                                final Geometry pointGeom = LinearReferencedPointFeature.getPointOnLine(
+                                        position,
+                                        routeGeom);
+                                // punkt geom bean erzeugen
+                                final CidsBean pointGeomBean = MC_GEOM.getEmptyInstance().getBean();
+                                pointGeomBean.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, pointGeom);
+                                // punkt erzeugen
+                                final CidsBean toPointBean = MC_STATION.getEmptyInstance().getBean();
+                                toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_GEOM, pointGeomBean);
+                                toPointBean.setProperty(
+                                    LinearReferencingConstants.PROP_STATION_VALUE,
+                                    ((Integer)position.intValue()).doubleValue());
+                                toPointBean.setProperty(LinearReferencingConstants.PROP_STATION_ROUTE, routeBean);
+                                stationenBeans.add(toPointBean.persist());
+                                jProgressBar1.setValue(numOfPersisted++);
+                            } catch (Exception ex) {
+                                LOG.error("error while creating point bean", ex);
+                            }
+                        }
 
-                                        if ((resArray != null) && (resArray.size() > 0)
-                                                    && (resArray.get(0).size() > 0)) {
-                                            final Object o = resArray.get(0).get(0);
+                        // station_linien erzeugen
+                        CidsBean fromPointBean = null;
+                        for (final CidsBean stationenBean : stationenBeans) {
+                            final CidsBean toPointBean = stationenBean;
 
-                                            if (o instanceof String) {
-                                                fgskBean.setProperty("wkk", o.toString());
+                            if (fromPointBean != null) {
+                                final int fromValue =
+                                    ((Double)fromPointBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE))
+                                            .intValue();
+                                final int toValue =
+                                    ((Double)toPointBean.getProperty(LinearReferencingConstants.PROP_STATION_VALUE))
+                                            .intValue();
+                                final Geometry lineGeom = LinearReferencedLineFeature.createSubline(
+                                        fromValue,
+                                        toValue,
+                                        routeGeom);
+
+                                // linien geom bean erzeugen
+                                final CidsBean lineGeomBean = MC_GEOM.getEmptyInstance().getBean();
+                                lineGeomBean.setProperty(LinearReferencingConstants.PROP_GEOM_GEOFIELD, lineGeom);
+
+                                // linie bean erzeugen
+                                final CidsBean lineBean = MC_STATIONLINIE.getEmptyInstance().getBean();
+                                lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_FROM, fromPointBean);
+                                lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_TO, toPointBean);
+                                lineBean.setProperty(LinearReferencingConstants.PROP_STATIONLINIE_GEOM, lineGeomBean);
+
+                                // fgsk bean erzeugen
+                                final CidsBean fgskBean = MC_FGSK.getEmptyInstance().getBean();
+                                fgskBean.setProperty("linie", lineBean);
+                                fgskBean.setProperty(
+                                    "erfassungsdatum",
+                                    new java.sql.Timestamp(System.currentTimeMillis()));
+                                fgskBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+                                fgskBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
+                                fgskBean.setProperty("gwk", routeBean.getProperty("gwk"));
+
+                                try {
+                                    if ((lineBean != null) && (routeBean != null)) {
+                                        final Double vonWert = (Double)lineBean.getProperty("von.wert");
+                                        final Double bisWert = (Double)lineBean.getProperty("bis.wert");
+                                        if ((vonWert != null) && (bisWert != null)) {
+                                            final double wert = (bisWert + vonWert) / 2;
+                                            final CidsServerSearch search = new WKKSearchBySingleStation(String.valueOf(
+                                                        routeBean.getProperty("id")),
+                                                    String.valueOf(wert));
+                                            final Collection res = SessionManager.getProxy()
+                                                        .customServerSearch(SessionManager.getSession().getUser(),
+                                                            search);
+                                            final ArrayList<ArrayList> resArray = (ArrayList<ArrayList>)res;
+
+                                            if ((resArray != null) && (resArray.size() > 0)
+                                                        && (resArray.get(0).size() > 0)) {
+                                                final Object o = resArray.get(0).get(0);
+
+                                                if (o instanceof String) {
+                                                    fgskBean.setProperty("wkk", o.toString());
+                                                }
+                                            } else {
+                                                LOG.error(
+                                                    "Server error in getWk_k(). Cids server search return null. " // NOI18N
+                                                            + "See the server logs for further information");     // NOI18N
                                             }
-                                        } else {
-                                            LOG.error(
-                                                "Server error in getWk_k(). Cids server search return null. " // NOI18N
-                                                        + "See the server logs for further information");     // NOI18N
                                         }
                                     }
+                                } catch (final Exception e) {
+                                    LOG.error("Error while determining the water body", e);
                                 }
-                            } catch (final Exception e) {
-                                LOG.error("Error while determining the water body", e);
-                            }
 
-                            r.add(new MetaObjectNode(fgskBean.persist()));
-                            jProgressBar1.setValue(numOfPersisted++);
+                                r.add(new MetaObjectNode(fgskBean.persist()));
+                                jProgressBar1.setValue(numOfPersisted++);
+                            }
+                            fromPointBean = toPointBean;
                         }
-                        fromPointBean = toPointBean;
+                    } else {
+                        for (int i = 0; i < mos.length; ++i) {
+                            if (removedIndices.contains(i)) {
+                                continue;
+                            }
+                            try {
+                                final MetaObject mo = mos[i];
+                                final CidsBean newBean = CidsBeanSupport.cloneCidsBean(mo.getBean(), false, exceptions);
+
+                                newBean.setProperty(
+                                    "linie",
+                                    CidsBeanSupport.cloneStationline((CidsBean)mo.getBean().getProperty("linie")));
+
+                                newBean.setProperty("historisch", Boolean.FALSE);
+                                r.add(new MetaObjectNode(newBean.persist()));
+                            } catch (Exception e) {
+                                LOG.error("Cannot adjust old object", e);
+                            }
+                        }
                     }
                     return r;
                 }
@@ -698,6 +745,53 @@ public class FgskDialog extends javax.swing.JDialog {
         mappingComponent.setInteractionMode(interactionModeWhenFinished);
         dispose();
     }                                                                             //GEN-LAST:event_cmdCancelActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jTable1KeyTyped(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_jTable1KeyTyped
+        if (mos != null) {
+            if ((int)evt.getKeyChar() == KeyEvent.VK_DELETE) {
+                removeParts();
+            }
+        }
+    }                                                                 //GEN-LAST:event_jTable1KeyTyped
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmdRemoveActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdRemoveActionPerformed
+        if (mos != null) {
+            removeParts();
+        }
+    }                                                                             //GEN-LAST:event_cmdRemoveActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void removeParts() {
+        final int[] selectedRows = jTable1.getSelectedRows();
+
+        if ((selectedRows != null) && (selectedRows.length > 0)) {
+            final List<Integer> rows = new ArrayList<>();
+
+            for (final int row : selectedRows) {
+                rows.add(row);
+            }
+
+            Collections.sort(rows, Collections.reverseOrder());
+
+            for (final Integer row : rows) {
+                final Integer index = (Integer)((DefaultTableModel)jTable1.getModel()).getValueAt(row, 0);
+                removedIndices.add(index);
+                ((DefaultTableModel)jTable1.getModel()).removeRow(row);
+            }
+        }
+    }
 
     /**
      * Determines the min value.

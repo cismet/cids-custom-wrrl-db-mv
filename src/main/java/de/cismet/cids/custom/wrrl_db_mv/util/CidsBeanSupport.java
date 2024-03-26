@@ -299,13 +299,29 @@ public final class CidsBeanSupport {
      * @throws  Exception  DOCUMENT ME!
      */
     public static CidsBean cloneCidsBean(final CidsBean bean, final boolean cloneBeans) throws Exception {
+        return cloneCidsBean(bean, cloneBeans, new ArrayList<String>());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bean        DOCUMENT ME!
+     * @param   cloneBeans  true, iff a deep copy of the sub beans should be created
+     * @param   exceptions  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public static CidsBean cloneCidsBean(final CidsBean bean, final boolean cloneBeans, final List<String> exceptions)
+            throws Exception {
         if (bean == null) {
             return null;
         }
         final CidsBean clone = bean.getMetaObject().getMetaClass().getEmptyInstance().getBean();
 
         for (final String propName : bean.getPropertyNames()) {
-            if (!propName.toLowerCase().equals("id")) {
+            if (!propName.toLowerCase().equals("id") && !exceptions.contains(propName.toLowerCase())) {
                 final Object o = bean.getProperty(propName);
 
                 if (o instanceof CidsBean) {

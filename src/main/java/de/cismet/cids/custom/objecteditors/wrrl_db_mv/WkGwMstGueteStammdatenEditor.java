@@ -1010,13 +1010,13 @@ public class WkGwMstGueteStammdatenEditor extends JPanel implements CidsBeanRend
      */
     private CidsBean[] getDataForYear(final int year) {
         try {
-            String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName();      // NOI18N
-            query += " m WHERE m.mst = '" + cidsBean.getProperty("messstelle");                                      // NOI18N
+            String query = "select " + MC.getID() + ", m." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
+            query += " m WHERE m.mst = '" + cidsBean.getProperty("messstelle");                                 // NOI18N
             query += "' AND date_part('year'::text, datum)::integer = " + year
-                        + " and (wert_nitrat is not null or wert_arsen is not null or wert_cadmium is not null "
-                        + "or wert_blei is not null or wert_quecksilber is not null or wert_ammonium is not null "
-                        + "or wert_chlorid is not null or wert_nitrit is not null or wert_orthophosphat_p is not null or "
-                        + "wert_sulfat is not null or wert_sum_tri_tetrachlorethen is not null) order by datum asc"; // NOI18N
+                        + " and (wert_no3 is not null or wert_ar is not null or wert_cd is not null "
+                        + "or wert_pb is not null or wert_hg is not null or wert_nh4 is not null "
+                        + "or wert_cl is not null or wert_no2 is not null or wert_po4 is not null or "
+                        + "wert_so4 is not null or wert_cmhm is not null) order by datum asc";                  // NOI18N
 
             final MetaObject[] metaObjects = SessionManager.getProxy().getMetaObjectByQuery(query, 0, CC);
 
