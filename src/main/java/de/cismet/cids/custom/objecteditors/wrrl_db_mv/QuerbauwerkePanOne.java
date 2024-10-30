@@ -1050,6 +1050,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.datum_ueberpruefung}"),
                 dtPruefungZeit,
                 org.jdesktop.beansbinding.BeanProperty.create("timestamp"));
+        binding.setConverter(defaultBindableTimestampChooser1.getConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
