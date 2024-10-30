@@ -1,0 +1,1349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
+<!-- 2024-10-24T16:17:39 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fließgewässerstrukturgütekartierung Mecklenburg-Vorpommern" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="312330f5-ffe8-4c53-909b-ea60f39ddb3a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="07a6daae-fe93-493e-afbf-c96d2150cf38"/>
+	<parameter name="gew" class="java.lang.String"/>
+	<parameter name="gwk" class="java.lang.String"/>
+	<parameter name="wkk" class="java.lang.String"/>
+	<parameter name="wkName" class="java.lang.String"/>
+	<parameter name="statFrom" class="java.lang.String"/>
+	<parameter name="statTo" class="java.lang.String"/>
+	<parameter name="kartierer" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<parameter name="bwNummer" class="java.lang.String"/>
+	<parameter name="anlagename" class="java.lang.String"/>
+	<parameter name="bauwerksart" class="java.lang.String"/>
+	<parameter name="material" class="java.lang.String"/>
+	<parameter name="laenge" class="java.lang.String"/>
+	<parameter name="durchmesser" class="java.lang.String"/>
+	<parameter name="ueberdeckung" class="java.lang.String"/>
+	<parameter name="stauhoehe" class="java.lang.String"/>
+	<parameter name="sohlbefestigung_laenge" class="java.lang.String"/>
+	<parameter name="sohlbefestigung_uh_material" class="java.lang.String"/>
+	<parameter name="sohlbefestigung_oh_material" class="java.lang.String"/>
+	<parameter name="substrat" class="java.lang.String"/>
+	<parameter name="regulierbarkeit" class="java.lang.String"/>
+	<parameter name="dgk_fische" class="java.lang.String"/>
+	<parameter name="dgk_wirbel" class="java.lang.String"/>
+	<parameter name="dgk_otter" class="java.lang.String"/>
+	<parameter name="stand" class="java.lang.String"/>
+	<title>
+		<band height="16" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement style="table_TD" stretchType="RelativeToBandHeight" x="1" y="2" width="554" height="12" uuid="0874ec6d-1846-4b61-a266-a528a2ad50ce"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="10" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Fixed"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ $P{stand}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="782" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="12" width="136" height="24" backcolor="#C8C8C8" uuid="d394a5e4-33fd-49df-b60d-6da9e29de2e3"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="14" isBold="true" isItalic="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5" spacingBefore="0"/>
+				</textElement>
+				<text><![CDATA[FGSK MV]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="0" width="136" height="12" backcolor="#C8C8C8" uuid="91f519a4-256f-48d8-a3f9-6928d7e50ab0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Bauwerksbogen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="137" y="0" width="78" height="12" uuid="28b4ebba-ace0-4198-bf0c-c19b1eb8cc06"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Gewässername:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="137" y="12" width="78" height="12" uuid="2c759fb5-574e-4eaa-bec5-17158b08fb4d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Wasserkörper:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="137" y="24" width="78" height="12" uuid="955ae3cf-60b5-494f-af73-7d2a91cb86e9"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Gewässerkennzahl:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" stretchType="RelativeToBandHeight" x="215" y="0" width="75" height="12" uuid="51bbe2b3-5952-456b-819c-288026539e5a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{wkName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="215" y="12" width="75" height="12" uuid="20134a79-2e5c-4353-a04d-43ba5ea8d80c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{wkk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="215" y="24" width="203" height="12" uuid="36ef82ff-8d88-4ca9-b0b6-f207c228c9bf">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{gwk}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="290" y="12" width="55" height="12" uuid="850be937-5641-4bde-857b-bd1b50f2ca83">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Station bis*:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="345" y="12" width="73" height="12" uuid="ffdb767a-cf48-4a68-a41f-21cf2a777a83"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{statTo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="290" y="0" width="55" height="12" uuid="9022492d-07bb-4449-9eac-384372240d1f">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Station von*:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="345" y="0" width="73" height="12" uuid="37204630-9128-485b-ae49-47477bb263fa"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{statFrom}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="418" y="0" width="42" height="24" uuid="c08244d9-52b4-498a-9b1c-0506e5ba2e24"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Kartierer:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="460" y="0" width="95" height="24" uuid="70e44b9a-1702-4165-89e2-b448234c3ac4"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{kartierer}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="418" y="24" width="42" height="12" uuid="c8177cf3-5cc0-461a-888a-3986ba26f9e3"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Datum:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="460" y="24" width="95" height="12" uuid="eac52ae7-458a-4968-aa08-3714db3e2714">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="36" width="65" height="12" uuid="91c168e4-4d74-4c2d-9dd9-8190f11b57d8"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ BW-Nummer
+ ID-vorh.: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="66" y="48" width="71" height="12" uuid="6e00e2f2-2f0e-46db-bf3e-7190ea5c6f99"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{bwNummer}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="137" y="36" width="63" height="12" uuid="579096cb-8122-4ef7-9ba2-dc621adfdf6d"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ BW-Nummer
+  neu: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="200" y="36" width="70" height="24" uuid="f375060a-3612-4729-b46a-ba12bd6a6b48"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="270" y="36" width="245" height="24" uuid="054d9290-94d9-4345-a52a-a4598ef2dc50">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Foto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="515" y="36" width="20" height="12" uuid="c5ae8d22-3ba8-483c-9b5a-cd98e6de3f24">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ gg.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="515" y="48" width="20" height="12" uuid="d59ebedb-8673-4c7c-a2dd-365f0301a2a5">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ FR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="535" y="36" width="20" height="12" uuid="c91f4349-5fc3-40e2-a3bf-dc7c959da9d7">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ in]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="535" y="48" width="20" height="12" uuid="87e93de4-1570-49a1-9df3-dbcdfa09f863">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ FR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="270" y="60" width="285" height="168" uuid="841e3160-7806-4d39-b96d-6d085d58d03b">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[B e m e r k u n g e n / S k i z z e]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="60" width="136" height="12" uuid="5c485e1f-9005-4989-bd79-33bb933c9557">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Anlagenname]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="137" y="60" width="133" height="24" uuid="285b61f4-aab7-4bb9-a684-f43915d4575c"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{anlagename}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="84" width="136" height="24" uuid="5cb19824-98ea-478b-a567-2dd0d8a02c22"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Bauwerksart]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="108" width="136" height="24" uuid="a1cda824-a2f2-45d8-89a6-b9372267dfd0"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Material]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="132" width="65" height="24" uuid="b9d55fb9-b404-49b3-8cf2-6581a4252c7b"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Bauwerkslänge]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="156" width="70" height="12" uuid="dac03d62-3677-482f-a529-f44054df814f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ B-Durchmesser / ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="180" width="65" height="24" uuid="65cd0fea-129c-473a-ba9f-90dc40f8c265">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ B-Überdeckung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="204" width="85" height="24" uuid="d08edf78-eb6e-4879-ac8b-ba5e183d6bd3">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Stau-, Absturzhöhe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="228" width="68" height="12" uuid="6857d3b9-2a3d-499d-a200-ce8ecf7b79a2">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Sohlbefestigung]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="137" y="84" width="133" height="24" uuid="8549d892-8512-4707-97a2-0bbd1e6428e3"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{bauwerksart}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="137" y="108" width="133" height="24" uuid="7a96d3f0-9777-4845-8f0e-db6b360b41c7"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{material}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="137" y="132" width="133" height="24" uuid="8c7c43fb-f665-4ca5-9e90-575ccc1b7313"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{laenge}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="137" y="156" width="133" height="24" uuid="62465667-56b9-4ea9-b540-fd9a244b7982"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{durchmesser}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="137" y="180" width="133" height="24" uuid="39fba311-e9b5-474f-9a10-eb039df26108"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{ueberdeckung}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="137" y="204" width="133" height="24" uuid="042140cc-b298-41a9-b44b-b5f18a40419d"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{stauhoehe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="169" y="228" width="101" height="24" uuid="eac183db-5ede-4b49-8604-aca12cab4165"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{sohlbefestigung_laenge}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="137" y="228" width="32" height="24" uuid="0bf7f327-afdb-42cf-977e-205adab3aa24"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Länge:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="66" y="180" width="71" height="24" uuid="eaaa616d-3d78-42e0-aea6-bac5dc1e0921"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ [m]**]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="66" y="132" width="71" height="24" uuid="40b87c0f-da6b-4e87-b6a0-dd6fb87179ba"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ [m]**]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="72" width="136" height="12" uuid="b8dafcfd-8237-4d06-810e-172b21e20097">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ (ggf. aus vorhandenen Angaben)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="86" y="204" width="51" height="24" uuid="b47d6baa-6185-4436-8cc6-4fcc8cbd9d72"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ [m]**]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="69" y="228" width="68" height="24" uuid="ee506265-efcd-4152-9d10-90d293c4a08d"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ am Bauwerk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="240" width="68" height="12" uuid="333fffc2-e2cb-4db0-8f41-cd66fc4cd3f6">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ (uh.+ oh.)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="168" width="136" height="12" uuid="3ab6a36e-9bf4-4efc-be24-e3b211fddf42">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Weite  x  Höhe [mm]**]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="71" y="156" width="66" height="12" uuid="078b3b0c-225a-4e7f-a734-04943c9b4081"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[lichte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="270" y="228" width="285" height="12" uuid="fb37c8e5-29d1-4f0c-9528-51f78e4d3d3f"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Material unterhalb und oberhalb des Bauwerks:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="270" y="240" width="285" height="12" uuid="1a167c15-bd7b-4e7e-9a09-2ad897291b6b">
+					<printWhenExpression><![CDATA[$P{sohlbefestigung_uh_material} != null || $P{sohlbefestigung_oh_material} != null]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{sohlbefestigung_oh_material} + " / " + $P{sohlbefestigung_uh_material}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="252" width="39" height="12" uuid="b279ba60-cab4-41de-bc8d-feb37704e85d">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Substrat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="40" y="252" width="97" height="12" uuid="4460b4c6-57c9-4581-8b2b-47cdd7f04670"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[im Durchlass /]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="264" width="136" height="12" uuid="72729faa-fea8-4f5e-8313-6b4cde0e4724">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Rohrleitung / Brücke]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="276" width="136" height="12" uuid="31e94198-2942-4537-a9e8-cafbba7a6684">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Durchgängigkeit**]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="288" width="136" height="12" uuid="aba63193-e234-41f3-b4f1-78c90b0ff193">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[  ja [j] / nein [n] / zeitweise [z]]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="137" y="276" width="139" height="12" uuid="0878a22a-b72a-4c91-a0ba-4d08efb58e34">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Fische:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="415" y="276" width="140" height="12" uuid="5a7b9011-9614-48a6-8d3e-97b8f6259451">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Fischotter:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="276" y="276" width="139" height="12" uuid="b4b68870-16f2-4550-b2f7-56b1b9a8b5a0">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Wasserwirbellose:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="137" y="288" width="139" height="12" uuid="50986c2c-5223-4c2a-91f2-8939d1363409"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{dgk_fische}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="276" y="288" width="139" height="12" uuid="1c5cb462-fbb3-4dd9-bfa6-f7da0b5bd7bd"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{dgk_wirbel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="415" y="288" width="140" height="12" uuid="db119275-c638-4306-92b4-ecebb9141c38">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{dgk_otter}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="137" y="252" width="104" height="24" uuid="bd5d16e2-cfa3-4d97-9b22-d7ede2b91c54">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ ja]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="241" y="252" width="104" height="24" uuid="6318a844-a7c8-47e4-af63-83e45b15947c">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ nein]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="345" y="252" width="105" height="24" uuid="dab7f370-c2f6-4b56-b944-ea80d939bf39">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ zu wenig]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="450" y="252" width="105" height="24" uuid="52865fbb-3406-4c96-be57-7b9de02794d6">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ temporär]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="228" y="254" width="10" height="10" uuid="2a0a7aba-0ba5-43b9-ade3-d558cba9f622">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{substrat}.equals("1") ? "X" : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="332" y="254" width="10" height="10" uuid="4fb12a55-e4fe-4128-be05-e045f94531a4">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["X"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="437" y="254" width="10" height="10" uuid="1ecf0e8c-4932-467f-9521-083fe88f5c06">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{substrat}.equals("3") ? "X" : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="542" y="254" width="10" height="10" uuid="762b8189-b28a-4b40-9c54-d89feecb886b">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{substrat}.equals("4") ? "X" : "")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="300" width="136" height="24" uuid="3703bf8c-d5cd-41f9-8cd4-cdbb8847078d"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Regulierbarkeit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="137" y="300" width="104" height="24" uuid="af3c8fbf-20a2-469e-b511-d0990067a6ea">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ überströmt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="241" y="300" width="104" height="24" uuid="93c4c3bc-ca8b-4cff-bdc9-affb4d4ddcb8">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ unterströmt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="345" y="300" width="105" height="12" uuid="ff3268c9-637e-447c-9a67-02b1c9abcb2f">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ phasenweise]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="450" y="300" width="105" height="24" uuid="86dfba1d-d2c0-4824-91db-5a18d5955812">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Bauwerk funktionslos]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="228" y="302" width="10" height="10" uuid="682128a4-c958-4a73-afb6-a3ac0beb67b7">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{regulierbarkeit}.equals("1") ? "X" : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="332" y="302" width="10" height="10" uuid="0b806c54-3454-4696-ad5f-1ef1c56766d1">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{regulierbarkeit}.equals("2") ? "X" : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="437" y="302" width="10" height="10" uuid="2e6d747c-ca05-4335-8a94-68e7201655ba">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{regulierbarkeit}.equals("3") ? "X" : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="542" y="302" width="10" height="10" uuid="a646a934-5fde-4945-b0b3-b92897974305">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(!$P{regulierbarkeit}.equals("1") && !$P{regulierbarkeit}.equals("2") && !$P{regulierbarkeit}.equals("3") ? "X" : "")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="345" y="312" width="85" height="12" uuid="ff1d8068-9c5f-4003-87ff-12da4bc5e155">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ über-/unterströmt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="324" width="136" height="12" uuid="b585dfee-0c7e-42a8-ae5b-bff0837058fe"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Beschreibung bei 
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="table_TD" x="137" y="324" width="418" height="24" uuid="46dee123-457f-40db-a76e-c0d5c450b8a8"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+			</textField>
+			<textField>
+				<reportElement style="table_TD" x="66" y="36" width="71" height="12" uuid="bcfe750c-3083-4e96-864b-3577cb28340f"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="48" width="65" height="12" uuid="975073d9-5723-43c8-aee2-fcfff3443a52"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[  ID-vorh.: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="137" y="48" width="63" height="12" uuid="6fda0053-dd62-4bea-9141-27f81f7092d0">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ neu: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="1" y="336" width="136" height="12" uuid="0b5979bd-8e4c-4f53-9c4d-a61579415023">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="arial" size="8" isBold="true" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Besonderheiten]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="0" y="350" width="555" height="12" uuid="3936b4cf-868f-4a1e-aa10-d87dbb828204">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ * b. Durchlässen ggf. Stat. von-bis; b. Rohrleitungen ggf. nur Ausmündungsstation / Rohrleitungsende, ** als Schätzwerte (wenn 
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="0" y="362" width="555" height="12" uuid="6da7f0d9-9723-45d9-ad08-3f2bafa86d45">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Kombinationsbauwerk z.B. Stau/Durchlass oder Stau/Rohrleitung o. dgl., dann zwei Bauwerksbögen anlegen); auch Absturzhöhe am Ablauf 
+von Rohrleitungen und Durchlässen erfassen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="table_TD" x="0" y="374" width="555" height="12" uuid="8427765f-e146-4aa4-bdc4-86e457d3d792">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="arial" size="8" isBold="false" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ von Rohrleitungen und Durchlässen erfassen]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

@@ -66,6 +66,7 @@ import javax.swing.event.DocumentListener;
 import de.cismet.cids.custom.objectrenderer.wrrl_db_mv.LinearReferencedLineRenderer;
 import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.commons.linearreferencing.LinearReferencingConstants;
+import de.cismet.cids.custom.wrrl_db_mv.util.CidsBeanSupport;
 import de.cismet.cids.custom.wrrl_db_mv.util.MapUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.WrrlEditorTester;
 import de.cismet.cids.custom.wrrl_db_mv.util.linearreferencing.FeatureRegistryListener;
@@ -161,6 +162,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     }
 
     //~ Instance fields --------------------------------------------------------
+
+    private boolean recalculationAllowed = true;
 
     private LinearReferencedLineFeature feature;
     private LinearReferencedPointFeature fromPointFeature;
@@ -346,6 +349,24 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
     @Override
     public void pointBeanSplitRequest(final boolean fromPoint) {
         splitPoint(fromPoint);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  the recalculationAllowed
+     */
+    public boolean isRecalculationAllowed() {
+        return recalculationAllowed;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  recalculationAllowed  the recalculationAllowed to set
+     */
+    public void setRecalculationAllowed(final boolean recalculationAllowed) {
+        this.recalculationAllowed = recalculationAllowed;
     }
 
     /**
@@ -723,8 +744,14 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             MERGE_REGISTRY.addRequestListener(cidsBean, this);
 
             if (lineField != null) {
-                stationFromBackup = (CidsBean)cidsBean.getProperty(lineField + ".von");
-                stationToBackup = (CidsBean)cidsBean.getProperty(lineField + ".bis");
+                try {
+                    stationFromBackup = CidsBeanSupport.cloneStation((CidsBean)cidsBean.getProperty(
+                                lineField
+                                        + ".von"));
+                    stationToBackup = CidsBeanSupport.cloneStation((CidsBean)cidsBean.getProperty(lineField + ".bis"));
+                } catch (Exception e) {
+                    LOG.error("Cannot clone backup station", e);
+                }
             }
         }
 
@@ -2124,9 +2151,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      * @throws  Exception  DOCUMENT ME!
      */
     private void setLineGeometry(final Geometry line) throws Exception {
-        LinearReferencingHelper.setGeometryToLineBean(line, getLineBean());
-        if (getLineBean() != null) {
-            getLineBean().setArtificialChangeFlag(true);
+        if (recalculationAllowed) {
+            LinearReferencingHelper.setGeometryToLineBean(line, getLineBean());
+            if (getLineBean() != null) {
+                getLineBean().setArtificialChangeFlag(true);
+            }
         }
     }
 
@@ -2563,70 +2592,70 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromPointSplitActionPerformed
+    private void btnFromPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromPointSplitActionPerformed
         splitPoint(FROM);
-    }                                                                                     //GEN-LAST:event_btnFromPointSplitActionPerformed
+    }//GEN-LAST:event_btnFromPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToPointSplitActionPerformed
+    private void btnToPointSplitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToPointSplitActionPerformed
         splitPoint(TO);
-    }                                                                                   //GEN-LAST:event_btnToPointSplitActionPerformed
+    }//GEN-LAST:event_btnToPointSplitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
+    private void btnToBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomCorrectActionPerformed
         correctBadGeom(TO);
-    }                                                                                       //GEN-LAST:event_btnToBadGeomCorrectActionPerformed
+    }//GEN-LAST:event_btnToBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnToBadGeomActionPerformed
+    private void btnToBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToBadGeomActionPerformed
         switchBadGeomVisibility(TO);
-    }                                                                                //GEN-LAST:event_btnToBadGeomActionPerformed
+    }//GEN-LAST:event_btnToBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
+    private void btnFromBadGeomCorrectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomCorrectActionPerformed
         correctBadGeom(FROM);
-    }                                                                                         //GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
+    }//GEN-LAST:event_btnFromBadGeomCorrectActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnFromBadGeomActionPerformed
+    private void btnFromBadGeomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFromBadGeomActionPerformed
         switchBadGeomVisibility(FROM);
-    }                                                                                  //GEN-LAST:event_btnFromBadGeomActionPerformed
+    }//GEN-LAST:event_btnFromBadGeomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRouteActionPerformed
+    private void btnRouteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRouteActionPerformed
         updateOtherLinesPanelVisibility();
-    }                                                                            //GEN-LAST:event_btnRouteActionPerformed
+    }//GEN-LAST:event_btnRouteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void geomHistorischActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_geomHistorischActionPerformed
+    private void geomHistorischActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_geomHistorischActionPerformed
         try {
             historisch = geomHistorisch.isSelected();
             getLineBean().setProperty(PROP_STATIONLINIE_FROM + "." + PROPERTY_OHNE_ROUTE, geomHistorisch.isSelected());
@@ -2636,7 +2665,7 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
             geomHistorisch.setSelected(!geomHistorisch.isSelected());
             LOG.error("Cannot change ohne_route property", ex);
         }
-    }                                                                                  //GEN-LAST:event_geomHistorischActionPerformed
+    }//GEN-LAST:event_geomHistorischActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2993,7 +3022,6 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
                 // von feature neu berechnete geometrie im wk_teil setzen
                 LinearReferencingHelper.setGeometryToLineBean(targetLineGeometry, targetBean);
-
                 // linie speichern
                 targetBean.persist();
             }
@@ -3029,9 +3057,11 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
                             // (otherLineBean.hasArtificialChangeFlag()) { try { otherLineBean.persist(); } catch
                             // (Exception ex) { LOG.error("error during persist", ex); } } } otherLineBeans.clear();
 
+//                            if (recalculationAllowed) {
                             final CidsBean savedBean = event.getSavedBean();
                             updateSnappedRealGeoms(FROM, getLineBean(savedBean, lineField));
                             updateSnappedRealGeoms(TO, getLineBean(savedBean, lineField));
+//                            }
                             return null;
                         }
                     }.execute();
@@ -3185,35 +3215,8 @@ public class LinearReferencedLineEditor extends JPanel implements DisposableCids
 
         @Override
         public void propertyChange(final PropertyChangeEvent evt) {
-//            if (!inited || testBool) {
-//                LOG.error("not inited " + evt.getPropertyName());
-//                return;
-//            }
-//            LOG.error("property change " + evt.getPropertyName());
-//            if (evt.getPropertyName().equals(PROP_STATIONLINIE_FROM)) {
-//                testBool = true;
-////                if ((getPointFeature(FROM) != null)) { // && (evt.getOldValue() != null)) {
-////                cleanupPoint((CidsBean)evt.getOldValue(), FROM);
-//                setPointBean((CidsBean)evt.getOldValue(), FROM);
-//                cleanupPoint(FROM);
-//                setPointBean((CidsBean)evt.getNewValue(), FROM);
-//                initPoint(FROM);
-////                initPoint((CidsBean)evt.getNewValue(), FROM);
-//                updateOtherLinesPanelVisibility();
-//                testBool = false;
-////                }
-//            } else if (evt.getPropertyName().equals(PROP_STATIONLINIE_TO)) {
-//                testBool = true;
-////                if ((getPointFeature(TO) != null)) {   // && (evt.getOldValue() != null)) {
-////                cleanupPoint((CidsBean)evt.getOldValue(), TO);
-//                setPointBean((CidsBean)evt.getOldValue(), TO);
-//                cleanupPoint(TO);
-//                setPointBean((CidsBean)evt.getNewValue(), TO);
-//                initPoint(TO);
-////                initPoint((CidsBean)evt.getNewValue(), TO);
-//                updateOtherLinesPanelVisibility();
-//                testBool = false;
-////                }
+//            if (evt.getPropertyName().equalsIgnoreCase("geom")) {
+//                System.out.println("line changed");
 //            }
         }
     }
