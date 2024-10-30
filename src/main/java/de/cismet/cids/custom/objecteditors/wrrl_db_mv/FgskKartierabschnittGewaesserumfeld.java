@@ -42,9 +42,10 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittSchaeUmfeldstrukturen
         kartierabschnittSchaeUmfeldstrukturen1;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittUebersicht kartierabschnittUebersicht1;
+    private javax.swing.JLabel lblBeschattung;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
-    private javax.swing.JLabel lblHeading2;
+    private javax.swing.JLabel lblRandBeschattung;
     private javax.swing.JLabel lblSpacing1;
     private javax.swing.JLabel lblSpacing2;
     private javax.swing.JLabel lblUferverbauL;
@@ -61,6 +62,7 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
     private javax.swing.JPanel panInfoContent2;
+    private de.cismet.cids.editors.DefaultBindableRadioButtonField rdBeschattung;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField rdUferverbauL;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField rdUferverbauR;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField rdZustandL;
@@ -115,13 +117,15 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         jpZustand = new javax.swing.JPanel();
         panInfo3 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading2 = new javax.swing.JLabel();
+        lblRandBeschattung = new javax.swing.JLabel();
         panInfoContent2 = new javax.swing.JPanel();
         lblZustandL = new javax.swing.JLabel();
         lblSpacing2 = new javax.swing.JLabel();
         lblZustandR = new javax.swing.JLabel();
         rdZustandL = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
         rdZustandR = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
+        lblBeschattung = new javax.swing.JLabel();
+        rdBeschattung = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
         kartierabschnittBesUmfeld1 = new de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittBesUmfeld();
         kartierabschnittSchaeUmfeldstrukturen1 =
             new de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittSchaeUmfeldstrukturen();
@@ -278,11 +282,11 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         panHeadInfo2.setPreferredSize(new java.awt.Dimension(109, 24));
         panHeadInfo2.setLayout(new java.awt.FlowLayout());
 
-        lblHeading2.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading2.setText(org.openide.util.NbBundle.getMessage(
+        lblRandBeschattung.setForeground(new java.awt.Color(255, 255, 255));
+        lblRandBeschattung.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittGewaesserumfeld.class,
-                "FgskKartierabschnittGewaesserumfeld.lblHeading2.text")); // NOI18N
-        panHeadInfo2.add(lblHeading2);
+                "FgskKartierabschnittGewaesserumfeld.lblRandBeschattung.text")); // NOI18N
+        panHeadInfo2.add(lblRandBeschattung);
 
         panInfo3.add(panHeadInfo2, java.awt.BorderLayout.NORTH);
 
@@ -364,6 +368,44 @@ public class FgskKartierabschnittGewaesserumfeld extends javax.swing.JPanel impl
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent2.add(rdZustandR, gridBagConstraints);
+
+        lblBeschattung.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittGewaesserumfeld.class,
+                "FgskKartierabschnittGewaesserumfeld.lblBeschattung.text")); // NOI18N
+        lblBeschattung.setMaximumSize(new java.awt.Dimension(200, 17));
+        lblBeschattung.setMinimumSize(new java.awt.Dimension(200, 17));
+        lblBeschattung.setPreferredSize(new java.awt.Dimension(200, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
+        panInfoContent2.add(lblBeschattung, gridBagConstraints);
+
+        rdBeschattung.setMinimumSize(new java.awt.Dimension(300, 80));
+        rdBeschattung.setOpaque(false);
+        rdBeschattung.setPreferredSize(new java.awt.Dimension(300, 80));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.beschattung_id}"),
+                rdBeschattung,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        panInfoContent2.add(rdBeschattung, gridBagConstraints);
 
         panInfo3.add(panInfoContent2, java.awt.BorderLayout.CENTER);
 

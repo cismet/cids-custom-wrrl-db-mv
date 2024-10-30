@@ -305,6 +305,14 @@ public final class FgskReport extends AbstractJasperReportPrint {
 
             final Boolean seeausfluss = (Boolean)bean.getProperty("seeausfluss");
             params.put("seeausfluss", (seeausfluss == null) ? Boolean.FALSE : seeausfluss);
+
+            params.put("beschattung_id", toInteger(bean.getProperty("beschattung_id.value"))); // Integer: 1 - häufig
+            params.put("lauftyp_id", toInteger(bean.getProperty("lauftyp_id.value")));         // Integer: 1 - häufig
+            params.put("talform_id", toInteger(bean.getProperty("talform_id.value")));         // Integer: 1 - häufig
+            params.put("talform_kl_id", toInteger(bean.getProperty("talform_kl_id.value")));   // Integer: 1 - häufig
+
+            final Boolean aeussereKolmation = (Boolean)bean.getProperty("aeussere_kolmation");
+            params.put("aeussere_kolmation", (aeussereKolmation == null) ? Boolean.FALSE : aeussereKolmation);
         }
     }
 

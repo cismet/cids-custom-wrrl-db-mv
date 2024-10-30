@@ -35,9 +35,11 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
     private CidsBean cidsBean;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbHinweiseKolmation;
     private javax.swing.JCheckBox cbNe;
     private javax.swing.JLabel lblAbwasser;
     private javax.swing.JLabel lblHeading;
+    private javax.swing.JLabel lblHinweiseKolmation;
     private javax.swing.JLabel lblMuell;
     private javax.swing.JLabel lblNe;
     private javax.swing.JLabel lblSandtreiben;
@@ -113,6 +115,8 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
         tfSonstige = new javax.swing.JTextField();
         cbNe = new javax.swing.JCheckBox();
         lblNe = new javax.swing.JLabel();
+        lblHinweiseKolmation = new javax.swing.JLabel();
+        cbHinweiseKolmation = new javax.swing.JCheckBox();
 
         setMinimumSize(new java.awt.Dimension(1100, 250));
         setOpaque(false);
@@ -366,6 +370,49 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
         panInfoContent.add(lblNe, gridBagConstraints);
 
+        lblHinweiseKolmation.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesSohlen.class,
+                "KartierabschnittBesSohlen.lblHinweiseKolmation.text")); // NOI18N
+        lblHinweiseKolmation.setMaximumSize(new java.awt.Dimension(120, 17));
+        lblHinweiseKolmation.setMinimumSize(new java.awt.Dimension(140, 17));
+        lblHinweiseKolmation.setPreferredSize(new java.awt.Dimension(215, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInfoContent.add(lblHinweiseKolmation, gridBagConstraints);
+
+        cbHinweiseKolmation.setText(org.openide.util.NbBundle.getMessage(
+                KartierabschnittBesSohlen.class,
+                "KartierabschnittBesSohlen.cbHinweiseKolmation.text")); // NOI18N
+        cbHinweiseKolmation.setContentAreaFilled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.aeussere_kolmation}"),
+                cbHinweiseKolmation,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        cbHinweiseKolmation.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    cbHinweiseKolmationStateChanged(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 3, 5, 10);
+        panInfoContent.add(cbHinweiseKolmation, gridBagConstraints);
+
         panInfo.add(panInfoContent, java.awt.BorderLayout.CENTER);
 
         add(panInfo, java.awt.BorderLayout.CENTER);
@@ -405,6 +452,15 @@ public class KartierabschnittBesSohlen extends javax.swing.JPanel implements Dis
             }
         }
     } //GEN-LAST:event_cbNeStateChanged
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cbHinweiseKolmationStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_cbHinweiseKolmationStateChanged
+        // TODO add your handling code here:
+    } //GEN-LAST:event_cbHinweiseKolmationStateChanged
 
     /**
      * DOCUMENT ME!

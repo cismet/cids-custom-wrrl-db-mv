@@ -13,8 +13,8 @@
 package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 
 import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.DescriptionPaneCalpa;
 
-import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObjectNode;
 
 import javafx.application.Platform;
@@ -47,9 +47,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 
-import de.cismet.cids.custom.wrrl_db_mv.commons.WRRLUtil;
 import de.cismet.cids.custom.wrrl_db_mv.util.CoordinateConverter;
 import de.cismet.cids.custom.wrrl_db_mv.util.WebDavHelper;
 
@@ -58,8 +56,6 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
 import de.cismet.cids.editors.EditorClosedEvent;
 import de.cismet.cids.editors.EditorSaveListener;
-
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
@@ -98,7 +94,7 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
     private boolean readOnly = false;
 
     private CidsBean cidsBean;
-    private final FXWebViewPanel browserPanel = new FXWebViewPanel();
+    private FXWebViewPanel browserPanel = null;
     private JLabel jLabel1 = new JLabel();
     private volatile boolean loadingComplete = false;
 
@@ -162,6 +158,12 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
     public WkGwMstMengeStammdatenEditor(final boolean readOnly, final boolean embedded) {
         this.readOnly = readOnly;
         initComponents();
+
+        try {
+            browserPanel = new FXWebViewPanel();
+        } catch (Exception e) {
+            LOG.error("JavaFX not available", e);
+        }
 
         if (embedded) {
             panStamm.setVisible(false);
@@ -230,7 +232,9 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
             bindingGroup.bind();
             try {
                 jPanel1.removeAll();
-                jPanel1.add(browserPanel, java.awt.BorderLayout.CENTER);
+                if (browserPanel != null) {
+                    jPanel1.add(browserPanel, java.awt.BorderLayout.CENTER);
+                }
                 final String url = String.format(
                         URL_TEMPLATE,
                         WebDavHelper.encodeURL(String.valueOf(cidsBean.getProperty("messstelle"))));
@@ -255,89 +259,100 @@ public class WkGwMstMengeStammdatenEditor extends JPanel implements CidsBeanRend
                 jPanel1.setMinimumSize(new Dimension(CHART_WIDTH + 100, CHART_HEIGHT));
                 jPanel1.setMaximumSize(new Dimension(CHART_WIDTH + 100, CHART_HEIGHT));
                 jPanel1.setPreferredSize(new Dimension(CHART_WIDTH + 100, CHART_HEIGHT));
-                browserPanel.setSize(CHART_WIDTH, CHART_HEIGHT);
-                browserPanel.setMinimumSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
-                browserPanel.setMaximumSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
-                browserPanel.setPreferredSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
-                browserPanel.loadContent(content.toString());
-//                browserPanel.loadContent(content.toString().replace(OLD_SIZE, NEW_SIZE));
-                loadingComplete = false;
+                if (browserPanel != null) {
+                    browserPanel.setSize(CHART_WIDTH, CHART_HEIGHT);
+                    browserPanel.setMinimumSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                    browserPanel.setMaximumSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                    browserPanel.setPreferredSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                    browserPanel.loadContent(content.toString());
+//                  browserPanel.loadContent(content.toString().replace(OLD_SIZE, NEW_SIZE));
+                    loadingComplete = false;
 
-                final Thread t = new Thread() {
+                    final Thread t = new Thread() {
 
-                        @Override
-                        public void run() {
-                            while (!loadingComplete) {
-                                try {
-                                    Thread.sleep(10000);
-                                } catch (InterruptedException ex) {
-                                    // nothing to do
+                            @Override
+                            public void run() {
+                                while (!loadingComplete) {
+                                    try {
+                                        Thread.sleep(10000);
+                                    } catch (InterruptedException ex) {
+                                        // nothing to do
+                                    }
+                                    Platform.runLater(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                if (!browserPanel.getWebEngine().getLoadWorker().isRunning()) {
+                                                    loadingComplete = true;
+                                                }
+                                            }
+                                        });
                                 }
+
                                 Platform.runLater(new Runnable() {
 
                                         @Override
                                         public void run() {
-                                            if (!browserPanel.getWebEngine().getLoadWorker().isRunning()) {
-                                                loadingComplete = true;
+                                            BufferedImage bimage = null;
+
+                                            try {
+                                                final WritableImage image = browserPanel.getScene().snapshot(null);
+                                                final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+                                                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", byteOutput);
+                                                bimage = ImageIO.read(
+                                                        new ByteArrayInputStream(byteOutput.toByteArray()));
+                                            } catch (Exception e) {
+                                                LOG.error("error", e);
                                             }
+
+                                            final BufferedImage i = bimage;
+
+                                            EventQueue.invokeLater(new Runnable() {
+
+                                                    @Override
+                                                    public void run() {
+                                                        if (i != null) {
+                                                            jPanel1.removeAll();
+                                                            jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
+                                                            jLabel1.setIcon(new ImageIcon(i));
+                                                            jLabel1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                                                            jPanel1.setSize(CHART_WIDTH, CHART_HEIGHT);
+                                                            jPanel1.setMinimumSize(
+                                                                new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                                                            jPanel1.setMaximumSize(
+                                                                new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                                                            jPanel1.setPreferredSize(
+                                                                new Dimension(CHART_WIDTH, CHART_HEIGHT));
+                                                            jLabel1.addMouseListener(new MouseAdapter() {
+
+                                                                    @Override
+                                                                    public void mouseClicked(final MouseEvent e) {
+                                                                        try {
+                                                                            BrowserLauncher.openURL(url);
+                                                                        } catch (Exception ex) {
+                                                                            LOG.warn(ex, ex);
+                                                                        }
+                                                                    }
+                                                                });
+                                                        }
+                                                    }
+                                                });
                                         }
                                     });
                             }
-
-                            Platform.runLater(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        BufferedImage bimage = null;
-
-                                        try {
-                                            final WritableImage image = browserPanel.getScene().snapshot(null);
-                                            final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-                                            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", byteOutput);
-                                            bimage = ImageIO.read(
-                                                    new ByteArrayInputStream(byteOutput.toByteArray()));
-                                        } catch (Exception e) {
-                                            LOG.error("error", e);
-                                        }
-
-                                        final BufferedImage i = bimage;
-
-                                        EventQueue.invokeLater(new Runnable() {
-
-                                                @Override
-                                                public void run() {
-                                                    if (i != null) {
-                                                        jPanel1.removeAll();
-                                                        jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
-                                                        jLabel1.setIcon(new ImageIcon(i));
-                                                        jLabel1.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                                                        jPanel1.setSize(CHART_WIDTH, CHART_HEIGHT);
-                                                        jPanel1.setMinimumSize(
-                                                            new Dimension(CHART_WIDTH, CHART_HEIGHT));
-                                                        jPanel1.setMaximumSize(
-                                                            new Dimension(CHART_WIDTH, CHART_HEIGHT));
-                                                        jPanel1.setPreferredSize(
-                                                            new Dimension(CHART_WIDTH, CHART_HEIGHT));
-                                                        jLabel1.addMouseListener(new MouseAdapter() {
-
-                                                                @Override
-                                                                public void mouseClicked(final MouseEvent e) {
-                                                                    try {
-                                                                        BrowserLauncher.openURL(url);
-                                                                    } catch (Exception ex) {
-                                                                        LOG.warn(ex, ex);
-                                                                    }
-                                                                }
-                                                            });
-                                                    }
-                                                }
-                                            });
-                                    }
-                                });
-                        }
-                    };
-
-//                t.start();
+                        };
+//                  t.start();
+                } else {
+                    final JLabel lab = new JLabel(
+                            "Das Diagramm der Messstelle wird im Browser angezeigt, wenn Sie im Rahmen auf Messdaten klicken.");
+                    lab.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                    jPanel1.removeAll();
+                    jPanel1.add(lab, java.awt.BorderLayout.CENTER);
+                    jPanel1.setSize(500, 300);
+                    jPanel1.setMinimumSize(new Dimension(500, 300));
+                    jPanel1.setMaximumSize(new Dimension(500, 300));
+                    jPanel1.setPreferredSize(new Dimension(500, 300));
+                }
             } catch (Exception e) {
                 LOG.error("error", e);
                 EventQueue.invokeLater(new Runnable() {

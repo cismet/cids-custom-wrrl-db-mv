@@ -31,6 +31,7 @@ package de.cismet.cids.custom.objecteditors.wrrl_db_mv;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 import Sirius.navigator.method.MethodManager;
+import Sirius.navigator.ui.DescriptionPaneCalpa;
 
 import Sirius.server.localserver.attribute.ClassAttribute;
 import Sirius.server.middleware.types.MetaClass;
@@ -87,7 +88,8 @@ import de.cismet.connectioncontext.ConnectionContext;
 
 import de.cismet.tools.CismetThreadPool;
 
-import de.cismet.tools.gui.FXWebViewPanel;
+
+//import de.cismet.tools.gui.FXWebViewPanel;
 import de.cismet.tools.gui.FooterComponentProvider;
 
 /**
@@ -236,7 +238,8 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                 });
         }
 
-        final FXWebViewPanel browserPanel = new FXWebViewPanel();
+//        final FXWebViewPanel browserPanel = new FXWebViewPanel();
+        final DescriptionPaneCalpa browserPanel = new DescriptionPaneCalpa();
         browserPanel.setOpaque(false);
         jPanel1.add(browserPanel, java.awt.BorderLayout.CENTER);
 
@@ -254,7 +257,8 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                         final String r = get();
 
                         if (r != null) {
-                            browserPanel.loadContent(r);
+                            browserPanel.setPageFromContent(r);
+//                            browserPanel.loadContent(r);
                         }
                     } catch (Exception ex) {
                         LOG.error("error while reatuing qbw.text configuration attribute", ex);
