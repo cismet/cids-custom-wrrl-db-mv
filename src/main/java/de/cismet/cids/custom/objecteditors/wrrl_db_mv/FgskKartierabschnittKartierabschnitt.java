@@ -71,12 +71,14 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
     private de.cismet.tools.gui.RoundedPanel glassPanel2;
     private de.cismet.tools.gui.RoundedPanel glassPanel3;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private de.cismet.tools.gui.RoundedPanel jpGewTyp;
     private javax.swing.JPanel jpGroesse;
     private javax.swing.JPanel jpUnterh;
     private de.cismet.cids.custom.objecteditors.wrrl_db_mv.KartierabschnittStammEditor kartierabschnittStammEditor1;
     private javax.swing.JLabel lblGewaesserbreite;
+    private javax.swing.JLabel lblGewaessersubtyp;
     private javax.swing.JLabel lblGewaessertyp;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblHeading1;
@@ -84,12 +86,12 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
     private javax.swing.JLabel lblSeeausfluss;
     private javax.swing.JLabel lblSonderfall;
     private javax.swing.JLabel lblSpacing;
-    private javax.swing.JLabel lblSpacing1;
     private javax.swing.JLabel lblSpacing2;
+    private javax.swing.JLabel lblTalform;
+    private javax.swing.JLabel lblTalform1;
     private javax.swing.JLabel lblUnterhaltung;
     private javax.swing.JLabel lblWasserfuehrung;
     private javax.swing.JLabel lblfliessrichtung;
-    private javax.swing.JLabel lblfliessrichtung1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo1;
     private de.cismet.tools.gui.SemiRoundedPanel panHeadInfo2;
@@ -99,12 +101,16 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
     private javax.swing.JPanel panInfoContent;
     private javax.swing.JPanel panInfoContent1;
     private javax.swing.JPanel panInfoContent2;
+    private de.cismet.cids.editors.DefaultBindableRadioButtonField rdBreiteBis20;
+    private de.cismet.cids.editors.DefaultBindableRadioButtonField rdLauftyp;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField rdSonderfall;
+    private de.cismet.cids.editors.DefaultBindableRadioButtonField rdTalform;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField rdWasserfuehrung;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField rdbWBType;
     private de.cismet.cids.editors.DefaultBindableRadioButtonField referencedRadioButtonField2;
     private javax.swing.JSeparator sepMiddle;
     private javax.swing.JSeparator sepMiddle1;
+    private javax.swing.JSeparator sepMiddle2;
     private javax.swing.JTextArea taErlaeuterung;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -195,12 +201,18 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         panInfoContent1 = new javax.swing.JPanel();
         lblGewaessertyp = new javax.swing.JLabel();
         lblSeeausfluss = new javax.swing.JLabel();
-        lblSpacing1 = new javax.swing.JLabel();
         sepMiddle1 = new javax.swing.JSeparator();
-        lblfliessrichtung1 = new javax.swing.JLabel();
+        lblGewaessersubtyp = new javax.swing.JLabel();
         cbSeeausfluss = new javax.swing.JCheckBox();
         ccGewaesserSubtyp = new de.cismet.cids.editors.DefaultBindableCheckboxField();
         rdbWBType = new de.cismet.cids.editors.DefaultBindableRadioButtonField(true);
+        sepMiddle2 = new javax.swing.JSeparator();
+        jPanel1 = new javax.swing.JPanel();
+        lblTalform = new javax.swing.JLabel();
+        rdBreiteBis20 = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
+        lblTalform1 = new javax.swing.JLabel();
+        rdTalform = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
+        rdLauftyp = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
         jpGroesse = new javax.swing.JPanel();
         panInfo2 = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo2 = new de.cismet.tools.gui.SemiRoundedPanel();
@@ -210,10 +222,10 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         lblSpacing2 = new javax.swing.JLabel();
         referencedRadioButtonField2 = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
 
-        setMaximumSize(new java.awt.Dimension(1100, 650));
-        setMinimumSize(new java.awt.Dimension(1100, 650));
+        setMaximumSize(new java.awt.Dimension(1100, 710));
+        setMinimumSize(new java.awt.Dimension(1100, 710));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(1100, 650));
+        setPreferredSize(new java.awt.Dimension(1100, 710));
         setLayout(new java.awt.GridBagLayout());
 
         panInfo.setLayout(new java.awt.GridBagLayout());
@@ -449,7 +461,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         panInfo.add(jpUnterh, gridBagConstraints);
 
         jpGewTyp.setMinimumSize(new java.awt.Dimension(1100, 200));
-        jpGewTyp.setPreferredSize(new java.awt.Dimension(1100, 200));
+        jpGewTyp.setPreferredSize(new java.awt.Dimension(1100, 300));
 
         panHeadInfo1.setBackground(new java.awt.Color(51, 51, 51));
         panHeadInfo1.setMinimumSize(new java.awt.Dimension(109, 24));
@@ -471,34 +483,33 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         lblGewaessertyp.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittKartierabschnitt.class,
                 "FgskKartierabschnittKartierabschnitt.lblGewaessertyp.text")); // NOI18N
-        lblGewaessertyp.setMaximumSize(new java.awt.Dimension(120, 17));
-        lblGewaessertyp.setMinimumSize(new java.awt.Dimension(130, 17));
-        lblGewaessertyp.setPreferredSize(new java.awt.Dimension(130, 17));
+        lblGewaessertyp.setMaximumSize(new java.awt.Dimension(100, 17));
+        lblGewaessertyp.setMinimumSize(new java.awt.Dimension(100, 17));
+        lblGewaessertyp.setPreferredSize(new java.awt.Dimension(100, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 10, 5, 5);
         panInfoContent1.add(lblGewaessertyp, gridBagConstraints);
 
         lblSeeausfluss.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittKartierabschnitt.class,
                 "FgskKartierabschnittKartierabschnitt.lblSeeausfluss.text")); // NOI18N
-        lblSeeausfluss.setMinimumSize(new java.awt.Dimension(130, 17));
-        lblSeeausfluss.setPreferredSize(new java.awt.Dimension(130, 17));
+        lblSeeausfluss.setMaximumSize(new java.awt.Dimension(100, 17));
+        lblSeeausfluss.setMinimumSize(new java.awt.Dimension(100, 17));
+        lblSeeausfluss.setPreferredSize(new java.awt.Dimension(100, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 5);
         panInfoContent1.add(lblSeeausfluss, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.weighty = 1.0;
-        panInfoContent1.add(lblSpacing1, gridBagConstraints);
 
         sepMiddle1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -506,20 +517,22 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 5, 25);
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
         panInfoContent1.add(sepMiddle1, gridBagConstraints);
 
-        lblfliessrichtung1.setText(org.openide.util.NbBundle.getMessage(
+        lblGewaessersubtyp.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittKartierabschnitt.class,
-                "FgskKartierabschnittKartierabschnitt.lblfliessrichtung1.text")); // NOI18N
-        lblfliessrichtung1.setMinimumSize(new java.awt.Dimension(130, 17));
-        lblfliessrichtung1.setPreferredSize(new java.awt.Dimension(130, 17));
+                "FgskKartierabschnittKartierabschnitt.lblGewaessersubtyp.text")); // NOI18N
+        lblGewaessersubtyp.setMaximumSize(new java.awt.Dimension(130, 17));
+        lblGewaessersubtyp.setMinimumSize(new java.awt.Dimension(130, 17));
+        lblGewaessersubtyp.setPreferredSize(new java.awt.Dimension(130, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
-        panInfoContent1.add(lblfliessrichtung1, gridBagConstraints);
+        panInfoContent1.add(lblGewaessersubtyp, gridBagConstraints);
 
         cbSeeausfluss.setContentAreaFilled(false);
 
@@ -537,12 +550,13 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 10);
         panInfoContent1.add(cbSeeausfluss, gridBagConstraints);
 
-        ccGewaesserSubtyp.setMinimumSize(new java.awt.Dimension(270, 120));
+        ccGewaesserSubtyp.setMinimumSize(new java.awt.Dimension(170, 120));
+        ccGewaesserSubtyp.setName(""); // NOI18N
         ccGewaesserSubtyp.setOpaque(false);
-        ccGewaesserSubtyp.setPreferredSize(new java.awt.Dimension(270, 120));
+        ccGewaesserSubtyp.setPreferredSize(new java.awt.Dimension(170, 120));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -553,18 +567,18 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
         panInfoContent1.add(ccGewaesserSubtyp, gridBagConstraints);
 
-        rdbWBType.setMinimumSize(new java.awt.Dimension(400, 120));
+        rdbWBType.setMinimumSize(new java.awt.Dimension(250, 120));
         rdbWBType.setOpaque(false);
-        rdbWBType.setPreferredSize(new java.awt.Dimension(400, 120));
+        rdbWBType.setPreferredSize(new java.awt.Dimension(250, 120));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -582,12 +596,142 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        panInfoContent1.add(rdbWBType, gridBagConstraints);
+
+        sepMiddle2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        panInfoContent1.add(sepMiddle2, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        lblTalform.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittKartierabschnitt.class,
+                "FgskKartierabschnittKartierabschnitt.lblTalform.text")); // NOI18N
+        lblTalform.setMaximumSize(new java.awt.Dimension(240, 17));
+        lblTalform.setMinimumSize(new java.awt.Dimension(240, 17));
+        lblTalform.setPreferredSize(new java.awt.Dimension(240, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        jPanel1.add(lblTalform, gridBagConstraints);
+
+        rdBreiteBis20.setMinimumSize(new java.awt.Dimension(230, 80));
+        rdBreiteBis20.setOpaque(false);
+        rdBreiteBis20.setPreferredSize(new java.awt.Dimension(230, 80));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.talform_id}"),
+                rdBreiteBis20,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
+        bindingGroup.addBinding(binding);
+
+        rdBreiteBis20.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final java.beans.PropertyChangeEvent evt) {
+                    rdBreiteBis20PropertyChange(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        jPanel1.add(rdBreiteBis20, gridBagConstraints);
+
+        lblTalform1.setText(org.openide.util.NbBundle.getMessage(
+                FgskKartierabschnittKartierabschnitt.class,
+                "FgskKartierabschnittKartierabschnitt.lblTalform1.text")); // NOI18N
+        lblTalform1.setMaximumSize(new java.awt.Dimension(240, 17));
+        lblTalform1.setMinimumSize(new java.awt.Dimension(240, 17));
+        lblTalform1.setPreferredSize(new java.awt.Dimension(240, 17));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 5);
+        jPanel1.add(lblTalform1, gridBagConstraints);
+
+        rdTalform.setMinimumSize(new java.awt.Dimension(240, 40));
+        rdTalform.setOpaque(false);
+        rdTalform.setPreferredSize(new java.awt.Dimension(350, 40));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.talform_kl_id}"),
+                rdTalform,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
+        bindingGroup.addBinding(binding);
+
+        rdTalform.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final java.beans.PropertyChangeEvent evt) {
+                    rdTalformPropertyChange(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 10);
+        jPanel1.add(rdTalform, gridBagConstraints);
+
+        rdLauftyp.setMinimumSize(new java.awt.Dimension(240, 40));
+        rdLauftyp.setOpaque(false);
+        rdLauftyp.setPreferredSize(new java.awt.Dimension(400, 40));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lauftyp_id}"),
+                rdLauftyp,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
+        bindingGroup.addBinding(binding);
+
+        rdLauftyp.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final java.beans.PropertyChangeEvent evt) {
+                    rdLauftypPropertyChange(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(15, 5, 5, 10);
-        panInfoContent1.add(rdbWBType, gridBagConstraints);
+        jPanel1.add(rdLauftyp, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        panInfoContent1.add(jPanel1, gridBagConstraints);
 
         jpGewTyp.add(panInfoContent1, java.awt.BorderLayout.CENTER);
 
@@ -596,7 +740,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
@@ -676,7 +820,9 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
         add(panInfo, gridBagConstraints);
 
         bindingGroup.bind();
@@ -694,6 +840,33 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
             ccGewaesserSubtyp.refreshCheckboxState(decider, true);
         }
     }                                                                                //GEN-LAST:event_rdbWBTypePropertyChange
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void rdBreiteBis20PropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdBreiteBis20PropertyChange
+        // TODO add your handling code here:
+    } //GEN-LAST:event_rdBreiteBis20PropertyChange
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void rdTalformPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdTalformPropertyChange
+        // TODO add your handling code here:
+    } //GEN-LAST:event_rdTalformPropertyChange
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void rdLauftypPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_rdLauftypPropertyChange
+        // TODO add your handling code here:
+    } //GEN-LAST:event_rdLauftypPropertyChange
 
     /**
      * DOCUMENT ME!

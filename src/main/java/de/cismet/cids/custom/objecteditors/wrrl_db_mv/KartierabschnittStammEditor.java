@@ -928,6 +928,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
                 this.lastStation.removePropertyChangeListener(plistener);
             }
             this.cidsBean = cidsBean;
+            linearReferencedLineEditor.setRecalculationAllowed(false);
             DefaultCustomObjectEditor.setMetaClassInformationToMetaClassStoreComponentsInBindingGroup(
                 bindingGroup,
                 this.cidsBean);
@@ -941,6 +942,7 @@ public class KartierabschnittStammEditor extends javax.swing.JPanel implements D
             if ((lastStation != null) && !readOnly) {
                 lastStation.addPropertyChangeListener(plistener);
             }
+            linearReferencedLineEditor.setRecalculationAllowed(true);
         } else {
             txtGewaessername.setText("");
             txtGewaesserkennzahl.setText("");

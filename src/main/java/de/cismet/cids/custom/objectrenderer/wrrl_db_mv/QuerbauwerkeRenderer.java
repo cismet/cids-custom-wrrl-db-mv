@@ -12,7 +12,13 @@
  */
 package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
+import javax.swing.JComponent;
+
 import de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkeEditor;
+
+import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.tools.gui.TitleComponentProvider;
 
 /**
  * DOCUMENT ME!
@@ -20,7 +26,11 @@ import de.cismet.cids.custom.objecteditors.wrrl_db_mv.QuerbauwerkeEditor;
  * @author   therter
  * @version  $Revision$, $Date$
  */
-public class QuerbauwerkeRenderer extends QuerbauwerkeEditor {
+public class QuerbauwerkeRenderer extends QuerbauwerkeEditor implements TitleComponentProvider {
+
+    //~ Instance fields --------------------------------------------------------
+
+    private final transient QuerbauwerkeTitleComponent titleComponent;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -29,5 +39,22 @@ public class QuerbauwerkeRenderer extends QuerbauwerkeEditor {
      */
     public QuerbauwerkeRenderer() {
         super(true);
+        titleComponent = new QuerbauwerkeTitleComponent();
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public void setCidsBean(final CidsBean cidsBean) {
+        super.setCidsBean(cidsBean);
+
+        if (cidsBean != null) {
+            titleComponent.setCidsBean(cidsBean);
+        }
+    }
+
+    @Override
+    public JComponent getTitleComponent() {
+        return titleComponent;
     }
 }

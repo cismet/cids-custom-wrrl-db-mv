@@ -471,12 +471,12 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
         gridBagConstraints.insets = new java.awt.Insets(7, 25, 7, 25);
         panFooter.add(lblFoot, gridBagConstraints);
 
-        setMinimumSize(new java.awt.Dimension(1100, 720));
-        setPreferredSize(new java.awt.Dimension(1100, 720));
+        setMinimumSize(new java.awt.Dimension(1100, 780));
+        setPreferredSize(new java.awt.Dimension(1100, 780));
         setLayout(new java.awt.BorderLayout());
 
-        tpMain.setMinimumSize(new java.awt.Dimension(1100, 710));
-        tpMain.setPreferredSize(new java.awt.Dimension(1100, 710));
+        tpMain.setMinimumSize(new java.awt.Dimension(1100, 770));
+        tpMain.setPreferredSize(new java.awt.Dimension(1100, 770));
 
         panKartierabschnitt.setOpaque(false);
         panKartierabschnitt.setLayout(new java.awt.GridBagLayout());

@@ -144,7 +144,11 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             "m³/m",
             "Stück",
             "Stunden",
-            "Schnitttiefe"
+            "Schnitttiefe",
+            "teillaenge",
+            "m²",
+            "m³",
+            "arbeitsbreite"
         };
     public static final String[] ADDITIONAL_ATTRIBUTE_MEASURES = {
             "m",
@@ -156,6 +160,10 @@ public class GupLosEditor extends javax.swing.JPanel implements CidsBeanRenderer
             "m³",
             "",
             "h",
+            "m",
+            "m",
+            "m²",
+            "m³",
             "m"
         };
     private static ExpressionEvaluator eval = new ExpressionEvaluator();

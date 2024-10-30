@@ -218,7 +218,7 @@ public class FgskDialog extends javax.swing.JDialog {
         }
 
         cmdRemove.setVisible(mos != null);
-        cmdOk.setEnabled((positions.length > 1) || (mos.length > 1));
+        cmdOk.setEnabled(((positions != null) && (positions.length > 1)) || ((mos != null) && (mos.length > 1)));
     }
 
     //~ Methods ----------------------------------------------------------------
