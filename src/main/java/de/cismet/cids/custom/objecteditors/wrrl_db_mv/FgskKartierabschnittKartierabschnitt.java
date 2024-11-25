@@ -81,8 +81,8 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
     private javax.swing.JLabel lblGewaessersubtyp;
     private javax.swing.JLabel lblGewaessertyp;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblHeading1;
     private javax.swing.JLabel lblHeading2;
+    private javax.swing.JLabel lblHeadingTyp;
     private javax.swing.JLabel lblSeeausfluss;
     private javax.swing.JLabel lblSonderfall;
     private javax.swing.JLabel lblSpacing;
@@ -197,7 +197,7 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         rdSonderfall = new de.cismet.cids.editors.DefaultBindableRadioButtonField();
         jpGewTyp = new de.cismet.tools.gui.RoundedPanel();
         panHeadInfo1 = new de.cismet.tools.gui.SemiRoundedPanel();
-        lblHeading1 = new javax.swing.JLabel();
+        lblHeadingTyp = new javax.swing.JLabel();
         panInfoContent1 = new javax.swing.JPanel();
         lblGewaessertyp = new javax.swing.JLabel();
         lblSeeausfluss = new javax.swing.JLabel();
@@ -468,11 +468,11 @@ public class FgskKartierabschnittKartierabschnitt extends javax.swing.JPanel imp
         panHeadInfo1.setPreferredSize(new java.awt.Dimension(109, 24));
         panHeadInfo1.setLayout(new java.awt.FlowLayout());
 
-        lblHeading1.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading1.setText(org.openide.util.NbBundle.getMessage(
+        lblHeadingTyp.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeadingTyp.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittKartierabschnitt.class,
-                "FgskKartierabschnittKartierabschnitt.lblHeading1.text")); // NOI18N
-        panHeadInfo1.add(lblHeading1);
+                "FgskKartierabschnittKartierabschnitt.lblHeadingTyp.text")); // NOI18N
+        panHeadInfo1.add(lblHeadingTyp);
 
         jpGewTyp.add(panHeadInfo1, java.awt.BorderLayout.NORTH);
 

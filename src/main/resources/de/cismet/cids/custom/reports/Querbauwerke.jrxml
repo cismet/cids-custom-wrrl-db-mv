@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
-<!-- 2024-10-24T16:17:39 -->
+<!-- 2024-11-22T12:42:19 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fließgewässerstrukturgütekartierung Mecklenburg-Vorpommern" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Error" uuid="312330f5-ffe8-4c53-909b-ea60f39ddb3a">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -67,7 +67,7 @@
 					<font fontName="arial" size="10" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
 					<paragraph lineSpacing="Fixed"/>
 				</textElement>
-				<textFieldExpression><![CDATA[ $P{stand}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{stand}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -635,7 +635,7 @@
 				<textElement verticalAlignment="Top">
 					<font fontName="arial" size="8" pdfFontName="de/cismet/cids/custom/reports/fonts/arial.ttf" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[ [m]**]]></text>
+				<text><![CDATA[ [cm]**]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="table_TD" x="69" y="228" width="68" height="24" uuid="ee506265-efcd-4152-9d10-90d293c4a08d"/>

@@ -283,7 +283,7 @@ public final class QBWReport extends AbstractJasperReportPrint {
         params.put("date", toString(date));
         params.put("bwNummer", toString(bean.getProperty("bauwerksnummer")));
         params.put("anlagename", toString(bean.getProperty("anlagename")));
-        params.put("bauwerksart", toString(bean.getProperty("bauwerk.name")));
+        params.put("bauwerksart", toString(bean.getProperty("detailtyp.value")));
         params.put("material", toString(bean.getProperty("material")));
         params.put("laenge", toString(bean.getProperty("laenge")));
         params.put("durchmesser", toString(bean.getProperty("durchmesser")));
