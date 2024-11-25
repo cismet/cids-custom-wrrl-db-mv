@@ -91,10 +91,10 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
     private javax.swing.JLabel lblFotoKey;
     private javax.swing.JLabel lblFotoRichtungKey;
     private javax.swing.JLabel lblHeading;
-    private javax.swing.JLabel lblKartierdatumKey;
+    private javax.swing.JLabel lblKartierdatum;
     private javax.swing.JLabel lblKartierdatumKey2;
     private javax.swing.JLabel lblKartierdatumKey3;
-    private javax.swing.JLabel lblKartiererKey;
+    private javax.swing.JLabel lblKartierer;
     private javax.swing.JLabel lblKartiererKey2;
     private javax.swing.JLabel lblLandkreisKey;
     private javax.swing.JLabel lblLastDate;
@@ -217,9 +217,9 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         jPanel1 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        lblKartiererKey = new javax.swing.JLabel();
+        lblKartierer = new javax.swing.JLabel();
         jTextField15 = new javax.swing.JTextField();
-        lblKartierdatumKey = new javax.swing.JLabel();
+        lblKartierdatum = new javax.swing.JLabel();
         defaultBindableTimestampChooser1 = new de.cismet.cids.editors.DefaultBindableTimestampChooser();
         lblTime = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
@@ -683,18 +683,18 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        lblKartiererKey.setText(org.openide.util.NbBundle.getMessage(
+        lblKartierer.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
-                "QuerbauwerkePanOne.lblKartiererKey.text")); // NOI18N
+                "QuerbauwerkePanOne.lblKartierer.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(lblKartiererKey, gridBagConstraints);
+        jPanel3.add(lblKartierer, gridBagConstraints);
 
-        jTextField15.setMinimumSize(new java.awt.Dimension(250, 25));
-        jTextField15.setPreferredSize(new java.awt.Dimension(250, 25));
+        jTextField15.setMinimumSize(new java.awt.Dimension(100, 25));
+        jTextField15.setPreferredSize(new java.awt.Dimension(100, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -712,20 +712,20 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(jTextField15, gridBagConstraints);
 
-        lblKartierdatumKey.setText(org.openide.util.NbBundle.getMessage(
+        lblKartierdatum.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
-                "QuerbauwerkePanOne.lblKartierdatumKey.text")); // NOI18N
-        lblKartierdatumKey.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblKartierdatumKey.setPreferredSize(new java.awt.Dimension(150, 17));
+                "QuerbauwerkePanOne.lblKartierdatum.text")); // NOI18N
+        lblKartierdatum.setMinimumSize(new java.awt.Dimension(250, 17));
+        lblKartierdatum.setPreferredSize(new java.awt.Dimension(250, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(lblKartierdatumKey, gridBagConstraints);
+        jPanel3.add(lblKartierdatum, gridBagConstraints);
 
-        defaultBindableTimestampChooser1.setMinimumSize(new java.awt.Dimension(250, 25));
-        defaultBindableTimestampChooser1.setPreferredSize(new java.awt.Dimension(250, 25));
+        defaultBindableTimestampChooser1.setMinimumSize(new java.awt.Dimension(100, 25));
+        defaultBindableTimestampChooser1.setPreferredSize(new java.awt.Dimension(100, 25));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -789,11 +789,12 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblLastEditor.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblLastEditor.text")); // NOI18N
+        lblLastEditor.setMinimumSize(new java.awt.Dimension(250, 17));
+        lblLastEditor.setPreferredSize(new java.awt.Dimension(250, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel7.add(lblLastEditor, gridBagConstraints);
 
@@ -868,6 +869,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblFotoKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblFotoKey.text")); // NOI18N
+        lblFotoKey.setMinimumSize(new java.awt.Dimension(250, 17));
+        lblFotoKey.setPreferredSize(new java.awt.Dimension(250, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -941,11 +944,12 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblKartiererKey2.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblKartiererKey2.text")); // NOI18N
+        lblKartiererKey2.setMinimumSize(new java.awt.Dimension(250, 17));
+        lblKartiererKey2.setPreferredSize(new java.awt.Dimension(250, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel13.add(lblKartiererKey2, gridBagConstraints);
 

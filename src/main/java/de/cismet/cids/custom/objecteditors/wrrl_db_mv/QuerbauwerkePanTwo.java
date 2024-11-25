@@ -146,6 +146,9 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
 
         this.readOnly = readOnly;
 
+        // cbArt should always be readOnly
+        RendererTools.makeReadOnly(cbArt);
+
         if (readOnly) {
             RendererTools.makeReadOnly(tareaBeschreibung);
             RendererTools.makeReadOnly(tareaBemerkung);
@@ -162,7 +165,6 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
             RendererTools.makeReadOnly(txtUeberdeckung);
             RendererTools.makeReadOnly(txtStauhoehe);
             RendererTools.makeReadOnly(txtSohllaenge);
-            RendererTools.makeReadOnly(cbArt);
             RendererTools.makeReadOnly(cbIntervall);
             RendererTools.makeReadOnly(cbSubstrat);
             RendererTools.makeReadOnly(cbDetailtyp);
@@ -987,7 +989,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                517,
+                539,
                 Short.MAX_VALUE));
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
