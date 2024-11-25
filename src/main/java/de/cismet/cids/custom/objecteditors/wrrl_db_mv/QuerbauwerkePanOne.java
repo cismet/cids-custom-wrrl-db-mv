@@ -715,8 +715,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblKartierdatum.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblKartierdatum.text")); // NOI18N
-        lblKartierdatum.setMinimumSize(new java.awt.Dimension(250, 17));
-        lblKartierdatum.setPreferredSize(new java.awt.Dimension(250, 17));
+        lblKartierdatum.setMinimumSize(new java.awt.Dimension(220, 17));
+        lblKartierdatum.setPreferredSize(new java.awt.Dimension(220, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -789,8 +789,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblLastEditor.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblLastEditor.text")); // NOI18N
-        lblLastEditor.setMinimumSize(new java.awt.Dimension(250, 17));
-        lblLastEditor.setPreferredSize(new java.awt.Dimension(250, 17));
+        lblLastEditor.setMinimumSize(new java.awt.Dimension(220, 17));
+        lblLastEditor.setPreferredSize(new java.awt.Dimension(220, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -802,7 +802,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblLastDate.text")); // NOI18N
         lblLastDate.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblLastDate.setPreferredSize(new java.awt.Dimension(150, 17));
+        lblLastDate.setPreferredSize(new java.awt.Dimension(220, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -869,8 +869,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblFotoKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblFotoKey.text")); // NOI18N
-        lblFotoKey.setMinimumSize(new java.awt.Dimension(250, 17));
-        lblFotoKey.setPreferredSize(new java.awt.Dimension(250, 17));
+        lblFotoKey.setMinimumSize(new java.awt.Dimension(220, 17));
+        lblFotoKey.setPreferredSize(new java.awt.Dimension(220, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -900,8 +900,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblFotoRichtungKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblFotoRichtungKey.text")); // NOI18N
-        lblFotoRichtungKey.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblFotoRichtungKey.setPreferredSize(new java.awt.Dimension(150, 17));
+        lblFotoRichtungKey.setMinimumSize(new java.awt.Dimension(220, 17));
+        lblFotoRichtungKey.setPreferredSize(new java.awt.Dimension(220, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -945,7 +945,7 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblKartiererKey2.text")); // NOI18N
         lblKartiererKey2.setMinimumSize(new java.awt.Dimension(250, 17));
-        lblKartiererKey2.setPreferredSize(new java.awt.Dimension(250, 17));
+        lblKartiererKey2.setPreferredSize(new java.awt.Dimension(220, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -1101,8 +1101,8 @@ public class QuerbauwerkePanOne extends javax.swing.JPanel implements Disposable
         lblTyp.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanOne.class,
                 "QuerbauwerkePanOne.lblTyp.text")); // NOI18N
-        lblTyp.setMinimumSize(new java.awt.Dimension(150, 17));
-        lblTyp.setPreferredSize(new java.awt.Dimension(150, 17));
+        lblTyp.setMinimumSize(new java.awt.Dimension(220, 17));
+        lblTyp.setPreferredSize(new java.awt.Dimension(220, 17));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
