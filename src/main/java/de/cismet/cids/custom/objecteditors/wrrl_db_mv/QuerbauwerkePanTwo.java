@@ -87,7 +87,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblAnlagenameKey;
-    private javax.swing.JLabel lblBauwerkKey;
+    private javax.swing.JLabel lblBauwerk;
     private javax.swing.JLabel lblBemerkAltKey;
     private javax.swing.JLabel lblBreiteKey;
     private javax.swing.JLabel lblDetailTyp;
@@ -193,7 +193,7 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         jPanel3 = new javax.swing.JPanel();
         txtHoehe = new javax.swing.JTextField();
         cbArt = new de.cismet.cids.editors.DefaultBindableReferenceCombo();
-        lblBauwerkKey = new javax.swing.JLabel();
+        lblBauwerk = new javax.swing.JLabel();
         lblAnlagenameKey = new javax.swing.JLabel();
         lblLaengeKey = new javax.swing.JLabel();
         lblHoeheKey = new javax.swing.JLabel();
@@ -330,15 +330,15 @@ public class QuerbauwerkePanTwo extends javax.swing.JPanel implements Disposable
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(cbArt, gridBagConstraints);
 
-        lblBauwerkKey.setText(org.openide.util.NbBundle.getMessage(
+        lblBauwerk.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,
-                "QuerbauwerkePanTwo.lblBauwerkKey.text")); // NOI18N
+                "QuerbauwerkePanTwo.lblBauwerk.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel3.add(lblBauwerkKey, gridBagConstraints);
+        jPanel3.add(lblBauwerk, gridBagConstraints);
 
         lblAnlagenameKey.setText(org.openide.util.NbBundle.getMessage(
                 QuerbauwerkePanTwo.class,

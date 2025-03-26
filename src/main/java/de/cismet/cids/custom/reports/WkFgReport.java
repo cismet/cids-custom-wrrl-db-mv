@@ -669,13 +669,6 @@ public class WkFgReport {
                 }
             }
 
-            // init log4J
-            final Properties p = new Properties();
-            p.put("log4j.appender.Console", "org.apache.log4j.ConsoleAppender");   // NOI18N
-            p.put("log4j.appender.Console.layout", "org.apache.log4j.TTCCLayout"); // NOI18N
-            p.put("log4j.rootLogger", "ERROR,Console");                            // NOI18N
-            org.apache.log4j.PropertyConfigurator.configure(p);
-
             // read the properties
             final Properties properties = new Properties();
             final Reader propertiesReader = new FileReader(args[0]);

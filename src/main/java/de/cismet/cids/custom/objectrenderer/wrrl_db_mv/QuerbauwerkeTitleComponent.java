@@ -9,6 +9,8 @@ package de.cismet.cids.custom.objectrenderer.wrrl_db_mv;
 
 import Sirius.navigator.connection.SessionManager;
 
+import org.apache.log4j.Logger;
+
 import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
 
@@ -16,11 +18,15 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import de.cismet.cids.custom.actions.wrrl_db_mv.FgskSplitArToolbarItem;
 import de.cismet.cids.custom.reports.FgskReport;
 import de.cismet.cids.custom.reports.QBWReport;
 import de.cismet.cids.custom.tostringconverter.wrrl_db_mv.FgskKartierabschnittToStringConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.connectioncontext.AbstractConnectionContext;
+import de.cismet.connectioncontext.ConnectionContext;
 
 /**
  * DOCUMENT ME!
@@ -29,6 +35,10 @@ import de.cismet.cids.dynamics.CidsBean;
  * @version  $Revision$, $Date$
  */
 public class QuerbauwerkeTitleComponent extends javax.swing.JPanel {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static Logger LOG = Logger.getLogger(FgskSplitArToolbarItem.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -140,7 +150,19 @@ public class QuerbauwerkeTitleComponent extends javax.swing.JPanel {
      * @return  DOCUMENT ME!
      */
     private boolean showPrintButton() {
-        return SessionManager.getSession().getUser().getUserGroup().getName().equalsIgnoreCase("administratoren");
+        try {
+            return SessionManager.getSession().getUser().getUserGroup().getName().equalsIgnoreCase("administratoren")
+                        || SessionManager.getConnection()
+                        .hasConfigAttr(
+                                SessionManager.getSession().getUser(),
+                                "printQbw",
+                                ConnectionContext.create(
+                                    AbstractConnectionContext.Category.OTHER,
+                                    QuerbauwerkeTitleComponent.class.getName()));
+        } catch (Exception e) {
+            LOG.error("Cannot check print permission");
+            return false;
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------
