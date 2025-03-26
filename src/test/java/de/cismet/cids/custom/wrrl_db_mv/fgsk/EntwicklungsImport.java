@@ -44,14 +44,6 @@ public class EntwicklungsImport {
     private List<InsertionData> data = new ArrayList();
     
     public EntwicklungsImport() throws Exception {
-        final Properties p = new Properties();
-        p.put("log4j.appender.Remote", "org.apache.log4j.net.SocketAppender");
-        p.put("log4j.appender.Remote.remoteHost", "localhost");
-        p.put("log4j.appender.Remote.port", "4445");
-        p.put("log4j.appender.Remote.locationInfo", "true");
-        p.put("log4j.rootLogger", "ALL,Remote");
-        org.apache.log4j.PropertyConfigurator.configure(p);
-
         Class.forName("org.postgresql.Driver");
         //verbindet mit Datenbank
         conn = DriverManager.getConnection("jdbc:postgresql://fis-wasser-mv.de/wrrl-db", "postgres", "");                   

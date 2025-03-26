@@ -775,7 +775,7 @@ public class FgskKartierabschnittEditor extends JPanel implements CidsBeanRender
             if (ed instanceof Date) {
                 final Date year2010 = new Date(110, 0, 1, 0, 0, 0);
                 final Date now = new Date();
-                final Date today = new Date(now.getYear(), now.getMonth(), now.getDay(), 23, 59, 59);
+                final Date today = new Date(now.getYear(), now.getMonth(), now.getDate(), 23, 59, 59);
 
                 if (((Date)ed).after(today) || ((Date)ed).before(year2010)) {
                     JOptionPane.showMessageDialog(

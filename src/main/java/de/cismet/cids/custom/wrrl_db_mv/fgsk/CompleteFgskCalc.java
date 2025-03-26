@@ -114,13 +114,13 @@ public final class CompleteFgskCalc {
      * @throws  Throwable  DOCUMENT ME!
      */
     public CompleteFgskCalc() throws Throwable {
-        final Properties p = new Properties();
-        p.put("log4j.appender.Remote", "org.apache.log4j.net.SocketAppender");
-        p.put("log4j.appender.Remote.remoteHost", "localhost");
-        p.put("log4j.appender.Remote.port", "4445");
-        p.put("log4j.appender.Remote.locationInfo", "true");
-        p.put("log4j.rootLogger", "ALL,Remote");
-        org.apache.log4j.PropertyConfigurator.configure(p);
+//        final Properties p = new Properties();
+//        p.put("log4j.appender.Remote", "org.apache.log4j.net.SocketAppender");
+//        p.put("log4j.appender.Remote.remoteHost", "localhost");
+//        p.put("log4j.appender.Remote.port", "4445");
+//        p.put("log4j.appender.Remote.locationInfo", "true");
+//        p.put("log4j.rootLogger", "ALL,Remote");
+//        org.apache.log4j.PropertyConfigurator.configure(p);
 
         final ServerProperties props = new ServerProperties(SERVER_CONFIG_FILE);
         final Properties clientProps = new Properties();
