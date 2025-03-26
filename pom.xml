@@ -106,7 +106,7 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.wrrl_db_mv</groupId>
                 <artifactId>cids-custom-wrrl-db-mv-server</artifactId>
-                <version>8.1-SNAPSHOT</version>
+                <version>9.0</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>
