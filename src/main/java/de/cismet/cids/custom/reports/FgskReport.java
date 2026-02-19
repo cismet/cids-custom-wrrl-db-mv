@@ -364,12 +364,8 @@ public final class FgskReport extends AbstractJasperReportPrint {
                     + this.convertNumberToDouble(laufstrukturenLV)
                     + this.convertNumberToDouble(laufstrukturenLG);
 
-        params.put(
-            "laufstrukturen_tv",
-            (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenTV));
-        params.put(
-            "laufstrukturen_sb",
-            (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenSB));
+        params.put("laufstrukturen_tv", (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenTV));
+        params.put("laufstrukturen_sb", (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenSB));
         params.put(
             "laufstrukturen_ibi",
             (laufstrukturenSum == 0.0) ? "" : this.convertNumberToString(laufstrukturenIBI));

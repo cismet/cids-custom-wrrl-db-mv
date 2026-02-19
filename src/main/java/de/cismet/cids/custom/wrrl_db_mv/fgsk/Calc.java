@@ -880,6 +880,7 @@ public final class Calc {
 
         return ratingBedContamination;
     }
+
     /**
      * DOCUMENT ME!
      *
@@ -1316,8 +1317,8 @@ public final class Calc {
         final int critCountBankStructureRi = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI);
 
         final int critCount = critCountCrossProfile + critCountBankStructure;
-        final int critCountLe = critCountCrossProfile + critCountBankStructureLe;
-        final int critCountRi = critCountCrossProfile + critCountBankStructureRi;
+        final int critCountLe = (critCountCrossProfile / 2) + critCountBankStructureLe;
+        final int critCountRi = (critCountCrossProfile / 2) + critCountBankStructureRi;
 
         // NOTE: rating is now possible if at least one criteria is available (lung-mv #78)
         if ((critCount <= 0) || (critCountLe <= 0) || (critCountRi <= 0)) {
@@ -1326,8 +1327,8 @@ public final class Calc {
 
         // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
         final double ratingBank = Math.min((ratingCrossProfile + ratingBankStructure) / (critCount), 5.0);
-        final double ratingBankLe = Math.min((ratingCrossProfile + ratingBankStructureLe) / (critCountLe), 5.0);
-        final double ratingBankRi = Math.min((ratingCrossProfile + ratingBankStructureRi) / (critCountRi), 5.0);
+        final double ratingBankLe = Math.min(((ratingCrossProfile / 2) + ratingBankStructureLe) / (critCountLe), 5.0);
+        final double ratingBankRi = Math.min(((ratingCrossProfile / 2) + ratingBankStructureRi) / (critCountRi), 5.0);
 
         try {
             kaBean.setProperty(PROP_WB_BANK_RATING, ratingBank);
@@ -1481,7 +1482,7 @@ public final class Calc {
         // mathematical rounding
         return (int)Math.floor(d + 0.5);
             // fgsk original rounding
-// return (int)Math.ceil(d - 0.5);
+            // return (int)Math.ceil(d - 0.5);
     }
 
     /**
