@@ -192,6 +192,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
             spinnerUpdateBlocked = false;
         }
     }
+
     /**
      * DOCUMENT ME!
      *
@@ -253,28 +254,28 @@ public class FgskSplitDialog extends javax.swing.JDialog {
 
         panDesc.setBackground(new java.awt.Color(216, 228, 248));
 
-        lblLeftCaption.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblLeftCaption.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblLeftCaption.setText(org.openide.util.NbBundle.getMessage(
                 FgskSplitDialog.class,
-                "FgskSplitDialog.lblLeftCaption.text")); // NOI18N
+                "FgskSplitDialog.lblLeftCaption.text"));            // NOI18N
 
         lblLeftDescription.setText(org.openide.util.NbBundle.getMessage(
                 FgskSplitDialog.class,
                 "FgskSplitDialog.lblLeftDescription.text")); // NOI18N
 
-        lblLeftCaption1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblLeftCaption1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblLeftCaption1.setText(org.openide.util.NbBundle.getMessage(
                 FgskSplitDialog.class,
-                "FgskSplitDialog.lblLeftCaption1.text")); // NOI18N
+                "FgskSplitDialog.lblLeftCaption1.text"));            // NOI18N
 
         lblLeftDescription1.setText(org.openide.util.NbBundle.getMessage(
                 FgskSplitDialog.class,
                 "FgskSplitDialog.lblLeftDescription1.text")); // NOI18N
 
-        lblLeftCaption2.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblLeftCaption2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblLeftCaption2.setText(org.openide.util.NbBundle.getMessage(
                 FgskSplitDialog.class,
-                "FgskSplitDialog.lblLeftCaption2.text")); // NOI18N
+                "FgskSplitDialog.lblLeftCaption2.text"));            // NOI18N
 
         lblLeftDescription2.setText(org.openide.util.NbBundle.getMessage(
                 FgskSplitDialog.class,
@@ -286,48 +287,45 @@ public class FgskSplitDialog extends javax.swing.JDialog {
             panDescLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
                 panDescLayout.createSequentialGroup().addContainerGap().addGroup(
                     panDescLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                        panDescLayout.createSequentialGroup().addComponent(
-                            lblLeftDescription1,
-                            javax.swing.GroupLayout.PREFERRED_SIZE,
-                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                            javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                            jSeparator2,
-                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                            247,
-                            Short.MAX_VALUE).addContainerGap()).addGroup(
                         panDescLayout.createSequentialGroup().addComponent(lblLeftCaption).addGap(354, 354, 354))
                                 .addGroup(
-                                    panDescLayout.createSequentialGroup().addComponent(lblLeftCaption1).addContainerGap(
-                                        71,
-                                        Short.MAX_VALUE)).addGroup(
-                        panDescLayout.createSequentialGroup().addComponent(
-                            lblLeftDescription,
-                            javax.swing.GroupLayout.PREFERRED_SIZE,
-                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                            javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(
-                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                            Short.MAX_VALUE)).addGroup(
-                        panDescLayout.createSequentialGroup().addGroup(
-                            panDescLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                                lblLeftCaption2).addComponent(
-                                lblLeftDescription2,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                            panDescLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                                panDescLayout.createSequentialGroup().addPreferredGap(
-                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                    253,
-                                    Short.MAX_VALUE).addComponent(jLabel5).addContainerGap()).addGroup(
-                                panDescLayout.createSequentialGroup().addComponent(
-                                    jSeparator3,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                    241,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(
-                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                    Short.MAX_VALUE)))))));
+                                    panDescLayout.createSequentialGroup().addGroup(
+                                        panDescLayout.createParallelGroup(
+                                            javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                                            panDescLayout.createSequentialGroup().addComponent(
+                                                lblLeftDescription1,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
+                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
+                                                jSeparator2)).addGroup(
+                                            panDescLayout.createSequentialGroup().addGroup(
+                                                panDescLayout.createParallelGroup(
+                                                    javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                                                    panDescLayout.createSequentialGroup().addGroup(
+                                                        panDescLayout.createParallelGroup(
+                                                            javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+                                                            lblLeftCaption2).addComponent(
+                                                            lblLeftDescription2,
+                                                            javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                            javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                            javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                                                        panDescLayout.createParallelGroup(
+                                                            javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+                                                            jLabel5).addComponent(
+                                                            jSeparator3,
+                                                            javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                            241,
+                                                            javax.swing.GroupLayout.PREFERRED_SIZE))).addComponent(
+                                                    lblLeftCaption1).addComponent(
+                                                    lblLeftDescription,
+                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                    javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(
+                                                0,
+                                                0,
+                                                Short.MAX_VALUE))).addContainerGap()))));
         panDescLayout.setVerticalGroup(
             panDescLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
                 panDescLayout.createSequentialGroup().addContainerGap().addComponent(lblLeftCaption).addPreferredGap(
@@ -349,7 +347,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                     panDescLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
                         panDescLayout.createSequentialGroup().addPreferredGap(
                             javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                            108,
+                            javax.swing.GroupLayout.DEFAULT_SIZE,
                             Short.MAX_VALUE).addComponent(jLabel5).addPreferredGap(
                             javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
                             jSeparator3,
@@ -385,10 +383,10 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                 }
             });
 
-        lblRightCaption.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblRightCaption.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblRightCaption.setText(org.openide.util.NbBundle.getMessage(
                 FgskSplitDialog.class,
-                "FgskSplitDialog.lblRightCaption.text")); // NOI18N
+                "FgskSplitDialog.lblRightCaption.text"));            // NOI18N
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -613,7 +611,7 @@ public class FgskSplitDialog extends javax.swing.JDialog {
                     javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
                     jPanel1,
                     javax.swing.GroupLayout.DEFAULT_SIZE,
-                    252,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
                     Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(
                     jSeparator4,
                     javax.swing.GroupLayout.PREFERRED_SIZE,

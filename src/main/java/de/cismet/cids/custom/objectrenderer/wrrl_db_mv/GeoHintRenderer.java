@@ -202,8 +202,8 @@ public class GeoHintRenderer extends javax.swing.JPanel implements CidsBeanRende
         scpComment.setMinimumSize(new java.awt.Dimension(200, 75));
         scpComment.setPreferredSize(new java.awt.Dimension(500, 75));
 
-        taCommentValue.setColumns(20);
         taCommentValue.setEditable(false);
+        taCommentValue.setColumns(20);
         taCommentValue.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         taCommentValue.setRows(5);
 

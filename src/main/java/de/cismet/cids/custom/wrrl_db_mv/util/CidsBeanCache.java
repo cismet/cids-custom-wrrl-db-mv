@@ -83,7 +83,7 @@ public class CidsBeanCache {
         CidsBean cachedBean = cache.get(metaObject);
         if (cachedBean == null) {
             cachedBean = metaObject.getBean();
-            cache.put(metaObject, cachedBean);
+            // cache.put(metaObject, cachedBean);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("bean cached");
             }

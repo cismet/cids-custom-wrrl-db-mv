@@ -112,7 +112,7 @@ public class FgskKartierabschnittAggregationRenderer extends javax.swing.JPanel 
         gridBagConstraints.weightx = 1.0;
         add(jSeparator1, gridBagConstraints);
 
-        lblLab.setFont(new java.awt.Font("DejaVu Sans", 1, 13));
+        lblLab.setFont(new java.awt.Font("DejaVu Sans", 1, 13));         // NOI18N
         lblLab.setText(org.openide.util.NbBundle.getMessage(
                 FgskKartierabschnittAggregationRenderer.class,
                 "FgskKartierabschnittAggregationRenderer.lblLab.text")); // NOI18N
