@@ -10,6 +10,7 @@ package de.cismet.cids.custom.permissions.wrrl_db_mv;
 import Sirius.server.newuser.User;
 
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
@@ -59,7 +60,7 @@ public abstract class BasicGeometryFromCidsObjectPermissionProvider extends Abst
             return true;
         }
 
-        final Geometry objectGeom = getGeometry();
+        Geometry objectGeom = getGeometry();
         if (objectGeom == null) {
             log.info(getGeometry() + "delivered a null value. access is granted");
             return true;
@@ -91,6 +92,12 @@ public abstract class BasicGeometryFromCidsObjectPermissionProvider extends Abst
             final Timestamp ts = (Timestamp)cb.getProperty("validuntil");
             final Date now = new Date();
             final String restrictionkeys = (String)cb.getProperty("restrictionkeys");
+
+            if (objectGeom instanceof GeometryCollection) {
+                // the intersection geometery does not work on a GeometryCollection, so make a polygon/multipolygon
+                // with buffer
+                objectGeom = ((GeometryCollection)objectGeom).buffer(0.01);
+            }
 
 //            final boolean geometryHit = hitGeom.contains(objectGeom);
             final Geometry intersectionGeom = hitGeom.intersection(objectGeom);

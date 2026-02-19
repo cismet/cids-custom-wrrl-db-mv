@@ -126,6 +126,7 @@ public class FgskDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblRightCaption;
     private javax.swing.JPanel panDesc;
     private javax.swing.JPanel panSettings;
+
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -138,7 +139,6 @@ public class FgskDialog extends javax.swing.JDialog {
      */
     public FgskDialog(final boolean modal, final MappingComponent mappingComponent) {
         super(StaticSwingTools.getParentFrame(mappingComponent), modal);
-
         initComponents();
         getRootPane().setDefaultButton(cmdOk);
         this.mappingComponent = mappingComponent;
@@ -146,7 +146,8 @@ public class FgskDialog extends javax.swing.JDialog {
 
         // positionen speichern
         final CreateLinearReferencedMarksListener marksListener = (CreateLinearReferencedMarksListener)
-            mappingComponent.getInputListener(MappingComponent.LINEAR_REFERENCING);
+            mappingComponent.getInputListener(
+                MappingComponent.LINEAR_REFERENCING);
         final PFeature selectedPFeature = marksListener.getSelectedLinePFeature();
         positions = marksListener.getMarkPositionsOfSelectedFeature();
 
@@ -260,10 +261,9 @@ public class FgskDialog extends javax.swing.JDialog {
         panDesc.setPreferredSize(new java.awt.Dimension(270, 400));
         panDesc.setLayout(new java.awt.GridBagLayout());
 
-        lblLeftCaption.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblLeftCaption.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblLeftCaption.text"));                 // NOI18N
+        lblLeftCaption.setFont(new java.awt.Font("Tahoma", 1, 11));                                    // NOI18N
+        lblLeftCaption.setText(
+            org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.lblLeftCaption.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -281,9 +281,8 @@ public class FgskDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
         panDesc.add(jSeparator2, gridBagConstraints);
 
-        lblLeftDescription.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblLeftDescription.text")); // NOI18N
+        lblLeftDescription.setText(
+            org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.lblLeftDescription.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -292,10 +291,9 @@ public class FgskDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
         panDesc.add(lblLeftDescription, gridBagConstraints);
 
-        lblLeftCaption1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblLeftCaption1.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblLeftCaption1.text"));                 // NOI18N
+        lblLeftCaption1.setFont(new java.awt.Font("Tahoma", 1, 11));                                    // NOI18N
+        lblLeftCaption1.setText(
+            org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.lblLeftCaption1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -304,9 +302,8 @@ public class FgskDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(18, 12, 0, 0);
         panDesc.add(lblLeftCaption1, gridBagConstraints);
 
-        lblLeftDescription1.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblLeftDescription1.text")); // NOI18N
+        lblLeftDescription1.setText(
+            org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.lblLeftDescription1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -334,10 +331,9 @@ public class FgskDialog extends javax.swing.JDialog {
         panSettings.setMinimumSize(new java.awt.Dimension(50, 50));
         panSettings.setLayout(new java.awt.GridBagLayout());
 
-        lblRightCaption.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblRightCaption.setText(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.lblRightCaption.text"));                 // NOI18N
+        lblRightCaption.setFont(new java.awt.Font("Tahoma", 1, 11));                                    // NOI18N
+        lblRightCaption.setText(
+            org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.lblRightCaption.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -353,14 +349,13 @@ public class FgskDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
         panSettings.add(jSeparator1, gridBagConstraints);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] { "#", "von", "bis" }) {
+        jTable1.setModel(
+            new javax.swing.table.DefaultTableModel(new Object[][] {}, new String[] { "#", "von", "bis" }) {
 
                 Class[] types = new Class[] {
                         java.lang.Integer.class,
                         java.lang.Integer.class,
-                        java.lang.Integer.class
+                        java.lang.Integer.class,
                     };
                 boolean[] canEdit = new boolean[] { false, false, false };
 
@@ -375,7 +370,8 @@ public class FgskDialog extends javax.swing.JDialog {
                 }
             });
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTable1.addKeyListener(
+            new java.awt.event.KeyAdapter() {
 
                 @Override
                 public void keyTyped(final java.awt.event.KeyEvent evt) {
@@ -406,7 +402,8 @@ public class FgskDialog extends javax.swing.JDialog {
         cmdRemove.setMaximumSize(new java.awt.Dimension(160, 27));
         cmdRemove.setMinimumSize(new java.awt.Dimension(160, 27));
         cmdRemove.setPreferredSize(new java.awt.Dimension(160, 27));
-        cmdRemove.addActionListener(new java.awt.event.ActionListener() {
+        cmdRemove.addActionListener(
+            new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -439,7 +436,8 @@ public class FgskDialog extends javax.swing.JDialog {
         cmdOk.setMaximumSize(new java.awt.Dimension(100, 27));
         cmdOk.setMinimumSize(new java.awt.Dimension(100, 27));
         cmdOk.setPreferredSize(new java.awt.Dimension(100, 27));
-        cmdOk.addActionListener(new java.awt.event.ActionListener() {
+        cmdOk.addActionListener(
+            new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -458,7 +456,8 @@ public class FgskDialog extends javax.swing.JDialog {
         cmdCancel.setMaximumSize(new java.awt.Dimension(100, 27));
         cmdCancel.setMinimumSize(new java.awt.Dimension(100, 27));
         cmdCancel.setPreferredSize(new java.awt.Dimension(100, 27));
-        cmdCancel.addActionListener(new java.awt.event.ActionListener() {
+        cmdCancel.addActionListener(
+            new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -481,9 +480,8 @@ public class FgskDialog extends javax.swing.JDialog {
         jPanel1.add(jPanel2, gridBagConstraints);
 
         jProgressBar1.setVisible(false);
-        jProgressBar1.setString(org.openide.util.NbBundle.getMessage(
-                FgskDialog.class,
-                "FgskDialog.jProgressBar1.string")); // NOI18N
+        jProgressBar1.setString(
+            org.openide.util.NbBundle.getMessage(FgskDialog.class, "FgskDialog.jProgressBar1.string")); // NOI18N
         jProgressBar1.setStringPainted(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -504,6 +502,7 @@ public class FgskDialog extends javax.swing.JDialog {
 
         pack();
     } // </editor-fold>//GEN-END:initComponents
+
     /**
      * DOCUMENT ME!
      *
@@ -711,6 +710,9 @@ public class FgskDialog extends javax.swing.JDialog {
                                     CidsBeanSupport.cloneStationline((CidsBean)mo.getBean().getProperty("linie")));
 
                                 newBean.setProperty("historisch", Boolean.FALSE);
+                                newBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
+                                newBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+
                                 r.add(new MetaObjectNode(newBean.persist()));
                             } catch (Exception e) {
                                 LOG.error("Cannot adjust old object", e);
@@ -736,6 +738,7 @@ public class FgskDialog extends javax.swing.JDialog {
             };
         sw.execute();
     } //GEN-LAST:event_cmdOkActionPerformed
+
     /**
      * DOCUMENT ME!
      *
@@ -863,10 +866,7 @@ public class FgskDialog extends javax.swing.JDialog {
                 final Geometry pointGeom = LinearReferencedPointFeature.getPointOnLine(fromVal, routeGeom);
                 newFromStat.setProperty("wert", fromVal);
                 newFromStat.setProperty("real_point.geo_field", pointGeom);
-                final Geometry lineGeom = LinearReferencedLineFeature.createSubline(
-                        fromVal,
-                        tillVal,
-                        routeGeom);
+                final Geometry lineGeom = LinearReferencedLineFeature.createSubline(fromVal, tillVal, routeGeom);
                 stationLine.setProperty("geom.geo_field", lineGeom);
 
                 if (rightOrder) {
@@ -881,10 +881,7 @@ public class FgskDialog extends javax.swing.JDialog {
                 final Geometry pointGeom = LinearReferencedPointFeature.getPointOnLine(tillVal, routeGeom);
                 newTillStat.setProperty("wert", tillVal);
                 newTillStat.setProperty("real_point.geo_field", pointGeom);
-                final Geometry lineGeom = LinearReferencedLineFeature.createSubline(
-                        fromVal,
-                        tillVal,
-                        routeGeom);
+                final Geometry lineGeom = LinearReferencedLineFeature.createSubline(fromVal, tillVal, routeGeom);
                 stationLine.setProperty("geom.geo_field", lineGeom);
 
                 if (rightOrder) {

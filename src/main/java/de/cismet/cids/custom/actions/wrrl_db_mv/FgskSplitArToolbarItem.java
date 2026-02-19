@@ -142,7 +142,7 @@ public class FgskSplitArToolbarItem extends AbstractAction implements CidsClient
                     final CidsBean openBean = FgskKartierabschnittEditor.getCurrentlyOpenBean();
                     final CidsBean cidsBean = cidsFeature.getMetaObject().getBean();
                     if ((openBean != null)) { // && (openBean.getMetaObject().getID() ==
-                                              // cidsBean.getMetaObject().getID())) {
+                        // cidsBean.getMetaObject().getID())) {
                         JOptionPane.showMessageDialog(
                             parentFrame,
                             "Der Editor des Kartierabschnitts muss vor dem Teilen geschlossen werden.",
@@ -171,7 +171,21 @@ public class FgskSplitArToolbarItem extends AbstractAction implements CidsClient
                             final Collection<Node> nodes = new ArrayList<Node>();
 
                             for (final MetaObject tmp : mos) {
-                                nodes.add(new MetaObjectNode(tmp.getBean()));
+                                CidsBean tmpBean = tmp.getBean();
+
+                                try {
+                                    cidsBean.setProperty("av_user", SessionManager.getSession().getUser().toString());
+                                    cidsBean.setProperty("av_time", new java.sql.Timestamp(System.currentTimeMillis()));
+
+                                    tmpBean = cidsBean.persist(
+                                            ConnectionContext.create(
+                                                AbstractConnectionContext.Category.OTHER,
+                                                FgskSplitArToolbarItem.class.getName()));
+                                } catch (Exception ex) {
+                                    LOG.error(ex, ex);
+                                }
+
+                                nodes.add(new MetaObjectNode(tmpBean));
                             }
                             MethodManager.getManager()
                                     .showSearchResults(null, nodes.toArray(new Node[nodes.size()]), false);

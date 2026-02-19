@@ -132,8 +132,8 @@ public class OEGWaitDialog extends javax.swing.JDialog {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void formKeyTyped(final java.awt.event.KeyEvent evt) { //GEN-FIRST:event_formKeyTyped
-    }                                                              //GEN-LAST:event_formKeyTyped
+    private void formKeyTyped(final java.awt.event.KeyEvent evt) {
+    }
 
     /**
      * DOCUMENT ME!

@@ -776,8 +776,10 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 bindingGroup,
                 this.cidsBean);
             bindingGroup.bind();
-            labWebside.setText("<html><a href=\"https://fis-wasser-mv.de/charts/steckbriefe/lw/lw_wk.php?sg="
-                        + String.valueOf(cidsBean.getProperty("wk_k")) + "\">Webseite</a></html>");
+            labWebside.setText(
+                "<html><a href=\"https://fis-wasser-mv.de/charts/steckbriefe/lw/lw_wk.php?sg="
+                        + String.valueOf(cidsBean.getProperty("wk_k"))
+                        + "\">Webseite</a></html>");
         } else {
             labWebside.setText("");
         }
@@ -874,10 +876,12 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                     }
                 });
 
-        cbImpact.getComboBox().setRenderer(new DefaultListCellRenderer() {
+        cbImpact.getComboBox().setRenderer(
+            new DefaultListCellRenderer() {
 
                 @Override
-                public Component getListCellRendererComponent(final JList<?> list,
+                public Component getListCellRendererComponent(
+                        final JList<?> list,
                         final Object value,
                         final int index,
                         final boolean isSelected,
@@ -905,10 +909,12 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 }
             });
 
-        cbdriver.getComboBox().setRenderer(new DefaultListCellRenderer() {
+        cbdriver.getComboBox().setRenderer(
+            new DefaultListCellRenderer() {
 
                 @Override
-                public Component getListCellRendererComponent(final JList<?> list,
+                public Component getListCellRendererComponent(
+                        final JList<?> list,
                         final Object value,
                         final int index,
                         final boolean isSelected,
@@ -939,10 +945,13 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
         tabPressure.getColumn(2).setCellEditor(cbImpact);
         tabPressure.getColumn(3).setCellEditor(cbdriver);
         tabPressure.getColumn(4).setCellEditor(cbSubstance);
-        tabPressure.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
+        tabPressure.setDefaultRenderer(
+            String.class,
+            new DefaultTableCellRenderer() {
 
                 @Override
-                public Component getTableCellRendererComponent(final JTable table,
+                public Component getTableCellRendererComponent(
+                        final JTable table,
                         final Object value,
                         final boolean isSelected,
                         final boolean hasFocus,
@@ -963,10 +972,13 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
                     return c;
                 }
             });
-        tabPressure.setDefaultRenderer(CidsBean.class, new DefaultTableCellRenderer() {
+        tabPressure.setDefaultRenderer(
+            CidsBean.class,
+            new DefaultTableCellRenderer() {
 
                 @Override
-                public Component getTableCellRendererComponent(final JTable table,
+                public Component getTableCellRendererComponent(
+                        final JTable table,
                         final Object value,
                         final boolean isSelected,
                         final boolean hasFocus,

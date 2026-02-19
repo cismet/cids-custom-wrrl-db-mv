@@ -97,7 +97,7 @@ public class FgskKartierabschnittTitleComponent extends javax.swing.JPanel {
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
-        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18));
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 18));         // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setText(NbBundle.getMessage(
                 FgskKartierabschnittTitleComponent.class,

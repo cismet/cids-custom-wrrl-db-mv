@@ -12,8 +12,6 @@
  */
 package de.cismet.cids.custom.wrrl_db_mv.util;
 
-import org.apache.commons.httpclient.HostConfiguration;
-import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.log4j.Logger;
 
 import org.openide.util.lookup.ServiceProvider;
@@ -23,14 +21,11 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 import de.cismet.tools.configuration.StartupHook;
@@ -53,27 +48,21 @@ public class HttpStartupHook implements StartupHook {
 
     @Override
     public void applicationStarted() {
-        final Map<HostConfiguration, Integer> maxHostConnections = new HashMap<>();
-        maxHostConnections.put(HostConfiguration.ANY_HOST_CONFIGURATION, 64);
-        HttpConnectionManagerParams.getDefaultParams()
-                .setParameter(HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, maxHostConnections);
-        HttpConnectionManagerParams.getDefaultParams()
-                .setIntParameter(HttpConnectionManagerParams.MAX_TOTAL_CONNECTIONS, 64);
-//        LOG.fatal("applicationStarted");
-//        System.out.println("applicationStarted");
-//
-//        try {
-//            final Map handlers = tryExtractInternalHandlerTableFromUrl();
-//
-//            if (handlers != null) {
-//                handlers.put("https", new CustomUrlHandler(handlers.get("https")));
-////                handlers.put("http", new CustomUrlHandler());
-//            }
-//            final Field handlersField = URL.class.getDeclaredField("handlers");
-//            handlersField.setAccessible(false);
-//        } catch (Exception ex) {
-//            LOG.error("Cannot use custom http handler", ex);
-//        }
+        // LOG.fatal("applicationStarted");
+        // System.out.println("applicationStarted");
+        //
+        // try {
+        // final Map handlers = tryExtractInternalHandlerTableFromUrl();
+        //
+        // if (handlers != null) {
+        // handlers.put("https", new CustomUrlHandler(handlers.get("https")));
+        ////                handlers.put("http", new CustomUrlHandler());
+        // }
+        // final Field handlersField = URL.class.getDeclaredField("handlers");
+        // handlersField.setAccessible(false);
+        // } catch (Exception ex) {
+        // LOG.error("Cannot use custom http handler", ex);
+        // }
     }
 
     /**
@@ -112,7 +101,7 @@ public class HttpStartupHook implements StartupHook {
 //            final Map oldMap = (Map)handlersField.get(null);
 //            final Map newField = new CustomHasTable(oldMap);
 //            handlersField.set(null, newField);
-//
+            //
 //            return newField;
 
         } catch (Exception e) {
@@ -128,62 +117,62 @@ public class HttpStartupHook implements StartupHook {
      *
      * @version  $Revision$, $Date$
      */
-// public static class CustomHasTable extends Hashtable {
-//
-// //~ Instance fields ----------------------------------------------------
-//
-// private Map map = null;
-//
-// //~ Constructors -------------------------------------------------------
-//
-// /**
-// * Creates a new CustomHasTable object.
-// *
-// * @param  map  DOCUMENT ME!
-// */
-// public CustomHasTable(final Map map) {
-// super(map);
-// this.map = map;
-// }
-//
-// //~ Methods ------------------------------------------------------------
-//
-// @Override
-// public synchronized Object get(final Object key) {
-// if ((map != null) && !isWebFx()) {
-// return map.get(key);
-// } else {
-// return super.get(key);
-// }
-// }
-//
-// @Override
-// public synchronized Object getOrDefault(final Object key, final Object defaultValue) {
-// if ((map != null) && !isWebFx()) {
-// return map.getOrDefault(key, defaultValue);
-// } else {
-// return super.getOrDefault(key, defaultValue);
-// }
-// }
-//
-// /**
-// * DOCUMENT ME!
-// *
-// * @return  DOCUMENT ME!
-// */
-// private boolean isWebFx() {
-// boolean webFx = false;
-//
-// for (final StackTraceElement e : Thread.currentThread().getStackTrace()) {
-// if (e.getClassName().startsWith("javafx.scene.web")) {
-// webFx = true;
-// break;
-// }
-// }
-//
-// return webFx;
-// }
-// }
+    // public static class CustomHasTable extends Hashtable {
+    //
+    // //~ Instance fields ----------------------------------------------------
+    //
+    // private Map map = null;
+    //
+    // //~ Constructors -------------------------------------------------------
+    //
+    // /**
+    // * Creates a new CustomHasTable object.
+    // *
+    // * @param  map  DOCUMENT ME!
+    // */
+    // public CustomHasTable(final Map map) {
+    // super(map);
+    // this.map = map;
+    // }
+    //
+    // //~ Methods ------------------------------------------------------------
+    //
+    // @Override
+    // public synchronized Object get(final Object key) {
+    // if ((map != null) && !isWebFx()) {
+    // return map.get(key);
+    // } else {
+    // return super.get(key);
+    // }
+    // }
+    //
+    // @Override
+    // public synchronized Object getOrDefault(final Object key, final Object defaultValue) {
+    // if ((map != null) && !isWebFx()) {
+    // return map.getOrDefault(key, defaultValue);
+    // } else {
+    // return super.getOrDefault(key, defaultValue);
+    // }
+    // }
+    //
+    // /**
+    // * DOCUMENT ME!
+    // *
+    // * @return  DOCUMENT ME!
+    // */
+    // private boolean isWebFx() {
+    // boolean webFx = false;
+    //
+    // for (final StackTraceElement e : Thread.currentThread().getStackTrace()) {
+    // if (e.getClassName().startsWith("javafx.scene.web")) {
+    // webFx = true;
+    // break;
+    // }
+    // }
+    //
+    // return webFx;
+    // }
+    // }
 
     /**
      * DOCUMENT ME!

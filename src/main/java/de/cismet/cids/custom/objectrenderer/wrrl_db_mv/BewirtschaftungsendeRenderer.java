@@ -127,7 +127,7 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         panFooter.setOpaque(false);
         panFooter.setLayout(new java.awt.GridBagLayout());
 
-        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblFoot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblFoot.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -152,8 +152,8 @@ public class BewirtschaftungsendeRenderer extends javax.swing.JPanel implements 
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(lblBemerkungKey, gridBagConstraints);
 
-        txtBemerkungValue.setColumns(30);
         txtBemerkungValue.setEditable(false);
+        txtBemerkungValue.setColumns(30);
         txtBemerkungValue.setLineWrap(true);
         txtBemerkungValue.setRows(10);
         txtBemerkungValue.setWrapStyleWord(true);

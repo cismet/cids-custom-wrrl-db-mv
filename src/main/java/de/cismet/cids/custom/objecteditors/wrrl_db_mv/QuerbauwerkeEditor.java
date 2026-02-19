@@ -88,7 +88,6 @@ import de.cismet.connectioncontext.ConnectionContext;
 
 import de.cismet.tools.CismetThreadPool;
 
-
 //import de.cismet.tools.gui.FXWebViewPanel;
 import de.cismet.tools.gui.FooterComponentProvider;
 
@@ -344,12 +343,16 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
 
         jPanel3.setOpaque(false);
 
-        final javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 0, Short.MAX_VALUE));
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -386,28 +389,23 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             panBeschreibung.add(querbauwerkePanSix, gridBagConstraints);
         }
 
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(
-                QuerbauwerkeEditor.class,
-                "QuerbauwerkeEditor.panBeschreibung.TabConstraints.tabTitle"),
-            panBeschreibung); // NOI18N
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.panBeschreibung.TabConstraints.tabTitle"), panBeschreibung); // NOI18N
 
         panAllgemeines.setOpaque(false);
         panAllgemeines.setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setOpaque(false);
 
-        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                1316,
-                Short.MAX_VALUE));
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1316, Short.MAX_VALUE)
+        );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                464,
-                Short.MAX_VALUE));
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 519, Short.MAX_VALUE)
+        );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -423,28 +421,23 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panAllgemeines.add(querbauwerkePanOne, gridBagConstraints);
 
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(
-                QuerbauwerkeEditor.class,
-                "QuerbauwerkeEditor.panAllgemeines.TabConstraints.tabTitle"),
-            panAllgemeines); // NOI18N
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.panAllgemeines.TabConstraints.tabTitle"), panAllgemeines); // NOI18N
 
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         jPanel5.setOpaque(false);
 
-        final javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                1316,
-                Short.MAX_VALUE));
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1316, Short.MAX_VALUE)
+        );
         jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                888,
-                Short.MAX_VALUE));
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 960, Short.MAX_VALUE)
+        );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -462,10 +455,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         jPanel4.add(querbauwerkePanFour, gridBagConstraints);
 
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(
-                QuerbauwerkeEditor.class,
-                "QuerbauwerkeEditor.jPanel4.TabConstraints.tabTitle"),
-            jPanel4); // NOI18N
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.jPanel4.TabConstraints.tabTitle"), jPanel4); // NOI18N
 
         panFische.setOpaque(false);
         panFische.setLayout(new java.awt.GridBagLayout());
@@ -479,10 +469,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         panFische.add(querbauwerkePanSeven1, gridBagConstraints);
 
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(
-                QuerbauwerkeEditor.class,
-                "QuerbauwerkeEditor.panFische.TabConstraints.tabTitle"),
-            panFische); // NOI18N
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.panFische.TabConstraints.tabTitle"), panFische); // NOI18N
 
         panSearchTool.setOpaque(false);
         panSearchTool.setLayout(new java.awt.GridBagLayout());
@@ -493,9 +480,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText(org.openide.util.NbBundle.getMessage(
-                QuerbauwerkeEditor.class,
-                "QuerbauwerkeEditor.lblHeading.text")); // NOI18N
+        lblHeading.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.lblHeading.text")); // NOI18N
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
@@ -512,17 +497,12 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.weightx = 1.0;
         panInfoContent.add(jPanel1, gridBagConstraints);
 
-        butLoadObjects.setText(org.openide.util.NbBundle.getMessage(
-                QuerbauwerkeEditor.class,
-                "QuerbauwerkeEditor.butLoadObjects.text",
-                new Object[] {})); // NOI18N
+        butLoadObjects.setText(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.butLoadObjects.text", new Object[] {})); // NOI18N
         butLoadObjects.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    butLoadObjectsActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butLoadObjectsActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -540,23 +520,19 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         panSearchTool.add(panInfo, gridBagConstraints);
 
-        tpMain.addTab(org.openide.util.NbBundle.getMessage(
-                QuerbauwerkeEditor.class,
-                "QuerbauwerkeEditor.panSearchTool.TabConstraints.tabTitle",
-                new Object[] {}),
-            panSearchTool); // NOI18N
+        tpMain.addTab(org.openide.util.NbBundle.getMessage(QuerbauwerkeEditor.class, "QuerbauwerkeEditor.panSearchTool.TabConstraints.tabTitle", new Object[] {}), panSearchTool); // NOI18N
 
         add(tpMain, java.awt.BorderLayout.CENTER);
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void butLoadObjectsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_butLoadObjectsActionPerformed
+    private void butLoadObjectsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butLoadObjectsActionPerformed
         loadRelatedQbw(cidsBean);
-    }                                                                                  //GEN-LAST:event_butLoadObjectsActionPerformed
+    }//GEN-LAST:event_butLoadObjectsActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
@@ -676,36 +652,36 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
             final CidsBean route = (CidsBean)stat09.getProperty(LinearReferencingConstants.PROP_STATION_ROUTE);
             final long gwk = (Long)route.getProperty(LinearReferencingConstants.PROP_ROUTE_GWK);
 
-            queryWkFg = "SELECT "
-                        + "   " + mcWkFg.getID() + ", "
-                        + "   wk_fg." + mcWkFg.getPrimaryKey() + " "
-                        + "FROM "
-                        + "   " + mcWkFg.getTableName() + " AS wk_fg, "
-                        + "   " + mcWkFgTeile.getTableName() + " AS wk_fg_teile, "
-                        + "   " + mcWkTeil.getTableName() + " AS wk_teil, "
-                        + "   " + mcLine.getTableName() + " AS linie, "
-                        + "   " + mcStation.getTableName() + " AS von, "
-                        + "   " + mcStation.getTableName() + " AS bis, "
-                        + "   " + mcRoute.getTableName() + " AS route "
-                        + "WHERE not (wk_fg.wk_k ilike 'gelöscht%') and"
-                        + "   wk_fg.teile = wk_fg_teile.wk_fg_reference AND "
-                        + "   wk_fg_teile.teil = wk_teil.id AND "
-                        + "   wk_teil.linie = linie." + LinearReferencingConstants.PROP_ID + " AND "
-                        + "   linie." + LinearReferencingConstants.PROP_STATIONLINIE_FROM + " = von."
-                        + LinearReferencingConstants.PROP_ID + " AND "
-                        + "   linie." + LinearReferencingConstants.PROP_STATIONLINIE_TO + " = bis."
-                        + LinearReferencingConstants.PROP_ID + " AND "
-                        + "   von.route = route." + LinearReferencingConstants.PROP_ID + " AND "
-                        + "   route." + LinearReferencingConstants.PROP_ROUTE_GWK + " = " + Long.toString(gwk)
-                        + " AND ( "
-                        + "      (von." + LinearReferencingConstants.PROP_STATION_VALUE + " <= " + Double.toString(wert)
-                        + " AND bis." + LinearReferencingConstants.PROP_STATION_VALUE + " >= "
-                        + Double.toString(wert) + ") OR "
-                        + "      (bis." + LinearReferencingConstants.PROP_STATION_VALUE + " <= " + Double.toString(wert)
-                        + " AND von." + LinearReferencingConstants.PROP_STATION_VALUE + " >= "
-                        + Double.toString(wert) + ") "
-                        + "   ) "
-                        + ";";
+            queryWkFg = "SELECT " 
+                    + "   " + mcWkFg.getID() + ", " 
+                    + "   wk_fg." + mcWkFg.getPrimaryKey() + " "
+                    + "FROM "
+                    + "   " + mcWkFg.getTableName() + " AS wk_fg, "
+                    + "   " + mcWkFgTeile.getTableName() + " AS wk_fg_teile, "
+                    + "   " + mcWkTeil.getTableName() + " AS wk_teil, "
+                    + "   " + mcLine.getTableName() + " AS linie, "
+                    + "   " + mcStation.getTableName() + " AS von, "
+                    + "   " + mcStation.getTableName() + " AS bis, "
+                    + "   " + mcRoute.getTableName() + " AS route "
+                    + "WHERE not (wk_fg.wk_k ilike 'gelöscht%') and"
+                    + "   wk_fg.teile = wk_fg_teile.wk_fg_reference AND "
+                    + "   wk_fg_teile.teil = wk_teil.id AND "
+                    + "   wk_teil.linie = linie." + LinearReferencingConstants.PROP_ID + " AND "
+                    + "   linie." + LinearReferencingConstants.PROP_STATIONLINIE_FROM + " = von."
+                    + LinearReferencingConstants.PROP_ID + " AND "
+                    + "   linie." + LinearReferencingConstants.PROP_STATIONLINIE_TO + " = bis."
+                    + LinearReferencingConstants.PROP_ID + " AND "
+                    + "   von.route = route." + LinearReferencingConstants.PROP_ID + " AND "
+                    + "   route." + LinearReferencingConstants.PROP_ROUTE_GWK + " = " + Long.toString(gwk)
+                    + " AND ( "
+                    + "      (von." + LinearReferencingConstants.PROP_STATION_VALUE + " <= " + Double.toString(wert)
+                    + " AND bis." + LinearReferencingConstants.PROP_STATION_VALUE + " >= "
+                    + Double.toString(wert) + ") OR "
+                    + "      (bis." + LinearReferencingConstants.PROP_STATION_VALUE + " <= " + Double.toString(wert) 
+                    + " AND von." + LinearReferencingConstants.PROP_STATION_VALUE + " >= "
+                    + Double.toString(wert) + ") "
+                    + "   ) "
+                    + ";";
         }
         try {
             final MetaObject[] mosWkFg;
@@ -910,6 +886,18 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
                             JOptionPane.ERROR_MESSAGE);
                         return false;
                     }
+                    if (cidsBean.getProperty("detailtyp") == null) {
+                        JOptionPane.showMessageDialog(
+                            QuerbauwerkeEditor.this,
+                            NbBundle.getMessage(
+                                QuerbauwerkeEditor.class,
+                                "QuerbauwerkeEditor.prepareForSave.detailtyp.message"),
+                            NbBundle.getMessage(
+                                QuerbauwerkeEditor.class,
+                                "QuerbauwerkeEditor.prepareForSave.detailtyp.title"),
+                            JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
                 }
 
                 return CidsBeanSupport.checkOptionalAttribute(cidsBean, this, null);
@@ -1050,7 +1038,7 @@ public class QuerbauwerkeEditor extends javax.swing.JPanel implements CidsBeanRe
         if (up_agg_id != null) {
             try {
                 final MetaClass MC = ClassCacheMultiple.getMetaClass(
-                        WRRLUtil.DOMAIN_NAME,
+                        WRRLUtil.DOMAIN_NAME, 
                         "querbauwerke");
                 String query = "select " + MC.getID() + ", q." + MC.getPrimaryKey() + " from " + MC.getTableName(); // NOI18N
                 query += " q WHERE q.qbw_id_u = '" + up_agg_id + "'";                                               // NOI18N
