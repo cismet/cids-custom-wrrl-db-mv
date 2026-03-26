@@ -63,7 +63,7 @@ public class WkKgPanBio extends javax.swing.JPanel implements DisposableCidsBean
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WkKgPanBio.class);
     private static final MetaClass MC = ClassCacheMultiple.getMetaClass(
             WRRLUtil.DOMAIN_NAME,
-            "wk_kg_bio_mst_messungen");
+            "wk_kg_bio_messungen");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -192,7 +192,7 @@ public class WkKgPanBio extends javax.swing.JPanel implements DisposableCidsBean
         panHeadInfo.setLayout(new java.awt.FlowLayout());
 
         lblHeading.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeading.setText("Chemisches Monitoring");
+        lblHeading.setText("Biologisches Monitoring");
         panHeadInfo.add(lblHeading);
 
         panInfo.add(panHeadInfo, java.awt.BorderLayout.NORTH);
