@@ -395,10 +395,10 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.geom.geom}"),
                 lblHRVal,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("/");
+        binding.setSourceNullValue("<nicht gesetzt>\"");
         binding.setSourceUnreadableValue("<nicht gesetzt>");
         binding.setConverter(new CoordinateConverter());
         bindingGroup.addBinding(binding);
@@ -625,6 +625,7 @@ public class ChemieMstStammdatenEditor extends JPanel implements CidsBeanRendere
 //                }
 //            }).start();
     } //GEN-LAST:event_btnBack1ActionPerformed
+
     /**
      * DOCUMENT ME!
      *
