@@ -284,8 +284,8 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.geom}" target="lblHRVal" targetPath="text" updateStrategy="0" immediately="false">
-                      <Property name="nullValue" type="java.lang.String" value="/"/>
+                    <BindingProperty name="text" source="Form" sourcePath="${cidsBean.geom.geom}" target="lblHRVal" targetPath="text" updateStrategy="0" immediately="false">
+                      <Property name="nullValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;&quot;"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="&lt;nicht gesetzt&gt;"/>
                       <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                         <Connection code="new CoordinateConverter()" type="code"/>
