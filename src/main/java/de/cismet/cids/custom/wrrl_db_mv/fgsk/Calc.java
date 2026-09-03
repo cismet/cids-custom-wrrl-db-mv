@@ -1317,8 +1317,8 @@ public final class Calc {
         final int critCountBankStructureRi = (Integer)kaBean.getProperty(PROP_BANK_STRUCTURE_SUM_CRIT_RI);
 
         final int critCount = critCountCrossProfile + critCountBankStructure;
-        final int critCountLe = (critCountCrossProfile / 2) + critCountBankStructureLe;
-        final int critCountRi = (critCountCrossProfile / 2) + critCountBankStructureRi;
+        final double critCountLe = (critCountCrossProfile / 2.0) + critCountBankStructureLe;
+        final double critCountRi = (critCountCrossProfile / 2.0) + critCountBankStructureRi;
 
         // NOTE: rating is now possible if at least one criteria is available (lung-mv #78)
         if ((critCount <= 0) || (critCountLe <= 0) || (critCountRi <= 0)) {
@@ -1327,8 +1327,8 @@ public final class Calc {
 
         // NOTE: according to A. Goetze (Phone 20131017) the rating may never be higher than 5 and shall thus be capped
         final double ratingBank = Math.min((ratingCrossProfile + ratingBankStructure) / (critCount), 5.0);
-        final double ratingBankLe = Math.min(((ratingCrossProfile / 2) + ratingBankStructureLe) / (critCountLe), 5.0);
-        final double ratingBankRi = Math.min(((ratingCrossProfile / 2) + ratingBankStructureRi) / (critCountRi), 5.0);
+        final double ratingBankLe = Math.min(((ratingCrossProfile / 2.0) + ratingBankStructureLe) / (critCountLe), 5.0);
+        final double ratingBankRi = Math.min(((ratingCrossProfile / 2.0) + ratingBankStructureRi) / (critCountRi), 5.0);
 
         try {
             kaBean.setProperty(PROP_WB_BANK_RATING, ratingBank);
