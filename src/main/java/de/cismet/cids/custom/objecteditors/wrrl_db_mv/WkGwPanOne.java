@@ -586,7 +586,7 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void labWebsiteMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_labWebsiteMouseClicked
+    private void labWebsiteMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labWebsiteMouseClicked
         try {
             BrowserLauncher.openURL(
                 "https://fis-wasser-mv.de/charts/steckbriefe/gw/gw_wk.php?gw="
@@ -594,24 +594,24 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         } catch (Exception ex) {
             LOG.warn(ex, ex);
         }
-    }                                                                          //GEN-LAST:event_labWebsiteMouseClicked
+    }//GEN-LAST:event_labWebsiteMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddImpactSrc1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddImpactSrc1ActionPerformed
+    private void btnAddImpactSrc1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddImpactSrc1ActionPerformed
         dlgImpactSrc1Cataloge.setSize(500, 150);
         StaticSwingTools.showDialog(StaticSwingTools.getParentFrame(this), dlgImpactSrc1Cataloge, true);
-    }                                                                                    //GEN-LAST:event_btnAddImpactSrc1ActionPerformed
+    }//GEN-LAST:event_btnAddImpactSrc1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemImpactSrc1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemImpactSrc1ActionPerformed
+    private void btnRemImpactSrc1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemImpactSrc1ActionPerformed
         final int selectedRow = tabPressure.getSelectedRow();
         final CidsBean selection = ((WkFgPanOne.PressureTableModel)tabPressure.getModel()).getCidsBean(selectedRow);
         if (selection != null) {
@@ -636,24 +636,24 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
                 }
             }
         }
-    }                                                                                    //GEN-LAST:event_btnRemImpactSrc1ActionPerformed
+    }//GEN-LAST:event_btnRemImpactSrc1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenImpactSrcAbort1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcAbort1ActionPerformed
+    private void btnMenImpactSrcAbort1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenImpactSrcAbort1ActionPerformed
         dlgImpactSrc1Cataloge.setVisible(false);
-    }                                                                                         //GEN-LAST:event_btnMenImpactSrcAbort1ActionPerformed
+    }//GEN-LAST:event_btnMenImpactSrcAbort1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenImpactSrcOk1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcOk1ActionPerformed
-        final Object selection = cbImpactSrcCataloge.getSelectedItem();
+    private void btnMenImpactSrcOk1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenImpactSrcOk1ActionPerformed
+        final Object selection = cbImpactSrcCataloge1.getSelectedItem();
 
         try {
             if (selection instanceof CidsBean) {
@@ -672,23 +672,23 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
         } catch (Exception e) {
             LOG.error("Cannot create new cids bean", e);
         }
-    } //GEN-LAST:event_btnMenImpactSrcOk1ActionPerformed
+    }//GEN-LAST:event_btnMenImpactSrcOk1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenImpactSrcAbortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcAbortActionPerformed
+    private void btnMenImpactSrcAbortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenImpactSrcAbortActionPerformed
         dlgImpactSrcCataloge.setVisible(false);
-    }                                                                                        //GEN-LAST:event_btnMenImpactSrcAbortActionPerformed
+    }//GEN-LAST:event_btnMenImpactSrcAbortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnMenImpactSrcOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcOkActionPerformed
+    private void btnMenImpactSrcOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenImpactSrcOkActionPerformed
         final Object selection = cbImpactSrcCataloge.getSelectedItem();
         if (selection instanceof CidsBean) {
             final CidsBean selectedBean = (CidsBean)selection;
@@ -700,7 +700,7 @@ public class WkGwPanOne extends javax.swing.JPanel implements DisposableCidsBean
             }
         }
         dlgImpactSrcCataloge.setVisible(false);
-    }                                                                                     //GEN-LAST:event_btnMenImpactSrcOkActionPerformed
+    }//GEN-LAST:event_btnMenImpactSrcOkActionPerformed
 
     @Override
     public CidsBean getCidsBean() {
