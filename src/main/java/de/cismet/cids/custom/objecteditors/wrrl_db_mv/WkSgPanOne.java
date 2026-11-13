@@ -1360,7 +1360,7 @@ public class WkSgPanOne extends javax.swing.JPanel implements DisposableCidsBean
      * @param  evt  DOCUMENT ME!
      */
     private void btnMenImpactSrcOk1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnMenImpactSrcOk1ActionPerformed
-        final Object selection = cbImpactSrcCataloge.getSelectedItem();
+        final Object selection = cbImpactSrcCataloge1.getSelectedItem();
 
         try {
             if (selection instanceof CidsBean) {
